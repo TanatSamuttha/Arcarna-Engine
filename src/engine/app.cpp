@@ -7,26 +7,25 @@
 
 int main ()
 {
-    using clock = std::chrono::steady_clock;
+    using Clock = std::chrono::steady_clock;
 
-    constexpr auto frameTime = std::chrono::nanoseconds(100000000 / Arcarna::Setting::fps);
+    constexpr auto FrameTime = std::chrono::nanoseconds(1'000'000'000 / Arcarna::Setting::fps);
 
     Arcarna::Start();
 
-    constexpr bool running = true;
+    bool running = true;
+
+    auto nextFrame = Clock::now();
 
     while (running)
     {
-        auto start = clock::now();
+        nextFrame += FrameTime;
 
-        
-
-        auto elapsed = clock::now() - start;
-
-        if (elapsed < frameTime)
         {
-            std::this_thread::sleep_for(frameTime - elapsed);
+
         }
+
+        std::this_thread::sleep_until(nextFrame);
     }
     
 
