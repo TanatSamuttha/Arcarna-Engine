@@ -1,9 +1,6 @@
-#ifndef INIT_HPP
-#define INIT_HPP
+#pragma once
 
 namespace Arcarna
 {
     void Start();
 }
-
-#endif

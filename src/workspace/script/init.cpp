@@ -4,7 +4,7 @@
 
 namespace Arcarna
 {
-    void Start()
+    void Start ()
     {
         std::cout << "Hello World!\n";
     }
