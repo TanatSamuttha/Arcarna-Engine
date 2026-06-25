@@ -2,7 +2,7 @@
 
 namespace Arcarna::Setting
 {
-    static const unsigned int FPS = 60;
+    static constexpr unsigned int FPS = 60;
 
     bool IsRunning;
 }

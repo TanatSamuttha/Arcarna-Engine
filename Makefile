@@ -1,5 +1,7 @@
+SRC := $(shell powershell -Command "(Get-ChildItem source -Recurse -Filter *.cpp).FullName")
+
 compile:
-	g++ src/engine/*.cpp src/workspace/script/*.cpp -O3 -std=c++17 -o app -Isrc
+	g++ $(SRC) -Isource -std=c++20 -O3 -o app.exe
 
 run:
 	./app
