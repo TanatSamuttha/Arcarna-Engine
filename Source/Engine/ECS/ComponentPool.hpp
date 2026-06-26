@@ -32,7 +32,7 @@ public:
         if (!EntityToIdx.contains(EntityId))
             throw std::runtime_error("Component not found");
 
-        return it->second;
+        return EntityToIdx[EntityId];
     }
 
     T& GetComponent (unsigned int EntityId)
