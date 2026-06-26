@@ -2,6 +2,7 @@
 
 #include <unordered_map>
 #include <vector>
+#include <queue>
 #include <bitset>
 #include <typeindex>
 #include <memory>
@@ -16,6 +17,8 @@ private:
     inline static const unsigned int MAX_COMPONENT = 128;
 
     inline static unsigned int NextComponentId = 0;
+
+    inline static std::vector<unsigned int> FreeIds;
 
     inline static std::vector<std::unique_ptr<Entity>> Entities;
     inline static std::vector<std::bitset<MAX_COMPONENT>> ComponentInEntity;
@@ -46,9 +49,21 @@ public:
 
         Entity& entity = *entity_ptr;
 
-        Entities.emplace_back(std::move(entity_ptr));
-        ComponentInEntity.emplace_back();
-        entity.SetId(Entities.size());
+        unsigned int EntityId = Entities.size();
+        if (!FreeIds.empty())
+        {
+            EntityId = FreeIds.back();
+            FreeIds.pop_back();
+        }
+
+        if (EntityId >= Entities.size())
+        {    
+            Entities.resize(EntityId + 1);
+            ComponentInEntity.resize(EntityId + 1);
+        }
+        entity.SetId(EntityId);
+        Entities[EntityId] = std::move(entity_ptr);
+        ComponentInEntity[EntityId] = 0;
 
         return entity;
     }
@@ -56,37 +71,19 @@ public:
     inline static void DestroyEntity (Entity& entity)
     {
         unsigned int EntityId = entity.GetId();
-        std::bitset<MAX_COMPONENT>& Components = ComponentInEntity[EntityId];
+        std::bitset<MAX_COMPONENT>& mask = ComponentInEntity[EntityId];
 
         for (int i = 0; i < ComponentPools.size(); ++i)
         {
-            if (Components.test(i))
+            if (mask.test(i))
             {
                 ComponentPools[i]->RemoveComponent(EntityId);
             }
         }
 
-        size_t last = Entities.size() - 1;
-
-        if (EntityId != last)
-        {
-            Entities[EntityId] = std::move(Entities[last]);
-            ComponentInEntity[EntityId] = std::move(ComponentInEntity[last]);
-            
-            Components = ComponentInEntity[EntityId];
-            
-            for (int i = 0; i < ComponentPools.size(); ++i)
-            {
-                if (Components.test(i))
-                {
-                    ComponentPools[i].get()->SwapEntityId(EntityId, last);
-                }
-            }
-
-            Entities[EntityId].get()->SetId(EntityId);
-        }
-        Entities.pop_back();
-        ComponentInEntity.pop_back();
+        mask.reset();
+        Entities[EntityId].reset();
+        FreeIds.push_back(EntityId);
     }
 
     template<class T, class... Args>

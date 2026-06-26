@@ -7,6 +7,7 @@ class Entity
 {
 private:
     unsigned int id = -1;
+
 public:
     Entity () = default;
 
