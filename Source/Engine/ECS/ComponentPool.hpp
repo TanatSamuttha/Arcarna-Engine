@@ -23,8 +23,6 @@ public:
         EntityToComponent[EntityId] = Components.size();
         ComponentToEntity[Components.size()] = Components.size();
         Components.push_back(NewComponent);
-
-        EntityIdToDense[EntityId] = DenseEntities.size();
     }
 
     int GetIndex (unsigned int EntityId)
