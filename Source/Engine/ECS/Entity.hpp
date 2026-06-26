@@ -14,10 +14,7 @@ public:
 
     void SetId (const unsigned int& id)
     {
-        if (this->id == -1)
-        {
-            this->id = id;
-        }
+        this->id = id;
     }
 
     unsigned int GetId () const

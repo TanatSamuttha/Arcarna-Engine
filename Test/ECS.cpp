@@ -61,5 +61,16 @@ int main ()
     orcColor = World::GetComponent<Color>(orc);
     Assert(255, orcColor.g);
 
+    Entity paladin = World::NewEntity();
+    World::AddComponent<Position>(paladin, 12, 13);
+
+    Entity paladin2 = World::NewEntity();
+    World::AddComponent<Position>(paladin2, 14, 15);
+
+    World::DestroyEntity(orc);
+
+    Assert(14, World::GetComponent<Position>(paladin2).x);
+    Assert(12, World::GetComponent<Position>(paladin).x);
+
     return 0;
 }

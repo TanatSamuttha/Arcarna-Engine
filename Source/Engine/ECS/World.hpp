@@ -1,6 +1,8 @@
 #pragma once
 
 #include <unordered_map>
+#include <vector>
+#include <bitset>
 #include <typeindex>
 #include <memory>
 
@@ -11,10 +13,12 @@
 class World
 {
 private:
-    inline static unsigned int NextEntityId = 0;
+    inline static const unsigned int MAX_COMPONENT = 128;
+
     inline static unsigned int NextComponentId = 0;
 
     inline static std::vector<std::unique_ptr<Entity>> Entities;
+    inline static std::vector<std::bitset<MAX_COMPONENT>> ComponentInEntity;
     inline static std::vector<std::unique_ptr<IPool>> ComponentPools;
 
     template<class T>
@@ -42,31 +46,57 @@ public:
 
         Entity& entity = *entity_ptr;
 
-        Entities.push_back(std::move(entity_ptr));
-        entity.SetId(NextEntityId++);
+        Entities.emplace_back(std::move(entity_ptr));
+        ComponentInEntity.emplace_back();
+        entity.SetId(Entities.size());
 
         return entity;
     }
 
-    template<class T>
-    inline static void AddComponent (const Entity& entity)
+    inline static void DestroyEntity (Entity& entity)
     {
-        ComponentPool<T>& pool = GetPool<T>();
-        
         unsigned int EntityId = entity.GetId();
+        std::bitset<MAX_COMPONENT>& Components = ComponentInEntity[EntityId];
 
-        pool.AddComponent(EntityId);
+        for (int i = 0; i < ComponentPools.size(); ++i)
+        {
+            if (Components.test(i))
+            {
+                ComponentPools[i]->RemoveComponent(EntityId);
+            }
+        }
+
+        size_t last = Entities.size() - 1;
+
+        if (EntityId != last)
+        {
+            Entities[EntityId] = std::move(Entities[last]);
+            ComponentInEntity[EntityId] = std::move(ComponentInEntity[last]);
+            
+            Components = ComponentInEntity[EntityId];
+            
+            for (int i = 0; i < ComponentPools.size(); ++i)
+            {
+                if (Components.test(i))
+                {
+                    ComponentPools[i].get()->SwapEntityId(EntityId, last);
+                }
+            }
+
+            Entities[EntityId].get()->SetId(EntityId);
+        }
+        Entities.pop_back();
+        ComponentInEntity.pop_back();
     }
 
     template<class T, class... Args>
     inline static void AddComponent (const Entity& entity, Args&&... args)
-    {
-        unsigned int ComponentId = GetComponentID<T>();
-        
+    {   
         ComponentPool<T>& pool = GetPool<T>();
         
         unsigned int EntityId = entity.GetId();
 
+        ComponentInEntity[EntityId].set(GetComponentID<T>());
         pool.AddComponent(EntityId, std::forward<Args>(args)...);
     }
 
@@ -87,6 +117,7 @@ public:
 
         ComponentPool<T>& pool = GetPool<T>();
 
+        ComponentInEntity[EntityId].reset(GetComponentID<T>());
         pool.RemoveComponent(EntityId);
     }
 };

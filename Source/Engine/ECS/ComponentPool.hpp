@@ -41,7 +41,21 @@ public:
         return Components[GetIndex(EntityId)];
     }
 
-    void RemoveComponent (const unsigned int& EntityId)
+    void SwapEntityId (unsigned oldId, unsigned newId) override
+    {
+        iterator ComponentIt = EntityToComponent.find(oldId);
+        if (ComponentIt == EntityToComponent.end())
+            return;
+
+        size_t ComponentId = ComponentIt->second;
+
+        EntityToComponent.erase(ComponentIt);
+        EntityToComponent.emplace(newId, ComponentId);
+
+        Entities[ComponentId] = newId;
+    }
+
+    void RemoveComponent (const unsigned int& EntityId) override
     {
         iterator ComponentIt = EntityToComponent.find(EntityId);
         if (ComponentIt == EntityToComponent.end())
