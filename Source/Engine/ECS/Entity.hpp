@@ -12,7 +12,7 @@ public:
 
     ~Entity () = default;
 
-    void SetId (unsigned int id)
+    void SetId (const unsigned int& id)
     {
         if (this->id == -1)
         {
@@ -20,7 +20,7 @@ public:
         }
     }
 
-    unsigned int GetId ()
+    unsigned int GetId () const
     {
         return id;
     }

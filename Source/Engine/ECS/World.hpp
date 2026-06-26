@@ -30,9 +30,7 @@ private:
         unsigned int ComponentId = GetComponentID<T>();
 
         if (ComponentId == ComponentPools.size())
-        {
             ComponentPools.push_back(std::make_unique<ComponentPool<T>>());
-        }
 
         return *static_cast<ComponentPool<T>*>(ComponentPools[ComponentId].get());
     }
@@ -51,7 +49,17 @@ public:
     }
 
     template<class T>
-    inline static void AddComponent (Entity& entity)
+    inline static void AddComponent (const Entity& entity)
+    {
+        ComponentPool<T>& pool = GetPool<T>();
+        
+        unsigned int EntityId = entity.GetId();
+
+        pool.AddComponent(EntityId);
+    }
+
+    template<class T, class... Args>
+    inline static void AddComponent (const Entity& entity, Args&&... args)
     {
         unsigned int ComponentId = GetComponentID<T>();
         
@@ -59,25 +67,11 @@ public:
         
         unsigned int EntityId = entity.GetId();
 
-        T component;
-
-        pool.AddComponent(component, EntityId);
+        pool.AddComponent(EntityId, std::forward<Args>(args)...);
     }
 
     template<class T>
-    inline static void AddComponent (Entity& entity, T component)
-    {
-        unsigned int ComponentId = GetComponentID<T>();
-        
-        ComponentPool<T>& pool = GetPool<T>();
-        
-        unsigned int EntityId = entity.GetId();
-
-        pool.AddComponent(component, EntityId);
-    }
-
-    template<class T>
-    inline static T& GetComponent (Entity& entity)
+    inline static T& GetComponent (const Entity& entity)
     {
         unsigned int ComponentId = GetComponentID<T>();
         
@@ -87,7 +81,7 @@ public:
     }
 
     template<class T>
-    inline static void RemoveComponent (Entity& entity)
+    inline static void RemoveComponent (const Entity& entity)
     {
         unsigned int EntityId = entity.GetId();
 

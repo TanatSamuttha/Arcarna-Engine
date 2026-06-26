@@ -15,18 +15,19 @@ private:
     using iterator = std::unordered_map<unsigned int, size_t>::iterator;
 
 public:
-    void AddComponent (T NewComponent, unsigned int EntityId)
+    template<class... Args>
+    void AddComponent (const unsigned int& EntityId, Args&&... args)
     {
         iterator ComponentIt = EntityToComponent.find(EntityId);
         if (ComponentIt != EntityToComponent.end())
             throw std::runtime_error("Component already exists");
 
         EntityToComponent.emplace(EntityId, Components.size());
-        Components.emplace_back(NewComponent);
+        Components.emplace_back(std::forward<Args>(args)...);
         Entities.emplace_back(EntityId);
     }
 
-    int GetIndex (unsigned int EntityId)
+    int GetIndex (const unsigned int& EntityId)
     {
         iterator ComponentIt = EntityToComponent.find(EntityId);
         if (ComponentIt == EntityToComponent.end())
@@ -35,12 +36,12 @@ public:
         return ComponentIt->second;
     }
 
-    T& GetComponent (unsigned int EntityId)
+    T& GetComponent (const unsigned int& EntityId)
     {
         return Components[GetIndex(EntityId)];
     }
 
-    void RemoveComponent (unsigned int EntityId)
+    void RemoveComponent (const unsigned int& EntityId)
     {
         iterator ComponentIt = EntityToComponent.find(EntityId);
         if (ComponentIt == EntityToComponent.end())
@@ -58,6 +59,6 @@ public:
 
         Components.pop_back();
         Entities.pop_back();
-        EntityToComponent.erase(EntityId);
+        EntityToComponent.erase(ComponentIt);
     }
 };

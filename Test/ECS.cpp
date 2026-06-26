@@ -39,15 +39,13 @@ public:
 int main ()
 {
     Entity slime = World::NewEntity();
-    Color color(255, 43, 12);
-    World::AddComponent<Color>(slime, color);
+    World::AddComponent<Color>(slime, 255, 43, 12);
     World::AddComponent<Position>(slime);
     Color& slimeColor = World::GetComponent<Color>(slime);
     Position& slimePos = World::GetComponent<Position>(slime);
 
     Entity orc = World::NewEntity();
-    Color newColor(12, 255, 35);
-    World::AddComponent<Color>(orc, newColor);
+    World::AddComponent<Color>(orc, 12, 255, 35);
     World::AddComponent<Position>(orc);
     Position& orcPos = World::GetComponent<Position>(orc);
     orcPos.x = 435;
