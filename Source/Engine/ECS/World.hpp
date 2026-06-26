@@ -51,6 +51,20 @@ public:
     }
 
     template<class T>
+    inline static void AddComponent (Entity& entity)
+    {
+        unsigned int ComponentId = GetComponentID<T>();
+        
+        ComponentPool<T>& pool = GetPool<T>();
+        
+        unsigned int EntityId = entity.GetId();
+
+        T component;
+
+        pool.AddComponent(component, EntityId);
+    }
+
+    template<class T>
     inline static void AddComponent (Entity& entity, T component)
     {
         unsigned int ComponentId = GetComponentID<T>();
@@ -70,5 +84,15 @@ public:
         ComponentPool<T>& pool = GetPool<T>();
 
         return pool.GetComponent(entity.GetId());
+    }
+
+    template<class T>
+    inline static void RemoveComponent (Entity& entity)
+    {
+        unsigned int EntityId = entity.GetId();
+
+        ComponentPool<T>& pool = GetPool<T>();
+
+        pool.RemoveComponent(EntityId);
     }
 };

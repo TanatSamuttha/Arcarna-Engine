@@ -6,13 +6,13 @@
 class Entity
 {
 private:
-    int id = -1;
+    unsigned int id = -1;
 public:
     Entity () = default;
 
     ~Entity () = default;
 
-    void SetId (int id)
+    void SetId (unsigned int id)
     {
         if (this->id == -1)
         {
@@ -20,7 +20,7 @@ public:
         }
     }
 
-    int GetId ()
+    unsigned int GetId ()
     {
         return id;
     }
