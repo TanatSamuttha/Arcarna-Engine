@@ -10,45 +10,48 @@ class ComponentPool : public IPool
 {
 private:
     std::vector<T> Components;
-    std::vector<unsigned int> DenseEntities;
-    std::unordered_map<unsigned int, size_t> EntityToIdx;
+    std::unordered_map<unsigned int, size_t> EntityToComponent;
     std::unordered_map<unsigned int, size_t> EntityIdToDense;
+    std::unordered_map<size_t, size_t> ComponentToEntity;
 
 public:
     void AddComponent (T NewComponent, unsigned int EntityId)
     {
-        if (EntityToIdx.contains(EntityId))
+        if (EntityToComponent.contains(EntityId))
             throw std::runtime_error("Component already exists");
 
-        EntityToIdx[EntityId] = Components.size();
+        EntityToComponent[EntityId] = Components.size();
+        ComponentToEntity[Components.size()] = Components.size();
         Components.push_back(NewComponent);
 
         EntityIdToDense[EntityId] = DenseEntities.size();
-        DenseEntities.push_back(EntityId);
     }
 
     int GetIndex (unsigned int EntityId)
     {
-        if (!EntityToIdx.contains(EntityId))
+        if (!EntityToComponent.contains(EntityId))
             throw std::runtime_error("Component not found");
 
-        return EntityToIdx[EntityId];
+        return EntityToComponent[EntityId];
     }
 
     T& GetComponent (unsigned int EntityId)
     {
-        if (!EntityToIdx.contains(EntityId))
+        if (!EntityToComponent.contains(EntityId))
             throw std::runtime_error("Component not found");
 
-        return Components[EntityToIdx[EntityId]];
+        return Components[EntityToComponent[EntityId]];
     }
 
     void RemoveComponent (unsigned int EntityId)
     {
-        Components[EntityToIdx[EntityId]] = *(Components.end() - 1);
-        Components.pop_back();
+        size_t RemovingComIdx = EntityToComponent[EntityId];
+        size_t ReplacingComIdx = Components.size() - 1;
 
-        DenseEntities[EntityIdToDense[EntityId]] = *(DenseEntities.end() - 1);
-        DenseEntities.pop_back();
+        size_t ReplacingEnId = ComponentToEntity[ReplacingComIdx];
+
+        Components[RemovingComIdx] = Components[ReplacingComIdx];
+        EntityToComponent[ReplacingEnId] = RemovingComIdx;
+        Components.pop_back();
     }
 };
