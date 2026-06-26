@@ -42,17 +42,18 @@ int main ()
     Color color(255, 43, 12);
     World::AddComponent<Color>(slime, color);
     World::AddComponent<Position>(slime);
-    Position& slimePos = World::GetComponent<Position>(slime);
     Color& slimeColor = World::GetComponent<Color>(slime);
-
+    Position& slimePos = World::GetComponent<Position>(slime);
 
     Entity orc = World::NewEntity();
-    color.SetColor(12, 255, 35);
-    World::AddComponent<Color>(orc, color);
+    Color newColor(12, 255, 35);
+    World::AddComponent<Color>(orc, newColor);
     World::AddComponent<Position>(orc);
     Position& orcPos = World::GetComponent<Position>(orc);
     orcPos.x = 435;
     Color& orcColor = World::GetComponent<Color>(orc);
+
+    slimePos = World::GetComponent<Position>(slime);
 
     Assert(0, slimePos.x);
     Assert(435, orcPos.x);
