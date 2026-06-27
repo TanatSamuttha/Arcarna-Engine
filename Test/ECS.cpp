@@ -49,7 +49,7 @@ int main ()
     Position& slimePos = Scene::World.GetComponent<Position>(slime);
 
     unsigned int orcId = Scene::World.NewEntity();
-    Entity orc = Scene::World.GetEntity(orcId);
+    Entity& orc = Scene::World.GetEntity(orcId);
 
     Scene::World.AddComponent<Color>(orc, 12, 255, 35);
     Scene::World.AddComponent<Position>(orc);
@@ -68,12 +68,12 @@ int main ()
     Assert(255, orcColor.g, "Orc color (Remove componet test)");
 
     unsigned int paladinId = Scene::World.NewEntity();
-    Entity paladin = Scene::World.GetEntity(paladinId);
+    Entity& paladin = Scene::World.GetEntity(paladinId);
 
     Scene::World.AddComponent<Position>(paladin, 12, 13);
 
     unsigned int paladin2Id = Scene::World.NewEntity();
-    Entity paladin2 = Scene::World.GetEntity(paladin2Id);
+    Entity& paladin2 = Scene::World.GetEntity(paladin2Id);
 
     Scene::World.AddComponent<Position>(paladin2, 14, 15);
 

@@ -16,7 +16,8 @@ int main ()
 
     Assert(0u, SceneId, "First scene id");
 
-    Entity& dummy = Scene::World.NewEntity();
+    unsigned int dummyId = Scene::World.NewEntity();
+    Entity& dummy = Scene::World.GetEntity(dummyId);
     Scene::World.AddComponent<Dummy>(dummy, 23);
 
     Scene::SetNewScene();
