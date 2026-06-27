@@ -46,7 +46,7 @@ private:
     }
 
 public:
-    Entity& NewEntity ()
+    unsigned int NewEntity ()
     {
         unsigned int EntityId = Entities.size();
         if (!FreeIds.empty())
@@ -63,6 +63,11 @@ public:
         Entities[EntityId].SetId(EntityId);
         ComponentInEntity[EntityId] = 0;
 
+        return EntityId;
+    }
+
+    Entity& GetEntity (const unsigned int& EntityId)
+    {
         return Entities[EntityId];
     }
 
