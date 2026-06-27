@@ -53,13 +53,13 @@ int main ()
 
     slimePos = World::GetComponent<Position>(slime);
 
-    Assert(0, slimePos.x);
-    Assert(435, orcPos.x);
+    Assert(0, slimePos.x, "Slime position (Get component test)");
+    Assert(435, orcPos.x, "Orc position");
 
     World::RemoveComponent<Color>(slime);
 
     orcColor = World::GetComponent<Color>(orc);
-    Assert(255, orcColor.g);
+    Assert(255, orcColor.g, "Orc color (Remove componet test)");
 
     Entity paladin = World::NewEntity();
     World::AddComponent<Position>(paladin, 12, 13);
@@ -69,8 +69,11 @@ int main ()
 
     World::DestroyEntity(orc);
 
-    Assert(14, World::GetComponent<Position>(paladin2).x);
-    Assert(12, World::GetComponent<Position>(paladin).x);
+    Assert(14, World::GetComponent<Position>(paladin2).x, "Paladin position2 (Destroy entity test)");
+    Assert(12, World::GetComponent<Position>(paladin).x, "Paladin position");
+
+    Assert(true, World::HasComponent<Position>(paladin2), "Paladin has position (Has component test)");
+    Assert(false, World::HasComponent<Color>(paladin2), "Paladin has color");
 
     return 0;
 }

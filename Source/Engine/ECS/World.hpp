@@ -108,6 +108,14 @@ public:
     }
 
     template<class T>
+    inline static bool HasComponent (const Entity& entity)
+    {
+        unsigned int ComponentId = GetComponentID<T>();
+
+        return ComponentInEntity[entity.GetId()].test(ComponentId);
+    }
+
+    template<class T>
     inline static void RemoveComponent (const Entity& entity)
     {
         unsigned int EntityId = entity.GetId();
