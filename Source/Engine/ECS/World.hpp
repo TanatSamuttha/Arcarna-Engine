@@ -16,23 +16,23 @@ class World
 private:
     inline static const unsigned int MAX_COMPONENT = 128;
 
-    inline static unsigned int NextComponentId = 0;
+    unsigned int NextComponentId = 0;
 
-    inline static std::vector<unsigned int> FreeIds;
+    std::vector<unsigned int> FreeIds;
 
-    inline static std::vector<std::unique_ptr<Entity>> Entities;
-    inline static std::vector<std::bitset<MAX_COMPONENT>> ComponentInEntity;
-    inline static std::vector<std::unique_ptr<IPool>> ComponentPools;
+    std::vector<std::unique_ptr<Entity>> Entities;
+    std::vector<std::bitset<MAX_COMPONENT>> ComponentInEntity;
+    std::vector<std::unique_ptr<IPool>> ComponentPools;
 
     template<class T>
-    inline static unsigned int GetComponentID ()
+    unsigned int GetComponentID ()
     {
         static unsigned int id = NextComponentId++;
         return id;
     }
 
     template<class T>
-    inline static ComponentPool<T>& GetPool ()
+    ComponentPool<T>& GetPool ()
     {
         unsigned int ComponentId = GetComponentID<T>();
 
@@ -43,7 +43,7 @@ private:
     }
 
 public:
-    inline static Entity& NewEntity ()
+    Entity& NewEntity ()
     {
         auto entity_ptr = std::make_unique<Entity>();
 
@@ -68,7 +68,7 @@ public:
         return entity;
     }
 
-    inline static void DestroyEntity (Entity& entity)
+    void DestroyEntity (Entity& entity)
     {
         unsigned int EntityId = entity.GetId();
         std::bitset<MAX_COMPONENT>& mask = ComponentInEntity[EntityId];
@@ -87,7 +87,7 @@ public:
     }
 
     template<class T, class... Args>
-    inline static void AddComponent (const Entity& entity, Args&&... args)
+    void AddComponent (const Entity& entity, Args&&... args)
     {   
         ComponentPool<T>& pool = GetPool<T>();
         
@@ -98,7 +98,7 @@ public:
     }
 
     template<class T>
-    inline static T& GetComponent (const Entity& entity)
+    T& GetComponent (const Entity& entity)
     {
         unsigned int ComponentId = GetComponentID<T>();
         
@@ -108,7 +108,7 @@ public:
     }
 
     template<class T>
-    inline static bool HasComponent (const Entity& entity)
+    bool HasComponent (const Entity& entity)
     {
         unsigned int ComponentId = GetComponentID<T>();
 
@@ -116,7 +116,7 @@ public:
     }
 
     template<class T>
-    inline static void RemoveComponent (const Entity& entity)
+    void RemoveComponent (const Entity& entity)
     {
         unsigned int EntityId = entity.GetId();
 

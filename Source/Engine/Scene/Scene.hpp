@@ -1,21 +1,27 @@
 #include <vector>
 
-#include "ECS/World.hpp"
+#include "Engine/ECS/World.hpp"
 
 class Scene
 {
 public:
-    inline static World World;
 
     inline static std::vector<unsigned int> FreeIds;
 
     inline static std::vector<Scene> Scenes;
 
-    int Id;
+    unsigned int Id;
+
+    World ThisWorld;
+
+    inline static World World;
+    inline static unsigned int CurrentId;
+
+    Scene () : Id(0) {}
 
     Scene (int Id) : Id(Id) {}
 
-    unsigned int NewScene ()
+    inline static unsigned int NewScene ()
     {
         unsigned int NewId = Scenes.size();
 
@@ -30,8 +36,15 @@ public:
             Scenes.resize(NewId + 1);
         }
 
-        Scenes.emplace_back(1);
+        Scenes.emplace_back(NewId);
 
         return NewId;
+    }
+
+    inline static void SetScene (unsigned int Id)
+    {
+        Scenes[CurrentId].World = std::move(World);
+        World = std::move(Scenes[Id].ThisWorld);
+        CurrentId = Id;
     }
 };
