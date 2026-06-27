@@ -47,6 +47,7 @@ public:
             ComponentInEntity.resize(EntityId + 1);
         }
         Entities[EntityId].SetId(EntityId);
+        Entities[EntityId].Alive = true;
         ComponentInEntity[EntityId] = 0;
 
         return EntityId;

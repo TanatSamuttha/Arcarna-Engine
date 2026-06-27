@@ -67,6 +67,6 @@ public:
             throw std::runtime_error("Remove current scene");
 
         FreeIds.push_back(Id);
-        Scenes[Id] = Scene();
+        Scenes[Id] = std::move(Scene());
     }
 };
