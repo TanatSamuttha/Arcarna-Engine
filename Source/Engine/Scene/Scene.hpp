@@ -48,6 +48,13 @@ public:
         CurrentId = Id;
     }
 
+    inline static unsigned int SetNewScene ()
+    {
+        unsigned int Id = NewScene();
+        SetScene(Id);
+        return Id;
+    }
+
     inline static unsigned int GetScene ()
     {
         return CurrentId;

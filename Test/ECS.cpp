@@ -38,8 +38,7 @@ public:
 
 int main ()
 {
-    unsigned int SceneId = Scene::NewScene();
-    Scene::SetScene(SceneId);
+    Scene::SetNewScene();
 
     Entity slime = Scene::World.NewEntity();
     Scene::World.AddComponent<Color>(slime, 255, 43, 12);
