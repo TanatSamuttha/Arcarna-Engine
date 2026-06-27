@@ -22,16 +22,19 @@ int main ()
 
     unsigned int Scene2Id = Scene::SetNewScene();
 
+    Assert(1u, Scene2Id, "Second scene id");
+    Assert(1u, Scene2Id, "Current scene id");
+
     unsigned int dummy2Id = Scene::World.NewEntity();
     Entity& dummy2 = Scene::World.GetEntity(dummy2Id);
     Scene::World.AddComponent<Dummy>(dummy2, 2);
 
     Assert(dummyId, dummy2Id, "First entity in different scene");
 
-    Scene::SetScene(Scene2Id);
+    Scene::SetScene(SceneId);
     Entity& dummy1 = Scene::World.GetEntity(dummyId);
 
-    Assert(1, Scene::World.GetComponent<Dummy>(dummy1).value);
+    Assert(1, Scene::World.GetComponent<Dummy>(dummy1).value, "Recall entity in old scene");
 
     return 0;
 }

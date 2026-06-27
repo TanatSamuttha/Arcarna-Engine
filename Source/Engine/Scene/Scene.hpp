@@ -36,14 +36,15 @@ public:
             Scenes.resize(NewId + 1);
         }
 
-        Scenes.emplace_back(NewId);
-
         return NewId;
     }
 
     inline static void SetScene (unsigned int Id)
     {
-        Scenes[CurrentId].World = std::move(World);
+        if (CurrentId == Id) 
+            return;
+
+        Scenes[CurrentId].ThisWorld = std::move(World);
         World = std::move(Scenes[Id].ThisWorld);
         CurrentId = Id;
     }

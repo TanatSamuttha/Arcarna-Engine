@@ -31,20 +31,6 @@ private:
         return id;
     }
 
-    template<class T>
-    ComponentPool<T>& GetPool ()
-    {
-        unsigned int ComponentId = GetComponentID<T>();
-
-        if (ComponentId >= ComponentPools.size())
-            ComponentPools.resize(ComponentId + 1);
-
-        if (!ComponentPools[ComponentId])
-            ComponentPools[ComponentId] = std::make_unique<ComponentPool<T>>();
-
-        return *static_cast<ComponentPool<T>*>(ComponentPools[ComponentId].get());
-    }
-
 public:
     unsigned int NewEntity ()
     {
@@ -98,6 +84,20 @@ public:
 
         ComponentInEntity[EntityId].set(GetComponentID<T>());
         pool.AddComponent(EntityId, std::forward<Args>(args)...);
+    }
+
+    template<class T>
+    ComponentPool<T>& GetPool ()
+    {
+        unsigned int ComponentId = GetComponentID<T>();
+
+        if (ComponentId >= ComponentPools.size())
+            ComponentPools.resize(ComponentId + 1);
+
+        if (!ComponentPools[ComponentId])
+            ComponentPools[ComponentId] = std::make_unique<ComponentPool<T>>();
+
+        return *static_cast<ComponentPool<T>*>(ComponentPools[ComponentId].get());
     }
 
     template<class T>
