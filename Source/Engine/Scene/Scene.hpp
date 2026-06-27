@@ -47,4 +47,9 @@ public:
         World = std::move(Scenes[Id].ThisWorld);
         CurrentId = Id;
     }
+
+    inline static unsigned int GetScene ()
+    {
+        return CurrentId;
+    }
 };
