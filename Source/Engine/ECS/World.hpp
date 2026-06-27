@@ -20,7 +20,7 @@ private:
 
     std::vector<unsigned int> FreeIds;
 
-    std::vector<std::unique_ptr<Entity>> Entities;
+    std::vector<Entity> Entities;
     std::vector<std::bitset<MAX_COMPONENT>> ComponentInEntity;
     std::vector<std::unique_ptr<IPool>> ComponentPools;
 
@@ -36,8 +36,11 @@ private:
     {
         unsigned int ComponentId = GetComponentID<T>();
 
-        if (ComponentId == ComponentPools.size())
-            ComponentPools.push_back(std::make_unique<ComponentPool<T>>());
+        if (ComponentId >= ComponentPools.size())
+            ComponentPools.resize(ComponentId + 1);
+
+        if (!ComponentPools[ComponentId])
+            ComponentPools[ComponentId] = std::make_unique<ComponentPool<T>>();
 
         return *static_cast<ComponentPool<T>*>(ComponentPools[ComponentId].get());
     }
@@ -45,10 +48,6 @@ private:
 public:
     Entity& NewEntity ()
     {
-        auto entity_ptr = std::make_unique<Entity>();
-
-        Entity& entity = *entity_ptr;
-
         unsigned int EntityId = Entities.size();
         if (!FreeIds.empty())
         {
@@ -61,11 +60,10 @@ public:
             Entities.resize(EntityId + 1);
             ComponentInEntity.resize(EntityId + 1);
         }
-        entity.SetId(EntityId);
-        Entities[EntityId] = std::move(entity_ptr);
+        Entities[EntityId].SetId(EntityId);
         ComponentInEntity[EntityId] = 0;
 
-        return entity;
+        return Entities[EntityId];
     }
 
     void DestroyEntity (Entity& entity)
@@ -82,7 +80,7 @@ public:
         }
 
         mask.reset();
-        Entities[EntityId].reset();
+        Entities[EntityId].Alive = false;
         FreeIds.push_back(EntityId);
     }
 

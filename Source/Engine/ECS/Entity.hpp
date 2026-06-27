@@ -9,7 +9,9 @@ private:
     unsigned int id = -1;
 
 public:
-    Entity () = default;
+    bool Alive;
+
+    Entity () : Alive(true) {};
 
     ~Entity () = default;
 
