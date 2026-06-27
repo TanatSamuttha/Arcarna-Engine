@@ -8,8 +8,11 @@ compile:
 run:
 	./app
 
-compile-test:
-	g++ $(SRC_NOENT) $(TEST) -Isource -Itest -std=c++20 -O3 -o test
+compile-test-ecs:
+	g++ $(SRC_NOENT) Test/ECS.cpp -Isource -Itest -std=c++20 -O3 -o test
+
+compile-test-scene:
+	g++ $(SRC_NOENT) Test/Scene.cpp -Isource -Itest -std=c++20 -O3 -o test
 
 run-test:
 	./test
