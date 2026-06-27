@@ -60,4 +60,13 @@ public:
     {
         return CurrentId;
     }
+
+    inline static void RemoveScene (unsigned int Id)
+    {
+        if (Id == CurrentId)
+            throw std::runtime_error("Remove current scene");
+
+        FreeIds.push_back(Id);
+        Scenes[Id] = Scene();
+    }
 };
