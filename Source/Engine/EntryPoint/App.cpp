@@ -18,14 +18,14 @@ int main ()
 
     auto NextFrame = Clock::now();
 
-    auto Now = Clock::now();
+    auto Previous = Clock::now();
 
     while (Arcarna::Setting::IsRunning)
     {
         NextFrame += FrameTime;
 
-        double dt = std::chrono::duration<double>(Clock::now() - Now).count();
-        Now = Clock::now();
+        double dt = std::chrono::duration<double>(Clock::now() - Previous).count();
+        Previous = Clock::now();
 
         Scheduler::Update(dt);
 
