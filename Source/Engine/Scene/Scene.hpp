@@ -1,6 +1,6 @@
 #include <vector>
 
-#include "Engine/ECS/World.hpp"
+#include "ECS/World.hpp"
 
 class Scene
 {

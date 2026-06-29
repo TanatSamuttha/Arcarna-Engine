@@ -2,8 +2,8 @@
 #include <thread>
 #include <iostream>
 
-#include "Workspace/script/init.hpp"
-#include "Engine/EntryPoint/Setting.hpp"
+#include "Script/init.hpp"
+#include "EntryPoint/Setting.hpp"
 
 int main ()
 {

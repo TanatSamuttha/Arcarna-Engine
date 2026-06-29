@@ -1,5 +1,5 @@
 #include "Assert.hpp"
-#include "Engine/Scene/Scene.hpp"
+#include "Scene/Scene.hpp"
 
 class Dummy
 {
