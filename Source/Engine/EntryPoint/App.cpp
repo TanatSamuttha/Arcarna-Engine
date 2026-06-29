@@ -4,6 +4,7 @@
 
 #include "Script/init.hpp"
 #include "EntryPoint/Setting.hpp"
+#include "Scheduler/Scheduler.hpp"
 
 int main ()
 {
@@ -17,13 +18,16 @@ int main ()
 
     auto NextFrame = Clock::now();
 
+    auto Now = Clock::now();
+
     while (Arcarna::Setting::IsRunning)
     {
         NextFrame += FrameTime;
 
-        {
-            
-        }
+        double dt = std::chrono::duration<double>(Clock::now() - Now).count();
+        Now = Clock::now();
+
+        Scheduler::Update(dt);
 
         std::this_thread::sleep_until(NextFrame);
     }

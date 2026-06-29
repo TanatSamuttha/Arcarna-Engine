@@ -13,8 +13,8 @@ public:
     unsigned int Id;
 
     World ThisWorld;
-
     inline static World World;
+
     inline static unsigned int CurrentId;
 
     Scene () : Id(0) {}
