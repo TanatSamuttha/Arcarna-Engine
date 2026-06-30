@@ -85,5 +85,7 @@ int main ()
     Assert(true, Scene::World.HasComponent<Position>(paladin2), "Paladin has position (Has component test)");
     Assert(false, Scene::World.HasComponent<Color>(paladin2), "Paladin has color");
 
+    Scene::World.View<Color, Position>();
+
     return 0;
 }

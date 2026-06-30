@@ -10,7 +10,7 @@ class ComponentPool : public IPool
 {
 private:
     std::vector<T> Components;
-    std::vector<unsigned> Entities;
+    std::vector<unsigned int> Entities;
     std::unordered_map<unsigned int, size_t> EntityToComponent;
     using iterator = std::unordered_map<unsigned int, size_t>::iterator;
 

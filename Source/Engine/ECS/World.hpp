@@ -129,4 +129,26 @@ public:
         ComponentInEntity[EntityId].reset(GetComponentID<T>());
         pool.RemoveComponent(EntityId);
     }
+
+    template<class... Components>
+    std::vector<Entity> View ()
+    {
+        std::vector<Entity> ViewEntities;
+
+        IPool* Smallest = nullptr;
+        size_t MinSize = SIZE_MAX;
+
+        auto FindMin = [&](std::vector<unsigned int>* pool)
+        {
+            if (pool.size() < MinSize)
+            {
+                MinSize = pool->size();
+                Smallest = pool;
+            }
+        }
+
+        (FindMin(&GetPool<Components>()), ...);
+
+        std::cout << MinSize;
+    }
 };
