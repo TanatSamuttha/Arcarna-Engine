@@ -5,6 +5,7 @@
 #include "IPool.hpp"
 
 class Scene;
+class Entity;
 
 template<class... Components>
 class ViewClass
@@ -16,7 +17,7 @@ private:
     iterator endIt;
 
 public:
-    ViewClass(iterator beginIt, iterator endIt) : beginIt(beginIt), endIt(endIt) {}
+    ViewClass (iterator beginIt, iterator endIt) : beginIt(beginIt), endIt(endIt) {}
 
     class Iterator
     {
@@ -24,34 +25,42 @@ public:
         iterator currentIt;
         iterator endIt;
 
-    public:
-        Iterator(iterator beginIt, iterator endIt) : currentIt(beginIt), endIt(endIt) {}
-
-        Iterator& operator++()
+        void SearchNext ()
         {
-            currentIt++;
             while (currentIt != endIt && !(Scene::World.HasComponent<Components>(*currentIt) && ...))
                 currentIt++;
+        }
+
+    public:
+        Iterator (iterator beginIt, iterator endIt) : currentIt(beginIt), endIt(endIt) 
+        {
+            SearchNext();
+        }
+
+        Iterator& operator++ ()
+        {
+            currentIt++;
+            SearchNext();
             return *this;
         }
 
-        bool operator!=(const Iterator& other) const
+        bool operator!= (const Iterator& other) const
         {
             return currentIt != other.currentIt;
         }
 
-        size_t operator*() const
+        Entity& operator* () const
         {
-            return *currentIt;
+            return Scene::World.GetEntity(*currentIt);
         }
     };
 
-    Iterator begin()
+    Iterator begin ()
     {
         return Iterator(beginIt, endIt);
     }
 
-    Iterator end()
+    Iterator end ()
     {
         return Iterator(endIt, endIt);
     }

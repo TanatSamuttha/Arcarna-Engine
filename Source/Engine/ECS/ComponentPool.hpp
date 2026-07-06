@@ -41,6 +41,11 @@ public:
         return Components[GetIndex(EntityId)];
     }
 
+    std::vector<unsigned int>& GetEntities ()
+    {
+        
+    }
+
     void RemoveComponent (const unsigned int& EntityId) override
     {
         iterator ComponentIt = EntityToComponent.find(EntityId);

@@ -87,5 +87,7 @@ int main ()
 
     Scene::World.View<Color, Position>();
 
+    
+
     return 0;
 }

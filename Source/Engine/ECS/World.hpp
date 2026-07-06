@@ -10,6 +10,7 @@
 #include "IPool.hpp"
 #include "ComponentPool.hpp"
 #include "Entity.hpp"
+#include "ViewClass.hpp"
 
 class World
 {
@@ -131,24 +132,24 @@ public:
     }
 
     template<class... Components>
-    std::vector<Entity> View ()
+    ViewClass<Components...> View ()
     {
-        std::vector<Entity> ViewEntities;
-
-        IPool* Smallest = nullptr;
+        std::vector<unsigned int>::iterator SmallestBegin;
+        std::vector<unsigned int>::iterator SmallestEnd;
         size_t MinSize = SIZE_MAX;
 
         auto FindMin = [&](std::vector<unsigned int>* pool)
         {
-            if (pool.size() < MinSize)
+            if (pool->size() < MinSize)
             {
                 MinSize = pool->size();
-                Smallest = pool;
+                SmallestBegin = pool->begin();
+                SmallestEnd = pool->end();
             }
-        }
+        };
 
         (FindMin(&GetPool<Components>()), ...);
 
-        std::cout << MinSize;
+        return ViewClass<Components...>(SmallestBegin, SmallestEnd);
     }
 };
