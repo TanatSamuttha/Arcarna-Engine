@@ -71,7 +71,11 @@ public:
 
     void DestroyEntity (Entity& entity)
     {
-        unsigned int EntityId = entity.GetId();
+        DestroyEntity (entity.GetId());
+    }
+
+    void DestroyEntity (const unsigned int& EntityId)
+    {
         std::bitset<MAX_COMPONENT>& mask = ComponentInEntity[EntityId];
 
         for (int i = 0; i < ComponentPools.size(); ++i)
@@ -86,18 +90,7 @@ public:
         Entities[EntityId].Alive = false;
         FreeIds.push_back(EntityId);
     }
-
-    template<class T, class... Args>
-    void AddComponent (const Entity& entity, Args&&... args)
-    {   
-        ComponentPool<T>& pool = GetPool<T>();
-        
-        unsigned int EntityId = entity.GetId();
-
-        ComponentInEntity[EntityId].set(GetComponentID<T>());
-        pool.AddComponent(EntityId, std::forward<Args>(args)...);
-    }
-
+    
     template<class T>
     ComponentPool<T>& GetPool ()
     {
@@ -112,26 +105,59 @@ public:
         return *static_cast<ComponentPool<T>*>(ComponentPools[ComponentId].get());
     }
 
+    template<class T, class... Args>
+    void AddComponent (const Entity& entity, Args&&... args)
+    {
+        AddComponent<T, Args>(entity.GetId(), std::forward<Args>(args));
+    }
+
+    template<class T, class... Args>
+    void AddComponent (const unsigned int& EntityId, Args&&... args)
+    {   
+        ComponentPool<T>& pool = GetPool<T>();
+
+        ComponentInEntity[EntityId].set(GetComponentID<T>());
+        pool.AddComponent(EntityId, std::forward<Args>(args)...);
+    }
+
     template<class T>
     T& GetComponent (const Entity& entity)
+    {
+        return GetComponent<T>(entity.GetId());
+    }
+
+    template<class T>
+    T& GetComponent (const unsigned int& EntityId)
     {
         unsigned int ComponentId = GetComponentID<T>();
         
         ComponentPool<T>& pool = GetPool<T>();
 
-        return pool.GetComponent(entity.GetId());
+        return pool.GetComponent(EntityId);
     }
 
     template<class T>
     bool HasComponent (const Entity& entity)
     {
+        return HasComponent<T>(entity.GetId());
+    }
+
+    template<class T>
+    bool HasComponent (const unsigned int& EntityId)
+    {
         unsigned int ComponentId = GetComponentID<T>();
 
-        return ComponentInEntity[entity.GetId()].test(ComponentId);
+        return ComponentInEntity[EntityId].test(ComponentId);
     }
 
     template<class T>
     void RemoveComponent (const Entity& entity)
+    {
+        RemoveComponent<T>(entity.GetId());
+    }
+
+    template<class T>
+    void RemoveComponent (const unsigned int& EntityId)
     {
         unsigned int EntityId = entity.GetId();
 
