@@ -53,51 +53,50 @@ int main ()
     unsigned int orcId = Scene::World.NewEntity();
     Entity& orc = Scene::World.GetEntity(orcId);
 
-    Scene::World.AddComponent<Color>(orc, 12, 255, 35);
-    Scene::World.AddComponent<Position>(orc);
-    Position& orcPos = Scene::World.GetComponent<Position>(orc);
+    Scene::World.AddComponent<Color>(orcId, 12, 255, 35);
+    Scene::World.AddComponent<Position>(orcId);
+    Position& orcPos = Scene::World.GetComponent<Position>(orcId);
     orcPos.x = 435;
-    Color& orcColor = Scene::World.GetComponent<Color>(orc);
+    Color& orcColor = Scene::World.GetComponent<Color>(orcId);
 
-    slimePos = Scene::World.GetComponent<Position>(slime);
+    slimePos = Scene::World.GetComponent<Position>(slimeId);
 
     Assert(0, slimePos.x, "Slime position (Get component test)");
     Assert(435, orcPos.x, "Orc position");
 
-    Scene::World.RemoveComponent<Color>(slime);
+    Scene::World.RemoveComponent<Color>(slimeId);
 
-    orcColor = Scene::World.GetComponent<Color>(orc);
+    orcColor = Scene::World.GetComponent<Color>(orcId);
     Assert(255, orcColor.g, "Orc color (Remove componet test)");
 
     unsigned int paladinId = Scene::World.NewEntity();
     Entity& paladin = Scene::World.GetEntity(paladinId);
 
-    Scene::World.AddComponent<Position>(paladin, 12, 13);
+    Scene::World.AddComponent<Position>(paladinId, 12, 13);
 
     unsigned int paladin2Id = Scene::World.NewEntity();
     Entity& paladin2 = Scene::World.GetEntity(paladin2Id);
 
-    Scene::World.AddComponent<Position>(paladin2, 14, 15);
+    Scene::World.AddComponent<Position>(paladin2Id, 14, 15);
 
-    Scene::World.DestroyEntity(orc);
+    Scene::World.DestroyEntity(orcId);
 
-    Assert(14, Scene::World.GetComponent<Position>(paladin2).x, "Paladin position2 (Destroy entity test)");
-    Assert(12, Scene::World.GetComponent<Position>(paladin).x, "Paladin position");
+    Assert(14, Scene::World.GetComponent<Position>(paladin2Id).x, "Paladin2 position (Destroy entity test)");
+    Assert(12, Scene::World.GetComponent<Position>(paladinId).x, "Paladin position");
 
-    Assert(true, Scene::World.HasComponent<Position>(paladin2), "Paladin has position (Has component test)");
-    Assert(false, Scene::World.HasComponent<Color>(paladin2), "Paladin has color");
+    Assert(true, Scene::World.HasComponent<Position>(paladin2Id), "Paladin2 has position (Has component test)");
+    Assert(false, Scene::World.HasComponent<Color>(paladin2Id), "Paladin2 has color");
 
-    Scene::World.DestroyEntity(slime);
-    Scene::World.DestroyEntity(orc);
-    Scene::World.DestroyEntity(paladin);
-    Scene::World.DestroyEntity(paladin2);
+    Scene::World.DestroyEntity(slimeId);
+    Scene::World.DestroyEntity(paladinId);
+    Scene::World.DestroyEntity(paladin2Id);
 
-    Entity& monster1 = Scene::World.GetEntity(Scene::World.NewEntity<Color, Position>());
-    Entity& monster2 = Scene::World.GetEntity(Scene::World.NewEntity<Color>());
-    Entity& monster3 = Scene::World.GetEntity(Scene::World.NewEntity<Color, Position>());
-    Entity& monster4 = Scene::World.GetEntity(Scene::World.NewEntity<Color, Position>());
+    unsigned int monster1Id = Scene::World.NewEntity<Color, Position>();
+    unsigned int monster2Id = Scene::World.NewEntity<Color>();
+    unsigned int monster3Id = Scene::World.NewEntity<Color, Position>();
+    unsigned int monster4Id = Scene::World.NewEntity<Color, Position>();
 
-    Assert(0u, monster1.GetId(), "Destroy entity");
+    Assert(3u, monster1Id, "Destroy entity");
 
     bool IsNotCall = true;
 

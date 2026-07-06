@@ -108,7 +108,7 @@ public:
     template<class T, class... Args>
     void AddComponent (const Entity& entity, Args&&... args)
     {
-        AddComponent<T, Args>(entity.GetId(), std::forward<Args>(args));
+        AddComponent<T>(entity.GetId(), std::forward<Args>(args)...);
     }
 
     template<class T, class... Args>
@@ -159,8 +159,6 @@ public:
     template<class T>
     void RemoveComponent (const unsigned int& EntityId)
     {
-        unsigned int EntityId = entity.GetId();
-
         ComponentPool<T>& pool = GetPool<T>();
 
         ComponentInEntity[EntityId].reset(GetComponentID<T>());
