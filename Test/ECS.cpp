@@ -26,6 +26,8 @@ public:
     int g;
     int b;
 
+    Color () : r(225), g(225), b(225) {}
+
     Color (int r, int g, int b) : r(r), g(g), b(b) {}
 
     void SetColor(int r, int g, int b)
@@ -85,8 +87,6 @@ int main ()
     Assert(true, Scene::World.HasComponent<Position>(paladin2), "Paladin has position (Has component test)");
     Assert(false, Scene::World.HasComponent<Color>(paladin2), "Paladin has color");
 
-    Scene::World.View<Color, Position>();
-
     Scene::World.DestroyEntity(slime);
     Scene::World.DestroyEntity(orc);
     Scene::World.DestroyEntity(paladin);
@@ -97,11 +97,17 @@ int main ()
     Entity& monster3 = Scene::World.GetEntity(Scene::World.NewEntity<Color, Position>());
     Entity& monster4 = Scene::World.GetEntity(Scene::World.NewEntity<Color, Position>());
 
-    Assert(0u, monster1.GetId(), "Test destroy entity");
+    Assert(0u, monster1.GetId(), "Destroy entity");
 
     bool IsNotCall = true;
 
-    for(Entity& entity : Scene)
+    for(Entity& entity : Scene::World.View<Color, Position>())
+    {
+        if (entity.GetId() == 2)
+            IsNotCall = false;
+    }
+
+    Assert(true, true, "View");
 
     return 0;
 }

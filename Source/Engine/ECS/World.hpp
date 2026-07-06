@@ -10,7 +10,6 @@
 #include "IPool.hpp"
 #include "ComponentPool.hpp"
 #include "Entity.hpp"
-#include "ViewClass.hpp"
 
 class World
 {
@@ -143,24 +142,87 @@ public:
     }
 
     template<class... Components>
+    class ViewClass
+    {
+    private:
+        using iterator = std::vector<unsigned int>::iterator;
+
+        World& world;
+
+        iterator beginIt;
+        iterator endIt;
+
+    public:
+        ViewClass (iterator beginIt, iterator endIt, World& world) : beginIt(beginIt), endIt(endIt), world(world) {}
+
+        class Iterator
+        {
+        private:
+            World& world;
+
+            iterator currentIt;
+            iterator endIt;
+
+            void SearchNext ()
+            {
+                while (currentIt != endIt && !(world.template HasComponent<Components>(world.GetEntity(*currentIt)) && ...))
+                    currentIt++;
+            }
+
+        public:
+            Iterator (iterator beginIt, iterator endIt, World& world) : currentIt(beginIt), endIt(endIt), world(world)
+            {
+                SearchNext();
+            }
+
+            Iterator& operator++ ()
+            {
+                currentIt++;
+                SearchNext();
+                return *this;
+            }
+
+            bool operator!= (const Iterator& other) const
+            {
+                return currentIt != other.currentIt;
+            }
+
+            Entity& operator* () const
+            {
+                return world.GetEntity(*currentIt);
+            }
+        };
+
+        Iterator begin ()
+        {
+            return Iterator(beginIt, endIt, world);
+        }
+
+        Iterator end ()
+        {
+            return Iterator(endIt, endIt, world);
+        }
+    };
+
+    template<class... Components>
     ViewClass<Components...> View ()
     {
         std::vector<unsigned int>::iterator SmallestBegin;
         std::vector<unsigned int>::iterator SmallestEnd;
         size_t MinSize = SIZE_MAX;
 
-        auto FindMin = [&](std::vector<unsigned int>* pool)
+        auto FindMin = [&](std::vector<unsigned int>& pool)
         {
-            if (pool->size() < MinSize)
+            if (pool.size() < MinSize)
             {
-                MinSize = pool->size();
-                SmallestBegin = pool->begin();
-                SmallestEnd = pool->end();
+                MinSize = pool.size();
+                SmallestBegin = pool.begin();
+                SmallestEnd = pool.end();
             }
         };
 
-        (FindMin(&GetPool<Components>()), ...);
+        (FindMin(GetPool<Components>().GetEntities()), ...);
 
-        return ViewClass<Components...>(SmallestBegin, SmallestEnd);
+        return ViewClass<Components...>(SmallestBegin, SmallestEnd, *this);
     }
 };

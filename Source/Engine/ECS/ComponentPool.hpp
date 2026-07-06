@@ -43,7 +43,7 @@ public:
 
     std::vector<unsigned int>& GetEntities ()
     {
-        
+        return Entities;
     }
 
     void RemoveComponent (const unsigned int& EntityId) override
