@@ -87,7 +87,21 @@ int main ()
 
     Scene::World.View<Color, Position>();
 
-    
+    Scene::World.DestroyEntity(slime);
+    Scene::World.DestroyEntity(orc);
+    Scene::World.DestroyEntity(paladin);
+    Scene::World.DestroyEntity(paladin2);
+
+    Entity& monster1 = Scene::World.GetEntity(Scene::World.NewEntity<Color, Position>());
+    Entity& monster2 = Scene::World.GetEntity(Scene::World.NewEntity<Color>());
+    Entity& monster3 = Scene::World.GetEntity(Scene::World.NewEntity<Color, Position>());
+    Entity& monster4 = Scene::World.GetEntity(Scene::World.NewEntity<Color, Position>());
+
+    Assert(0u, monster1.GetId(), "Test destroy entity");
+
+    bool IsNotCall = true;
+
+    for(Entity& entity : Scene)
 
     return 0;
 }

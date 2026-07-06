@@ -33,6 +33,17 @@ private:
     }
 
 public:
+    template<class... Components>
+    unsigned int NewEntity ()
+    {
+        unsigned int EntityId = NewEntity();
+        Entity& ThisEntity = GetEntity(EntityId);
+
+        (AddComponent<Components>(ThisEntity), ...);
+
+        return EntityId;
+    }
+
     unsigned int NewEntity ()
     {
         unsigned int EntityId = Entities.size();
