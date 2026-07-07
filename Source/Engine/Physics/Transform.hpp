@@ -1,12 +1,22 @@
+#include <cmath>
+
 #include "Math/Math.hpp"
 
 class Transform
 {
-public:
     using Vector2 = Arcarna::Math::Vector2;
+
+private:
+    int current, previous = 1;
 
     Vector2 Position;
     float Rotation;
 
-    Transform (Vector2& Position, float& Rotation) : Position(Position), Rotation(Rotation) {}
+public:
+    Transform (Vector2& Position, float Rotation) : Position(Position), Rotation(Arcarna::Math::AngleNormalize(Rotation)) {}
+
+    void SetRotation (float Rotation)
+    {
+        this->Rotation = Arcarna::Math::AngleNormalize(Rotation);
+    }
 };
