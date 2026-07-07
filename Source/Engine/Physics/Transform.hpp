@@ -19,4 +19,14 @@ public:
     {
         this->Rotation = Arcarna::Math::AngleNormalize(Rotation);
     }
+
+    float GetRotation ()
+    {
+        return this->Rotation;
+    }
+
+    Vector2& GetPosition ()
+    {
+        return Position;
+    }
 };
