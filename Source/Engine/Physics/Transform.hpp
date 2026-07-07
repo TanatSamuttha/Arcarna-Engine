@@ -25,7 +25,12 @@ public:
         return this->Rotation;
     }
 
-    Vector2& GetPosition ()
+    void SetPosition (const Vector2& Position)
+    {
+        this->Position = Position;
+    }
+
+    Vector2 GetPosition ()
     {
         return Position;
     }
