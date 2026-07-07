@@ -15,7 +15,10 @@ compile-test-scene:
 	g++ $(SRC_NOENT) Test/Scene.cpp -Isource/engine -Isource/workspace -Itest -std=c++20 -O3 -o test
 
 compile-test-vector2:
-	g++ $(SRC_NOENT) Test/vector2.cpp -Isource/engine -Isource/workspace -Itest -std=c++20 -O3 -o test
+	g++ $(SRC_NOENT) Test/Vector2.cpp -Isource/engine -Isource/workspace -Itest -std=c++20 -O3 -o test
+
+compile-test-angle:
+	g++ $(SRC_NOENT) Test/Angle.cpp -Isource/engine -Isource/workspace -Itest -std=c++20 -O3 -o test
 
 run-test:
 	./test
