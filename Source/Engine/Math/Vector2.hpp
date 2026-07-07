@@ -32,9 +32,20 @@ namespace Arcarna::Math
             return Vector2(x / other.x, y / other.y);
         }
 
+        Vector2 operator/ (const float denominator) const
+        {
+            return Vector2(x / denominator, y / denominator);
+        }
+
         bool operator== (const Vector2& other) const
         {
             return (x == other.x && y == other.y);
+        }
+
+        void operator+= (const Vector2& other)
+        {
+            this->x += other.x;
+            this->y += other.y;
         }
 
         static float Dot (Vector2& u, Vector2& v)
