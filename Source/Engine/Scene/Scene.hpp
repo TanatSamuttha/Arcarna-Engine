@@ -4,18 +4,16 @@
 
 class Scene
 {
-public:
-
+private:
     inline static std::vector<unsigned int> FreeIds;
-
     inline static std::vector<Scene> Scenes;
+    inline static unsigned int CurrentId;
 
     unsigned int Id;
-
     World ThisWorld;
-    inline static World World;
 
-    inline static unsigned int CurrentId;
+public:
+    inline static World World;
 
     Scene () : Id(0) {}
 
