@@ -27,6 +27,11 @@ namespace Arcarna::Math
             return Vector2(x * other.x, y * other.y);
         }
 
+        Vector2 operator* (const float multiplier) const
+        {
+            return Vector2(x * multiplier, y * multiplier);
+        }
+
         Vector2 operator/ (const Vector2& other) const
         {
             return Vector2(x / other.x, y / other.y);

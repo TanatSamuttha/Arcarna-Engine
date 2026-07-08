@@ -52,4 +52,9 @@ public:
             this->Force += Force;
         }
     }
+
+    Vector2 GetForce ()
+    {
+        return Force;
+    }
 };
