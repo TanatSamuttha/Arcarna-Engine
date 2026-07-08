@@ -45,6 +45,7 @@ namespace Arcarna
                 }
 
                 rigidBody.SetVelocity(rigidBody.GetVelocity() + rigidBody.GetForce() * dt);
+                rigidBody.ResetForce();
             }
         }
 

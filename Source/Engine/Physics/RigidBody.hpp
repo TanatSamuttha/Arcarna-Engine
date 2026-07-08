@@ -57,4 +57,9 @@ public:
     {
         return Force;
     }
+
+    void ResetForce ()
+    {
+        Force = Vector2(0, 0);
+    }
 };
