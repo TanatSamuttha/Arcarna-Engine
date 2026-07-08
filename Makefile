@@ -20,5 +20,8 @@ compile-test-vector2:
 compile-test-angle:
 	g++ $(SRC_NOENT) Test/Angle.cpp -Isource/engine -Isource/workspace -Itest -std=c++20 -O3 -o test
 
+compile-test-physics:
+	g++ $(SRC_NOENT) Test/Physics.cpp -Isource/engine -Isource/workspace -Itest -std=c++20 -O3 -o test
+
 run-test:
 	./test

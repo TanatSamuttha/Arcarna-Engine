@@ -13,6 +13,8 @@ private:
     float Rotation;
 
 public:
+    Transform () : Position(Vector2(0, 0)), Rotation(0) {}
+
     Transform (Vector2& Position, float Rotation) : Position(Position), Rotation(Arcarna::Math::AngleNormalize(Rotation)) {}
 
     void SetRotation (float Rotation)

@@ -40,11 +40,11 @@ namespace Arcarna
 
                     transform.SetPosition(
                         transform.GetPosition() +
-                        rigidBody.GetVelocity() * dt +  rigidBody.GetForce() * 0.5f * dt * dt
+                        rigidBody.GetVelocity() * dt +  rigidBody.GetForce() / rigidBody.GetMass() * 0.5f * dt * dt
                     );
                 }
 
-                rigidBody.SetVelocity(rigidBody.GetVelocity() + rigidBody.GetForce() * dt);
+                rigidBody.SetVelocity(rigidBody.GetVelocity() + rigidBody.GetForce() / rigidBody.GetMass() * dt);
                 rigidBody.ResetForce();
             }
         }

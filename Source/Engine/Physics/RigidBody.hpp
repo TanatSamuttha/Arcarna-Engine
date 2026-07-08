@@ -9,7 +9,7 @@ class RigidBody
     using Vector2 = Arcarna::Math::Vector2;
 
 private:
-    const unsigned int ImpulseMode = 1;
+    static const unsigned int ImpulseMode = 1;
 
     Vector2 Velocity;
     Vector2 Force;
@@ -17,7 +17,9 @@ private:
     float Mass;
 
 public:
-    RigidBody () = default;
+    RigidBody () : Velocity(Vector2(0, 0)), Force(Vector2(0, 0)), Mass(1) {}
+
+    RigidBody (const float Mass) : Velocity(Vector2(0, 0)), Force(Vector2(0, 0)), Mass(Mass) {}
 
     void SetMass (const float Mass)
     {
