@@ -60,9 +60,13 @@ namespace Arcarna::Math
             return (u.x * v.x) + (u.y * v.y) + (u.z * v.z);
         }
 
-        static float Cross (Vector3& u, Vector3& v)
+        static Vector3 Cross (const Vector3& u, const Vector3& v)
         {
-            return (u.x * v.y) - (u.y * v.x) - (u.z * v.z);
+            return Vector3(
+                (u.y * v.z) - (u.z * v.y),
+                (u.z * v.x) - (u.x * v.z),
+                (u.x * v.y) - (u.y * v.x)
+            );
         }
     };
 }
