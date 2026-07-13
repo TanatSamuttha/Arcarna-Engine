@@ -10,6 +10,6 @@ namespace Arcarna::Math
         if (result < 0)
             result += 360;
         
-            return result;
+        return result;
     }
 }
