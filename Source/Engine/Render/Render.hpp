@@ -9,7 +9,7 @@
 class Render
 {
 private:
-    void RenderFrame()
+    inline static void RenderFrame()
     {
         GLFWwindow* window;
 
@@ -47,7 +47,12 @@ private:
     }
 
 public:
-    void Start ()
+    inline static void Start ()
+    {
+
+    }
+
+    inline static void Update ()
     {
 
     }
