@@ -10,10 +10,10 @@ namespace Arcarna
     class Physics
     {
     private:
-        inline static float Gravity = -9.8;
-        inline static float dt;
-
+    inline static float dt;
+    
     public:
+        inline static float Gravity = -9.8;
         inline static const int ForceMode = 0;
         inline static const int ImpulseMode = 1;
 
@@ -52,11 +52,6 @@ namespace Arcarna
         static float Getdt ()
         {
             return dt;
-        }
-
-        static void SetGravity (const float Gravity)
-        {
-            Physics::Gravity = Gravity;
         }
     };
 }
