@@ -25,3 +25,23 @@ compile-test-physics:
 
 run-test:
 	./test
+
+test-ecs:
+	make compile-test-ecs
+	./test
+
+test-scene:
+	make compile-test-scene
+	./test
+
+test-vector2:
+	make compile-test-vector2
+	./test
+
+test-angle:
+	make compile-test-angle
+	./test
+
+test-physics:
+	make compile-test-physics
+	./test
