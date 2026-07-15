@@ -17,6 +17,8 @@ private:
     float Mass;
 
 public:
+    bool Active = true;
+
     RigidBody () : Velocity(Vector2(0, 0)), Force(Vector2(0, 0)), Mass(1) {}
 
     RigidBody (const float Mass) : Velocity(Vector2(0, 0)), Force(Vector2(0, 0)), Mass(Mass) {}
