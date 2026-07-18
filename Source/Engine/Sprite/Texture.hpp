@@ -11,7 +11,7 @@ class Texture
 private:
     GLuint TextureId;
     unsigned char* Buffer;
-    unsigned int Width = 0, Height = 0, Chanel = 0;
+    int Width = 0, Height = 0, Chanel = 0;
 
 public:
     std::string FilePath;
