@@ -19,8 +19,3 @@ void Texture::Load ()
     if (Buffer)
         stbi_image_free(Buffer);
 }
-
-void Texture::Unload ()
-{
-    glDeleteTextures(1, &TextureId);
-}

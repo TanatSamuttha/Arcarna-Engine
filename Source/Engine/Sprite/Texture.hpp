@@ -17,7 +17,15 @@ private:
 public:
     Texture (std::string& FilePath) : FilePath(FilePath) {}
 
+    ~Texture ()
+    {
+        Unload();
+    }
+
     void Load ();
 
-    void Unload ();
+    void Unload ()
+    {
+        glDeleteTextures(1, &TextureId);
+    }
 };
