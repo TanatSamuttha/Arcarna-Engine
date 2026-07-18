@@ -10,11 +10,13 @@ class Texture
 {
 private:
     GLuint TextureId;
-    std::string FilePath;
     unsigned char* Buffer;
-    int Width = 0, Height = 0, Chanel = 0;
+    int Chanel = 0;
 
 public:
+    std::string FilePath;
+    int Width = 0, Height = 0;
+
     Texture (std::string& FilePath) : FilePath(FilePath) {}
 
     ~Texture ()
@@ -38,5 +40,10 @@ public:
     void Unbind ()
     {
         glBindTexture(GL_TEXTURE_2D, 0);
+    }
+
+    GLuint GetTextureId ()
+    {
+        return TextureId;
     }
 };
