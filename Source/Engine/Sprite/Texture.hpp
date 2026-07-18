@@ -28,4 +28,15 @@ public:
     {
         glDeleteTextures(1, &TextureId);
     }
+
+    void Bind ()
+    {
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, TextureId);
+    }
+
+    void Unbind ()
+    {
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
 };
