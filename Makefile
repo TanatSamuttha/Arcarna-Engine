@@ -1,6 +1,6 @@
-SRC := $(shell powershell -Command "(Get-ChildItem source -Recurse -Filter *.cpp).FullName")
-SRC_NOENT := $(shell powershell -Command "(Get-ChildItem source -Recurse -Filter *.cpp | Where-Object { $$_.FullName -notmatch '[\\/]+EntryPoint[\\/]+' }).FullName")
-TEST := $(shell powershell -Command "(Get-ChildItem test -Recurse -Filter *.cpp).FullName")
+SRC := $(shell powershell -Command "(Get-ChildItem source -Recurse -Include *.cpp,*.c).FullName")
+SRC_NOENT := $(shell powershell -Command "(Get-ChildItem source -Recurse -Include *.cpp,*.c | Where-Object { $$_.FullName -notmatch '[\\/]+EntryPoint[\\/]+' }).FullName")
+TEST := $(shell powershell -Command "(Get-ChildItem test -Recurse -Include *.cpp,*.c).FullName")
 INCLUDE := -Isource/engine -Isource/workspace -Idependencies/glfw/include -Ldependencies/glfw/lib-mingw-w64 -lglfw3 -lopengl32 -lgdi32 -Ivendor/stb_image
 
 compile:
