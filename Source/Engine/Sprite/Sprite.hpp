@@ -15,8 +15,8 @@ public:
 
     Sprite (std::string FilePath) : TextureObject(std::move(Texture(FilePath)))
     {
-        Width = TextureObject.Width;
-        Height = TextureObject.Height;
+        Width = TextureObject.GetWidth();
+        Height = TextureObject.GetHeight();
     }
 
     Sprite (unsigned int Width, unsigned int Height, std::string FilePath) : 

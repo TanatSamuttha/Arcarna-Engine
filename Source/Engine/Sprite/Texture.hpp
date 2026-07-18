@@ -11,11 +11,10 @@ class Texture
 private:
     GLuint TextureId;
     unsigned char* Buffer;
-    int Chanel = 0;
+    unsigned int Width = 0, Height = 0, Chanel = 0;
 
 public:
     std::string FilePath;
-    int Width = 0, Height = 0;
 
     Texture (std::string& FilePath) : FilePath(FilePath) {}
 
@@ -45,5 +44,15 @@ public:
     GLuint GetTextureId ()
     {
         return TextureId;
+    }
+
+    unsigned int GetWidth ()
+    {
+        return Width;
+    }
+
+    unsigned int GetHeight ()
+    {
+        return Height;
     }
 };
