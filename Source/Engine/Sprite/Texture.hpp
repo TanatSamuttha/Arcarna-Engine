@@ -9,14 +9,14 @@
 class Texture
 {
 private:
-    GLuint TextureId;
+    GLuint TextureId = 0;
     unsigned char* Buffer;
     int Width = 0, Height = 0, Chanel = 0;
 
 public:
     std::string FilePath;
 
-    Texture (std::string& FilePath) : FilePath(FilePath) {}
+    Texture (const std::string& FilePath) : FilePath(FilePath) {}
 
     ~Texture ()
     {
