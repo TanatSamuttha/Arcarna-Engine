@@ -2,6 +2,7 @@
 #include "Scene/Scene.hpp"
 #include "Sprite/Sprite.hpp"
 #include "Config.hpp"
+#include "GLFW/glfw3.h"
 
 int main ()
 {

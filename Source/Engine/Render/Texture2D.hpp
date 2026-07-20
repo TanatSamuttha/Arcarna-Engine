@@ -3,7 +3,6 @@
 #include <string>
 
 #include "glad/glad.h"
-#include "GLFW/glfw3.h"
 #include "stb_image.h"
 
 class Texture2D
@@ -20,6 +19,7 @@ public:
 
     ~Texture2D ()
     {
+        Unbind();
         Unload();
     }
 
