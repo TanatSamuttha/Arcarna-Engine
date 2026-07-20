@@ -1,6 +1,6 @@
-#include "Sprite/Texture.hpp"
+#include "Render/Texture2D.hpp"
 
-void Texture::Load ()
+void Texture2D::Load ()
 {
     stbi_set_flip_vertically_on_load(1);
     Buffer = stbi_load(FilePath.c_str(), &Width, &Height, &Chanel, 4);

@@ -6,7 +6,7 @@
 #include "GLFW/glfw3.h"
 #include "stb_image.h"
 
-class Texture
+class Texture2D
 {
 private:
     GLuint TextureId = 0;
@@ -16,9 +16,9 @@ private:
 public:
     std::string FilePath;
 
-    Texture (const std::string& FilePath) : FilePath(FilePath) {}
+    Texture2D (const std::string& FilePath) : FilePath(FilePath) {}
 
-    ~Texture ()
+    ~Texture2D ()
     {
         Unload();
     }
