@@ -1,4 +1,4 @@
-#include "Render/Texture2D.hpp"
+#include "Texture/Texture2D.hpp"
 
 void Texture2D::Load ()
 {

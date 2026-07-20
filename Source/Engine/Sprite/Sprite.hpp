@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 
-#include "Render/Texture2D.hpp"
+#include "Texture/Texture2D.hpp"
 
 class Sprite
 {
