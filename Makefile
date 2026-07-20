@@ -2,8 +2,8 @@ SRC := $(shell powershell -Command "(Get-ChildItem source -Recurse -Include *.cp
 SRC_NOENT := $(shell powershell -Command "(Get-ChildItem source -Recurse -Include *.cpp,*.c | Where-Object { $$_.FullName -notmatch '[\\/]+EntryPoint[\\/]+' }).FullName")
 TEST := $(shell powershell -Command "(Get-ChildItem test -Recurse -Include *.cpp,*.c).FullName")
 VENDOR := $(shell powershell -Command "(Get-ChildItem vendor -Recurse -Include *.cpp,*.c).FullName")
-INCLUDE := -Isource/engine -Isource/workspace -Isource/config -Idependencies/glfw/include -Ivendor/stb_image
-LIBS := -Ldependencies/glfw/lib-mingw-w64 -lglfw3 -lopengl32 -lgdi32
+INCLUDE := -Isource/engine -Isource/workspace -Isource/config -Ivendor/glfw/include -Ivendor/stb_image
+LIBS := -Lvendor/glfw/lib-mingw-w64 -lglfw3 -lopengl32 -lgdi32
 
 compile:
 	g++ $(SRC) $(VENDOR) $(INCLUDE) $(LIBS) -std=c++20 -O3 -o app -static
@@ -12,22 +12,22 @@ run:
 	./app
 
 compile-test-ecs:
-	g++ $(SRC_NOENT) $(VENDOR) Test/ECS.cpp -Itest $(INCLUDE) $(LIBS) -std=c++20 -O3 -o test -static
+	g++ $(SRC_NOENT) $(VENDOR) Test/ECS.cpp -Itest $(INCLUDE) $(LIBS) -std=c++20 -O0 -o test -g
 
 compile-test-scene:
-	g++ $(SRC_NOENT) $(VENDOR) Test/Scene.cpp $(INCLUDE) $(LIBS) -Itest -std=c++20 -O3 -o test -static
+	g++ $(SRC_NOENT) $(VENDOR) Test/Scene.cpp $(INCLUDE) $(LIBS) -Itest -std=c++20 -O0 -o test -g
 
 compile-test-vector2:
-	g++ $(SRC_NOENT) $(VENDOR) Test/Vector2.cpp $(INCLUDE) $(LIBS) -Itest -std=c++20 -O3 -o test -static
+	g++ $(SRC_NOENT) $(VENDOR) Test/Vector2.cpp $(INCLUDE) $(LIBS) -Itest -std=c++20 -O0 -o test -g
 
 compile-test-angle:
-	g++ $(SRC_NOENT) $(VENDOR) Test/Angle.cpp $(INCLUDE) $(LIBS) -Itest -std=c++20 -O3 -o test -static
+	g++ $(SRC_NOENT) $(VENDOR) Test/Angle.cpp $(INCLUDE) $(LIBS) -Itest -std=c++20 -O0 -o test -g
 
 compile-test-physics:
-	g++ $(SRC_NOENT) $(VENDOR) Test/Physics.cpp $(INCLUDE) $(LIBS) -Itest -std=c++20 -O3 -o test -static
+	g++ $(SRC_NOENT) $(VENDOR) Test/Physics.cpp $(INCLUDE) $(LIBS) -Itest -std=c++20 -O0 -o test -g
 
 compile-test-sprite:
-	g++ $(SRC_NOENT) $(VENDOR) Test/Sprite.cpp $(INCLUDE) $(LIBS) -Itest -std=c++20 -O3 -o test -static
+	g++ $(SRC_NOENT) $(VENDOR) Test/Sprite.cpp $(INCLUDE) $(LIBS) -Itest -std=c++20 -O0 -o test -g
 
 test-ecs:
 	make compile-test-ecs
