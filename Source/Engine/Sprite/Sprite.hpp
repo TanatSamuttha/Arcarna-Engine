@@ -9,16 +9,16 @@ class Sprite
 public:
     unsigned int Width = 0;
     unsigned int Height = 0;
-    Texture2D SpriteTexture;
+    unsigned int SpriteTextureId;
 
     bool Active = true;
 
-    Sprite (const std::string& FilePath) : SpriteTexture(std::move(Texture2D(FilePath)))
+    Sprite (const unsigned int SpriteTextureId) : SpriteTextureId(SpriteTextureId)
     {
-        Width = SpriteTexture.GetWidth();
-        Height = SpriteTexture.GetHeight();
+        Width = Texture2D::GetWidth(SpriteTextureId);
+        Height = Texture2D::GetHeight(SpriteTextureId);
     }
 
-    Sprite (unsigned int Width, unsigned int Height, std::string FilePath) : 
-    Width(Width), Height(Height), SpriteTexture(std::move(Texture2D(FilePath))) {}
+    Sprite (unsigned int Width, unsigned int Height, const unsigned int SpriteTextureId) : 
+    Width(Width), Height(Height), SpriteTextureId(SpriteTextureId) {}
 };

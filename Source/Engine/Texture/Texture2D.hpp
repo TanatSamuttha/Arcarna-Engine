@@ -10,8 +10,8 @@
 class Texture2D
 {
 private:
-    static std::vector<std::unique_ptr<Texture2D>> Textures;
-    static std::vector<unsigned int> FreeIds;
+    inline static std::vector<std::unique_ptr<Texture2D>> Textures;
+    inline static std::vector<unsigned int> FreeIds;
 
 public:
     static unsigned int Create (const std::string& FilePath)
@@ -20,12 +20,12 @@ public:
         if (!FreeIds.empty())
         {
             Id = FreeIds.back();
-            FreeIds.pop_back();
-            Textures[Id] = std::make_unique<Texture2D>(Id, FilePath);
+            Texture2D::FreeIds.pop_back();
+            Texture2D::Textures[Id] = std::make_unique<Texture2D>(Id, FilePath);
         }
         else
         {
-            Textures.push_back(std::make_unique<Texture2D>(Id, FilePath));
+            Texture2D::Textures.push_back(std::make_unique<Texture2D>(Id, FilePath));
         }
 
         return Id;
@@ -33,43 +33,52 @@ public:
 
     static void Delete (unsigned int Id)
     {
-        Textures[Id].reset();
+        Texture2D::Textures[Id].reset();
         FreeIds.push_back(Id);
     }
 
     static void Load (unsigned int Id)
     {
-        Textures[Id]->Load();
+        Texture2D::Textures[Id]->Load();
     }
 
     static void Unload (unsigned int Id)
     {
-        Textures[Id]->Unload();
+        Texture2D::Textures[Id]->Unload();
     }
 
     static void Bind (unsigned int Id)
     {
-        Textures[Id]->Bind();
+        Texture2D::Textures[Id]->Bind();
     }
 
     static void Unbind (unsigned int Id)
     {
-        Textures[Id]->Unbind();
+        Texture2D::Textures[Id]->Unbind();
     }
 
     static GLuint GetTextureId (unsigned int Id)
     {
-        return Textures[Id]->GetTextureId();
+        return Texture2D::Textures[Id]->GetTextureId();
     }
 
     static unsigned int GetWidth (unsigned int Id)
     {
-        return Textures[Id]->GetWidth();
+        return Texture2D::Textures[Id]->GetWidth();
     }
 
     static unsigned int GetHeight (unsigned int Id)
     {
-        return Textures[Id]->GetHeight();
+        return Texture2D::Textures[Id]->GetHeight();
+    }
+
+public:
+    Texture2D (const unsigned int Id, const std::string& FilePath) : Id(Id), FilePath(FilePath) {}
+    
+    ~Texture2D ()
+    {
+        Unbind();
+        Unload();
     }
 
 private:
@@ -78,14 +87,6 @@ private:
     int Width = 0, Height = 0, Chanel = 0;
 
     std::string FilePath;
-
-    Texture2D (const unsigned int Id, const std::string& FilePath) : Id(Id), FilePath(FilePath) {}
-
-    ~Texture2D ()
-    {
-        Unbind();
-        Unload();
-    }
 
     Texture2D(const Texture2D&) = delete;
     Texture2D& operator=(const Texture2D&) = delete;

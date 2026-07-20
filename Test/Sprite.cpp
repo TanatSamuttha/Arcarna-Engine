@@ -7,7 +7,6 @@
 int main ()
 {
     glfwInit();
-
     glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 
     GLFWwindow* window = glfwCreateWindow(
@@ -19,20 +18,22 @@ int main ()
     );
 
     glfwMakeContextCurrent(window);
-
     gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
     unsigned int SceneId = Scene::SetNewScene();
-
     unsigned int entityId = Scene::World.NewEntity();
+    unsigned int TextureId = Texture2D::Create("Assets/Images/Rectangle.png");
 
-    Scene::World.AddComponent<Sprite>(entityId, "Assets/Images/Rectangle.png");
+    Scene::World.AddComponent<Sprite>(entityId, TextureId);
 
-    Assert(0u, Scene::World.GetComponent<Sprite>(entityId).SpriteTexture.GetTextureId(), "Before load texture");
+    Sprite& SpriteComponent = Scene::World.GetComponent<Sprite>(entityId);
+    Assert(0u, Texture2D::GetTextureId(SpriteComponent.SpriteTextureId), "Before load texture");
     
-    Scene::World.GetComponent<Sprite>(entityId).SpriteTexture.Load();
+    Texture2D::Load(SpriteComponent.SpriteTextureId);
+    Assert(true, (bool)Texture2D::GetTextureId(SpriteComponent.SpriteTextureId), "After load texture");
 
-    Assert(true, (bool)Scene::World.GetComponent<Sprite>(entityId).SpriteTexture.GetTextureId(), "After load texture");
+    Texture2D::Unload(TextureId);
+    Assert(0u, Texture2D::GetTextureId(SpriteComponent.SpriteTextureId), "Unload texture");
 
     glfwDestroyWindow(window);
     glfwTerminate();
