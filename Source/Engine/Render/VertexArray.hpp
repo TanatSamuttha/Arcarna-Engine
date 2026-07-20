@@ -16,28 +16,49 @@ private:
     GLuint VertexArrayId = 0;
 
 public:
-    VertexArray ()
+    VertexArray () = default;
+
+    ~VertexArray ()
+    {
+        Unbind();
+        Unload();
+    }
+
+    void Load ()
     {
         glGenVertexArrays(1, &VertexArrayId);
     }
 
-    ~VertexArray ()
+    void Unload ()
     {
+        if (!VertexArrayId)
+            return;
+        
         glDeleteVertexArrays(1, &VertexArrayId);
+        VertexArrayId = 0;
     }
 
     void Bind ()
     {
+        if (!VertexArrayId)
+            return;
+        
         glBindVertexArray(VertexArrayId);
     }
 
     void Unbind ()
     {
+        if (!VertexArrayId)
+            return;
+        
         glBindVertexArray(0);
     }
 
     void AttachVertex(VertexBuffer& vbo, VertexLayout Layout, GLint Size, GLenum Type, GLboolean Normalized, GLsizei Stride, size_t Offset)
     {
+        if (!VertexArrayId)
+            return;
+        
         vbo.Bind();
 
         glEnableVertexAttribArray(static_cast<GLuint>(Layout));
