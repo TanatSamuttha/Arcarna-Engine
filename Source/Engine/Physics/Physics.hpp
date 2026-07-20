@@ -14,8 +14,6 @@ namespace Arcarna
     
     public:
         inline static float Gravity = -9.8;
-        inline static const int ForceMode = 0;
-        inline static const int ImpulseMode = 1;
 
         static void Start ();
 

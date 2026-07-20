@@ -4,13 +4,17 @@
 
 #include "Math/Math.hpp"
 
+enum class ForceMode : unsigned int
+{
+    Force,
+    Impulse
+};
+
 class RigidBody
 {
     using Vector2 = Arcarna::Math::Vector2;
 
 private:
-    static const unsigned int ImpulseMode = 1;
-
     Vector2 Velocity;
     Vector2 Force;
 
@@ -45,9 +49,9 @@ public:
         return Velocity;
     }
 
-    void AddForce (const Vector2& Force, const unsigned int ForceMode)
+    void AddForce (const Vector2& Force, ForceMode ForceMode)
     {
-        if (ForceMode == ImpulseMode)
+        if (ForceMode == ForceMode::Impulse)
         {
             Velocity += Force / Mass;
         }
