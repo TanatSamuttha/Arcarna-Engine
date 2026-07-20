@@ -26,6 +26,9 @@ public:
 
     void Load ()
     {
+        if (VertexArrayId)
+            return;
+        
         glGenVertexArrays(1, &VertexArrayId);
     }
 
@@ -54,12 +57,12 @@ public:
         glBindVertexArray(0);
     }
 
-    void AttachVertex(VertexBuffer& vbo, VertexLayout Layout, GLint Size, GLenum Type, GLboolean Normalized, GLsizei Stride, size_t Offset)
+    void AttachVertex(unsigned int VertexBufferId, VertexLayout Layout, GLint Size, GLenum Type, GLboolean Normalized, GLsizei Stride, size_t Offset)
     {
         if (!VertexArrayId)
             return;
         
-        vbo.Bind();
+        VertexBuffer::Bind(VertexBufferId);
 
         glEnableVertexAttribArray(static_cast<GLuint>(Layout));
 

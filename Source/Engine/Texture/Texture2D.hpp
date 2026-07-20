@@ -81,15 +81,15 @@ public:
         Unload();
     }
 
+    Texture2D(const Texture2D&) = delete;
+    Texture2D& operator=(const Texture2D&) = delete;
+
 private:
     unsigned int Id;
     GLuint TextureId = 0;
     int Width = 0, Height = 0, Chanel = 0;
 
     std::string FilePath;
-
-    Texture2D(const Texture2D&) = delete;
-    Texture2D& operator=(const Texture2D&) = delete;
 
     void Load ()
     {

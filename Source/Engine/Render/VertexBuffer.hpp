@@ -12,18 +12,18 @@ private:
     inline static std::vector<unsigned int> FreeIds;
 
 public:
-    static unsigned int Create (const std::string& FilePath)
+    static unsigned int Create (std::vector<float>& Vertices)
     {
         unsigned int Id = Buffers.size();
         if (!FreeIds.empty())
         {
             Id = FreeIds.back();
             FreeIds.pop_back();
-            Buffers[Id] = std::make_unique<VertexBuffer>(Id, FilePath);
+            Buffers[Id] = std::make_unique<VertexBuffer>(Id, Vertices);
         }
         else
         {
-            Buffers.push_back(std::make_unique<VertexBuffer>(Id, FilePath));
+            Buffers.push_back(std::make_unique<VertexBuffer>(Id, Vertices));
         }
 
         return Id;
@@ -66,20 +66,27 @@ public:
     }
 
 public:
-    VertexBuffer (std::vector<float> Vertices) : Vertices(Vertices) {}
+    VertexBuffer (unsigned int Id, std::vector<float> Vertices) : Id(Id), Vertices(Vertices) {}
     
     ~VertexBuffer ()
     {
-        Unload();
         Unbind();
+        Unload();
     }
 
+    VertexBuffer(const VertexBuffer&) = delete;
+    VertexBuffer& operator=(const VertexBuffer&) = delete;
+
 private:
+    unsigned int Id;
     GLuint VertexBufferId = 0;
     std::vector<float> Vertices;
 
     void Load ()
     {
+        if (VertexBufferId)
+            return;
+        
         glGenBuffers(1, &VertexBufferId);
         glBindBuffer(GL_ARRAY_BUFFER, VertexBufferId);
         glBufferData(GL_ARRAY_BUFFER, Vertices.size() * sizeof(float), Vertices.data(), GL_STATIC_DRAW);
@@ -88,20 +95,30 @@ private:
 
     void Unload ()
     {
+        if (!VertexBufferId)
+            return;
+        
         glDeleteBuffers(1, &VertexBufferId);
+        VertexBufferId = 0;
     }
 
     void Bind ()
     {
+        if (!VertexBufferId)
+            return;
+        
         glBindBuffer(GL_ARRAY_BUFFER, VertexBufferId);
     }
 
     void Unbind ()
     {
+        if (!VertexBufferId)
+            return;
+        
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
-    GLuint64 GetVertexBufferId ()
+    GLuint GetVertexBufferId ()
     {
         return VertexBufferId;
     }
