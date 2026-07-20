@@ -13,7 +13,11 @@ private:
     inline static std::vector<std::unique_ptr<Mesh>> Buffers;
     inline static std::vector<unsigned int> FreeIds;
 
+    inline static constexpr unsigned int QuadId = 0;
+
 public:
+    static void Start ();
+
     static unsigned int Create (unsigned int VertexBufferId, VertexArray& VertexArrayObject, unsigned int IndexBufferId)
     {
         unsigned int Id = Buffers.size();
