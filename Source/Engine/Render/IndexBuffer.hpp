@@ -19,11 +19,11 @@ public:
         {
             Id = FreeIds.back();
             FreeIds.pop_back();
-            Buffers[Id] = std::make_unique<IndexBuffer>(Id, Indexes);
+            Buffers[Id] = std::make_unique<IndexBuffer>(Indexes);
         }
         else
         {
-            Buffers.push_back(std::make_unique<IndexBuffer>(Id, Indexes));
+            Buffers.push_back(std::make_unique<IndexBuffer>(Indexes));
         }
 
         return Id;
@@ -66,7 +66,7 @@ public:
     }
 
 public:
-    IndexBuffer (unsigned int Id, std::vector<unsigned int> Indexes) : Id(Id), Indexes(Indexes) {}
+    IndexBuffer (std::vector<unsigned int> Indexes) : Indexes(Indexes) {}
     
     ~IndexBuffer ()
     {
@@ -78,7 +78,6 @@ public:
     IndexBuffer& operator=(const IndexBuffer&) = delete;
 
 private:
-    unsigned int Id;
     GLuint IndexBufferId = 0;
     std::vector<unsigned int> Indexes;
 

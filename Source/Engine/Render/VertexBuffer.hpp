@@ -19,11 +19,11 @@ public:
         {
             Id = FreeIds.back();
             FreeIds.pop_back();
-            Buffers[Id] = std::make_unique<VertexBuffer>(Id, Vertices);
+            Buffers[Id] = std::make_unique<VertexBuffer>(Vertices);
         }
         else
         {
-            Buffers.push_back(std::make_unique<VertexBuffer>(Id, Vertices));
+            Buffers.push_back(std::make_unique<VertexBuffer>(Vertices));
         }
 
         return Id;
@@ -66,7 +66,7 @@ public:
     }
 
 public:
-    VertexBuffer (unsigned int Id, std::vector<float> Vertices) : Id(Id), Vertices(Vertices) {}
+    VertexBuffer (std::vector<float> Vertices) : Vertices(Vertices) {}
     
     ~VertexBuffer ()
     {
