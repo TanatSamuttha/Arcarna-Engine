@@ -20,12 +20,12 @@ public:
         if (!FreeIds.empty())
         {
             Id = FreeIds.back();
-            Texture2D::FreeIds.pop_back();
-            Texture2D::Textures[Id] = std::make_unique<Texture2D>(Id, FilePath);
+            FreeIds.pop_back();
+            Textures[Id] = std::make_unique<Texture2D>(Id, FilePath);
         }
         else
         {
-            Texture2D::Textures.push_back(std::make_unique<Texture2D>(Id, FilePath));
+            Textures.push_back(std::make_unique<Texture2D>(Id, FilePath));
         }
 
         return Id;
@@ -33,43 +33,43 @@ public:
 
     static void Delete (unsigned int Id)
     {
-        Texture2D::Textures[Id].reset();
+        Textures[Id].reset();
         FreeIds.push_back(Id);
     }
 
     static void Load (unsigned int Id)
     {
-        Texture2D::Textures[Id]->Load();
+        Textures[Id]->Load();
     }
 
     static void Unload (unsigned int Id)
     {
-        Texture2D::Textures[Id]->Unload();
+        Textures[Id]->Unload();
     }
 
     static void Bind (unsigned int Id)
     {
-        Texture2D::Textures[Id]->Bind();
+        Textures[Id]->Bind();
     }
 
     static void Unbind (unsigned int Id)
     {
-        Texture2D::Textures[Id]->Unbind();
+        Textures[Id]->Unbind();
     }
 
     static GLuint GetTextureId (unsigned int Id)
     {
-        return Texture2D::Textures[Id]->GetTextureId();
+        return Textures[Id]->GetTextureId();
     }
 
     static unsigned int GetWidth (unsigned int Id)
     {
-        return Texture2D::Textures[Id]->GetWidth();
+        return Textures[Id]->GetWidth();
     }
 
     static unsigned int GetHeight (unsigned int Id)
     {
-        return Texture2D::Textures[Id]->GetHeight();
+        return Textures[Id]->GetHeight();
     }
 
 public:
