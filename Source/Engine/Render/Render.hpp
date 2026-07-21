@@ -4,7 +4,7 @@
 
 #include "Config/Config.hpp"
 #include "glad/glad.h"
-#include "GLFW/glfw3.h"
+#include "glfw3.h"
 
 class Render
 {

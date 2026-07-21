@@ -3,7 +3,7 @@
 #include "Sprite/Sprite.hpp"
 #include "Render/Renderer.hpp"
 #include "Config.hpp"
-#include "GLFW/glfw3.h"
+#include "glfw3.h"
 
 int main ()
 {

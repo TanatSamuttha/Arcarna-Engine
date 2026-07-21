@@ -2,7 +2,7 @@ SRC := $(shell powershell -Command "(Get-ChildItem source -Recurse -Include *.cp
 SRC_NOENT := $(shell powershell -Command "(Get-ChildItem source -Recurse -Include *.cpp,*.c | Where-Object { $$_.FullName -notmatch '[\\/]+EntryPoint[\\/]+' }).FullName")
 TEST := $(shell powershell -Command "(Get-ChildItem test -Recurse -Include *.cpp,*.c).FullName")
 VENDOR := $(shell powershell -Command "(Get-ChildItem vendor -Recurse -Include *.cpp,*.c).FullName")
-INCLUDE := -Isource/engine -Isource/workspace -Isource/config -Ivendor/glfw/include -Ivendor/stb_image
+INCLUDE := -Isource/engine -Isource/workspace -Isource/config -Ivendor/glfw/include -Ivendor/glad/include -Ivendor/stb_image
 LIBS := -Lvendor/glfw/lib-mingw-w64 -lglfw3 -lopengl32 -lgdi32
 
 compile:
