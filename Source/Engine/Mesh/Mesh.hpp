@@ -18,18 +18,18 @@ private:
 public:
     static void Start ();
 
-    static unsigned int Create (unsigned int VertexBufferId, VertexArray& VertexArrayObject, unsigned int IndexBufferId)
+    static unsigned int Create (unsigned int VertexBufferId, unsigned int VertexArrayId, unsigned int IndexBufferId)
     {
         unsigned int Id = Buffers.size();
         if (!FreeIds.empty())
         {
             Id = FreeIds.back();
             FreeIds.pop_back();
-            Buffers[Id] = std::make_unique<Mesh>(VertexBufferId, VertexArrayObject, IndexBufferId);
+            Buffers[Id] = std::make_unique<Mesh>(VertexBufferId, VertexArrayId, IndexBufferId);
         }
         else
         {
-            Buffers.push_back(std::make_unique<Mesh>(VertexBufferId, VertexArrayObject, IndexBufferId));
+            Buffers.push_back(std::make_unique<Mesh>(VertexBufferId, VertexArrayId, IndexBufferId));
         }
 
         return Id;
@@ -61,42 +61,42 @@ public:
         Buffers[Id]->Unbind();
     }
 
-    Mesh (unsigned int VertexBufferId, VertexArray& VertexArrayObject, unsigned int IndexBufferId) :
-    VertexBufferId(VertexBufferId), VertexArrayObject(VertexArrayObject), IndexBufferId(IndexBufferId) {}
+    Mesh (unsigned int VertexBufferId, unsigned int VertexArrayId, unsigned int IndexBufferId) :
+    VertexBufferId(VertexBufferId), VertexArrayId(VertexArrayId), IndexBufferId(IndexBufferId) {}
 
     Mesh(const Mesh&) = delete;
     Mesh& operator=(const Mesh&) = delete;
 
 private:
-    unsigned int VertexBufferId = 0;
-    unsigned int IndexBufferId = 0;
-    VertexArray VertexArrayObject;
+    unsigned int VertexBufferId = -1;
+    unsigned int VertexArrayId = -1;
+    unsigned int IndexBufferId = -1;
 
     void Load ()
     {
         VertexBuffer::Load(VertexBufferId);
-        VertexArrayObject.Load();
+        VertexArray::Load(VertexArrayId);
         IndexBuffer::Load(IndexBufferId);
     }
 
     void Unload ()
     {
         VertexBuffer::Unload(VertexBufferId);
-        VertexArrayObject.Unload();
+        VertexArray::Unload(VertexArrayId);
         IndexBuffer::Unload(IndexBufferId);
     }
 
     void Bind ()
     {
         VertexBuffer::Bind(VertexBufferId);
-        VertexArrayObject.Bind();
+        VertexArray::Bind(VertexArrayId);
         IndexBuffer::Bind(IndexBufferId);
     }
 
     void Unbind ()
     {
         VertexBuffer::Unbind(VertexBufferId);
-        VertexArrayObject.Unbind();
+        VertexArray::Unbind(VertexArrayId);
         IndexBuffer::Unbind(IndexBufferId);
     }
 };

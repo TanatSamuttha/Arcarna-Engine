@@ -14,19 +14,19 @@ void Mesh::Start ()
         2, 3, 0
     };
 
-    VertexArray vao;
-    vao.Load();
-    vao.Bind();
+    unsigned int vaoId = VertexArray::Create();
+    VertexArray::Load(vaoId);
+    VertexArray::Bind(vaoId);
 
     unsigned int vboId = VertexBuffer::Create(vertices);
     VertexBuffer::Load(vboId);
-    vao.AttachVertex(vboId, VertexLayout::Position, 2, GL_FLOAT, false, 2 * sizeof(float), 0);
+    VertexArray::AttachVertex(vaoId, vboId, VertexLayout::Position, 2, GL_FLOAT, false, 2 * sizeof(float), 0);
 
     unsigned int iboId = IndexBuffer::Create(indexes);
     IndexBuffer::Load(iboId);
 
-    vao.Unbind();
+    VertexArray::Unbind(vaoId);
 
-    Mesh::Create(vboId, vao, iboId);
+    Mesh::Create(vboId, vaoId, iboId);
     Mesh::Load(Mesh::QuadId);
 }
