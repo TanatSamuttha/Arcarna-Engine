@@ -26,8 +26,8 @@ compile-test-angle:
 compile-test-physics:
 	g++ $(SRC_NOENT) $(VENDOR) Test/Physics.cpp $(INCLUDE) $(LIBS) -Itest -std=c++20 -O0 -o test -g
 
-compile-test-sprite:
-	g++ $(SRC_NOENT) $(VENDOR) Test/Sprite.cpp $(INCLUDE) $(LIBS) -Itest -std=c++20 -O0 -o test -g
+compile-test-renderer:
+	g++ $(SRC_NOENT) $(VENDOR) Test/Renderer.cpp $(INCLUDE) $(LIBS) -Itest -std=c++20 -O0 -o test -g
 
 test-ecs:
 	make compile-test-ecs
@@ -49,6 +49,6 @@ test-physics:
 	make compile-test-physics
 	./test
 
-test-sprite:
-	make compile-test-sprite
+test-renderer:
+	make compile-test-renderer
 	./test

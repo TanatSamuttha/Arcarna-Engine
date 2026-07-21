@@ -12,10 +12,9 @@ class Mesh
 private:
     inline static std::vector<std::unique_ptr<Mesh>> Buffers;
     inline static std::vector<unsigned int> FreeIds;
-
-    inline static constexpr unsigned int QuadId = 0;
-
+    
 public:
+    inline static constexpr unsigned int QuadId = 0;
     static void Start ();
 
     static unsigned int Create (unsigned int VertexBufferId, unsigned int VertexArrayId, unsigned int IndexBufferId)
