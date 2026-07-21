@@ -3,10 +3,10 @@
 void Mesh::Start ()
 {
     std::vector<float> vertices = {
-        -0.5f, -0.5f,
-        0.5f,  -0.5f,
         0.5f,   0.5f,
-        -0.5f,  0.5f
+        -0.5f,  0.5f,
+        -0.5f, -0.5f,
+        0.5f,  -0.5f
     };
 
     std::vector<unsigned int> indexes = {
