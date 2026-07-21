@@ -15,6 +15,7 @@ private:
     
 public:
     inline static constexpr unsigned int QuadId = 0;
+
     static void Start ();
 
     static unsigned int Create (unsigned int VertexBufferId, unsigned int VertexArrayId, unsigned int IndexBufferId)
