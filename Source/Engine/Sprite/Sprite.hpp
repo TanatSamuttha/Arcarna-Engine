@@ -12,5 +12,5 @@ public:
     unsigned int TextureId;
 
     Sprite (unsigned int TextureId) :
-    MeshId(Mesh::QuadId), TextureId(TextureId) {}
+    MeshId(static_cast<unsigned int>(BuiltinMesh::QuadId)), TextureId(TextureId) {}
 };

@@ -28,5 +28,5 @@ void Mesh::Start ()
     VertexArray::Unbind(vaoId);
 
     Mesh::Create(vboId, vaoId, iboId);
-    Mesh::Load(Mesh::QuadId);
+    Mesh::Load(BuiltinMesh::QuadId);
 }

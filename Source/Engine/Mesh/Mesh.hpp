@@ -7,6 +7,11 @@
 #include "Render/VertexArray.hpp"
 #include "Render/IndexBuffer.hpp"
 
+enum class BuiltinMesh : unsigned int
+{
+    QuadId = 0
+};
+
 class Mesh
 {
 private:
@@ -14,7 +19,6 @@ private:
     inline static std::vector<unsigned int> FreeIds;
     
 public:
-    inline static constexpr unsigned int QuadId = 0;
 
     static void Start ();
 
@@ -41,9 +45,20 @@ public:
         FreeIds.push_back(Id);
     }
 
+    static void Delete (BuiltinMesh Id)
+    {
+        Buffers[static_cast<unsigned int>(Id)].reset();
+        FreeIds.push_back(static_cast<unsigned int>(Id));
+    }
+
     static void Load (unsigned int Id)
     {
         Buffers[Id]->Load();
+    }
+
+    static void Load (BuiltinMesh Id)
+    {
+        Buffers[static_cast<unsigned int>(Id)]->Load();
     }
 
     static void Unload (unsigned int Id)
@@ -51,14 +66,29 @@ public:
         Buffers[Id]->Unload();
     }
 
+    static void Unload (BuiltinMesh Id)
+    {
+        Buffers[static_cast<unsigned int>(Id)]->Unload();
+    }
+
     static void Bind (unsigned int Id)
     {
         Buffers[Id]->Bind();
     }
 
+    static void Bind (BuiltinMesh Id)
+    {
+        Buffers[static_cast<unsigned int>(Id)]->Bind();
+    }
+
     static void Unbind (unsigned int Id)
     {
         Buffers[Id]->Unbind();
+    }
+
+    static void Unbind (BuiltinMesh Id)
+    {
+        Buffers[static_cast<unsigned int>(Id)]->Unbind();
     }
 
     Mesh (unsigned int VertexBufferId, unsigned int VertexArrayId, unsigned int IndexBufferId) :
