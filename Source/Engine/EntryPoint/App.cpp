@@ -2,7 +2,7 @@
 #include <thread>
 #include <iostream>
 
-#include "Script/init.hpp"
+#include "Scripts/init.hpp"
 #include "Config/Config.hpp"
 #include "Scheduler/Scheduler.hpp"
 
