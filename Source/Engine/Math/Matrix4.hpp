@@ -4,7 +4,7 @@
 
 #include "Math/Vector4.hpp"
 
-namespace Arcana::Math
+namespace Arcarna::Math
 {
     class Matrix4
     {
@@ -85,6 +85,29 @@ namespace Arcana::Math
             return Result;
         }
 
-        Vector4
+        Arcarna::Math::Vector4 operator* (Arcarna::Math::Vector4& Vector)
+        {
+            return Vector4(
+                this->Value[0][0] * Vector.x + 
+                this->Value[0][1] * Vector.y + 
+                this->Value[0][2] * Vector.z + 
+                this->Value[0][3] * Vector.w,
+
+                this->Value[1][0] * Vector.x + 
+                this->Value[1][1] * Vector.y + 
+                this->Value[1][2] * Vector.z + 
+                this->Value[1][3] * Vector.w,
+
+                this->Value[2][0] * Vector.x + 
+                this->Value[2][1] * Vector.y + 
+                this->Value[2][2] * Vector.z + 
+                this->Value[2][3] * Vector.w,
+            
+                this->Value[3][0] * Vector.x + 
+                this->Value[3][1] * Vector.y + 
+                this->Value[3][2] * Vector.z + 
+                this->Value[3][3] * Vector.w
+            );
+        }
     };
 }
