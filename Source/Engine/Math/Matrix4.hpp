@@ -2,6 +2,8 @@
 
 #include <utility>
 
+#include "Math/Vector4.hpp"
+
 namespace Arcana::Math
 {
     class Matrix4
@@ -82,5 +84,7 @@ namespace Arcana::Math
 
             return Result;
         }
+
+        Vector4
     };
 }
