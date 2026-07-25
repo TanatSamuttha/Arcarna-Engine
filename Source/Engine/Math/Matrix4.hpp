@@ -110,7 +110,7 @@ namespace Arcarna::Math
             );
         }
 
-        static Matrix4 Transform (float x, float y, float z)
+        static Matrix4 Position (float x, float y, float z)
         {
             return Matrix4(
                 1, 0, 0, x,
