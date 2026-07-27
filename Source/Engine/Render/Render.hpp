@@ -3,6 +3,9 @@
 #include <stdexcept>
 
 #include "Config/Config.hpp"
+#include "Scene/Scene.hpp"
+#include "Render/Renderer.hpp"
+#include "Physics/Transform.hpp"
 #include "glad/glad.h"
 #include "glfw3.h"
 
@@ -41,6 +44,21 @@ public:
         if (!glfwWindowShouldClose(window))
         {
             glClear(GL_COLOR_BUFFER_BIT);
+
+            for (Entity& entity : Scene::World.View<Renderer>())
+            {
+                unsigned int EntityId = entity.GetId();
+                if (Scene::World.HasComponent<Transform>(EntityId))
+                {
+                    unsigned int MeshId = Scene::World.GetComponent<Renderer>(EntityId).MeshId;
+                    unsigned int MeshNumber = Scene::World.GetComponent<Renderer>(EntityId).MeshNumber;
+                    unsigned int Texture2DId = Scene::World.GetComponent<Renderer>(EntityId).Texture2DId;
+                    unsigned int IndexBufferId = IndexBuffer::Size(Mesh::GetIndexBufferId(MeshId));
+                    Mesh::Bind(MeshId);
+
+                    glDrawElements(GL_TRIANGLES, IndexBuffer::Size(IndexBufferId), GL_UNSIGNED_INT, nullptr);
+                }
+            }
 
             glfwSwapBuffers(window);
 

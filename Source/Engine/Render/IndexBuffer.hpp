@@ -65,6 +65,11 @@ public:
         return Buffers[Id]->GetIndexes();
     }
 
+    static size_t Size (unsigned int Id)
+    {
+        return Buffers[Id]->Size();
+    }
+
 public:
     IndexBuffer (std::vector<unsigned int> Indexes) : Indexes(Indexes) {}
     
@@ -125,5 +130,10 @@ private:
     std::vector<unsigned int>& GetIndexes ()
     {
         return Indexes;
+    }
+
+    size_t Size ()
+    {
+        return Indexes.size();
     }
 };

@@ -91,6 +91,21 @@ public:
         Buffers[static_cast<unsigned int>(Id)]->Unbind();
     }
 
+    static unsigned int GetVertexBufferId (unsigned int Id)
+    {
+        return Buffers[Id]->VertexBufferId;
+    }
+
+    static unsigned int GetVertexArrayId (unsigned int Id)
+    {
+        return Buffers[Id]->VertexArrayId;
+    }
+
+    static unsigned int GetIndexBufferId (unsigned int Id)
+    {
+        return Buffers[Id]->IndexBufferId;
+    }
+
     Mesh (unsigned int VertexBufferId, unsigned int VertexArrayId, unsigned int IndexBufferId) :
     VertexBufferId(VertexBufferId), VertexArrayId(VertexArrayId), IndexBufferId(IndexBufferId) {}
 
