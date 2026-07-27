@@ -9,10 +9,11 @@
 class Render
 {
 private:
-    inline static void RenderFrame()
-    {
-        GLFWwindow* window;
+    inline static GLFWwindow* window;
 
+public:
+    inline static void Start ()
+    {
         if (!glfwInit())
             throw std::runtime_error("Start window fail");
 
@@ -33,8 +34,11 @@ private:
 
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
             throw std::runtime_error("Start window fail");
+    }
 
-        while (!glfwWindowShouldClose(window))
+    inline static void Update ()
+    {
+        if (!glfwWindowShouldClose(window))
         {
             glClear(GL_COLOR_BUFFER_BIT);
 
@@ -42,18 +46,12 @@ private:
 
             glfwPollEvents();
         }
+        else
+            End();
+    }
 
+    inline static void End ()
+    {
         glfwTerminate();
-    }
-
-public:
-    inline static void Start ()
-    {
-
-    }
-
-    inline static void Update ()
-    {
-
     }
 };
