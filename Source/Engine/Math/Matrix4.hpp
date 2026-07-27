@@ -119,5 +119,15 @@ namespace Arcarna::Math
                 0, 0, 0, 1
             );
         }
+
+        static Matrix4 Scale (float x, float y, float z)
+        {
+            return Matrix4(
+                x, 0, 0, 0,
+                0, y, 0, 0,
+                0, 0, z, 0,
+                0, 0, 0, 1
+            );
+        }
     };
 }
