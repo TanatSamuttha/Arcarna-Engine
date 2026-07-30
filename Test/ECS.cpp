@@ -43,15 +43,13 @@ int main ()
     Scene::SetNewScene();
 
     unsigned int slimeId = Scene::World.NewEntity();
-    Entity& slime = Scene::World.GetEntity(slimeId);
 
-    Scene::World.AddComponent<Color>(slime, 255, 43, 12);
-    Scene::World.AddComponent<Position>(slime);
-    Color& slimeColor = Scene::World.GetComponent<Color>(slime);
-    Position& slimePos = Scene::World.GetComponent<Position>(slime);
+    Scene::World.AddComponent<Color>(slimeId, 255, 43, 12);
+    Scene::World.AddComponent<Position>(slimeId);
+    Color& slimeColor = Scene::World.GetComponent<Color>(slimeId);
+    Position& slimePos = Scene::World.GetComponent<Position>(slimeId);
 
     unsigned int orcId = Scene::World.NewEntity();
-    Entity& orc = Scene::World.GetEntity(orcId);
 
     Scene::World.AddComponent<Color>(orcId, 12, 255, 35);
     Scene::World.AddComponent<Position>(orcId);
@@ -59,15 +57,12 @@ int main ()
     orcPos.x = 435;
     Color& orcColor = Scene::World.GetComponent<Color>(orcId);
 
-    slimePos = Scene::World.GetComponent<Position>(slimeId);
-
-    Assert(0, slimePos.x, "Slime position (Get component test)");
+    Assert(0, Scene::World.GetComponent<Position>(slimeId).x, "Slime position (Get component test)");
     Assert(435, orcPos.x, "Orc position");
 
     Scene::World.RemoveComponent<Color>(slimeId);
 
-    orcColor = Scene::World.GetComponent<Color>(orcId);
-    Assert(255, orcColor.g, "Orc color (Remove componet test)");
+    Assert(255, Scene::World.GetComponent<Color>(orcId).g, "Orc color (Remove componet test)");
 
     unsigned int paladinId = Scene::World.NewEntity();
     Entity& paladin = Scene::World.GetEntity(paladinId);

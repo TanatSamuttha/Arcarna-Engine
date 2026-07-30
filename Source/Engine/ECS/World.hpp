@@ -69,11 +69,6 @@ public:
         return Entities[EntityId];
     }
 
-    void DestroyEntity (Entity& entity)
-    {
-        DestroyEntity (entity.GetId());
-    }
-
     void DestroyEntity (const unsigned int& EntityId)
     {
         std::bitset<MAX_COMPONENT>& mask = ComponentInEntity[EntityId];
@@ -121,12 +116,6 @@ public:
     }
 
     template<class T>
-    T& GetComponent (const Entity& entity)
-    {
-        return GetComponent<T>(entity.GetId());
-    }
-
-    template<class T>
     T& GetComponent (const unsigned int& EntityId)
     {
         unsigned int ComponentId = GetComponentID<T>();
@@ -137,23 +126,11 @@ public:
     }
 
     template<class T>
-    bool HasComponent (const Entity& entity)
-    {
-        return HasComponent<T>(entity.GetId());
-    }
-
-    template<class T>
     bool HasComponent (const unsigned int& EntityId)
     {
         unsigned int ComponentId = GetComponentID<T>();
 
         return ComponentInEntity[EntityId].test(ComponentId);
-    }
-
-    template<class T>
-    void RemoveComponent (const Entity& entity)
-    {
-        RemoveComponent<T>(entity.GetId());
     }
 
     template<class T>
@@ -189,7 +166,7 @@ public:
 
             void SearchNext ()
             {
-                while (currentIt != endIt && !(world.template HasComponent<Components>(world.GetEntity(*currentIt)) && ...))
+                while (currentIt != endIt && !(world.template HasComponent<Components>(world.GetEntity(*currentIt).GetId()) && ...))
                     currentIt++;
             }
 
