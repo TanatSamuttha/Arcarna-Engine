@@ -2,5 +2,5 @@
 
 namespace Arcarna
 {
-    void Start();
+    void Init();
 }

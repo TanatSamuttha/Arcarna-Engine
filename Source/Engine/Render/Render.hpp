@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 
-#include "Config/Config.hpp"
+#include "Config.hpp"
 #include "Scene/Scene.hpp"
 #include "Render/Renderer.hpp"
 #include "Physics/Transform.hpp"
@@ -41,7 +41,7 @@ public:
 
     inline static void Update ()
     {
-        if (!glfwWindowShouldClose(window))
+        if (!glfwWindowShouldClose(window) && Arcarna::Config::IsRunning)
         {
             glClear(GL_COLOR_BUFFER_BIT);
 
@@ -53,7 +53,7 @@ public:
                     unsigned int MeshId = Scene::World.GetComponent<Renderer>(EntityId).MeshId;
                     unsigned int MeshNumber = Scene::World.GetComponent<Renderer>(EntityId).MeshNumber;
                     unsigned int Texture2DId = Scene::World.GetComponent<Renderer>(EntityId).Texture2DId;
-                    unsigned int IndexBufferId = IndexBuffer::Size(Mesh::GetIndexBufferId(MeshId));
+                    unsigned int IndexBufferId = Mesh::GetIndexBufferId(MeshId);
                     Mesh::Bind(MeshId);
 
                     glDrawElements(GL_TRIANGLES, IndexBuffer::Size(IndexBufferId), GL_UNSIGNED_INT, nullptr);
@@ -71,5 +71,6 @@ public:
     inline static void End ()
     {
         glfwTerminate();
+        Arcarna::Config::IsRunning = false;
     }
 };

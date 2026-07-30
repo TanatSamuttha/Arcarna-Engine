@@ -2,10 +2,24 @@
 
 #include "init.hpp"
 
+#include "Scene/Scene.hpp"
+#include "Physics/Transform.hpp"
+#include "Physics/RigidBody.hpp"
+#include "Mesh/Mesh.hpp"
+#include "Texture/Texture2D.hpp"
+#include "Sprite/Sprite.hpp"
+#include "Render/Renderer.hpp"
+
 namespace Arcarna
 {
-    void Start ()
+    void Init ()
     {
-        std::cout << "Hello World!\n";
+        unsigned int SceneId = Scene::SetNewScene();
+
+        unsigned int RectangleEId = Scene::World.NewEntity<Transform, RigidBody>();
+
+        unsigned int RectangleTId = Texture2D::Create("Assets/Images/Rectangle.png");
+        Sprite Rectangle(RectangleTId);
+        Scene::World.AddComponent<Renderer>(RectangleEId, Rectangle);
     }
 }

@@ -6,7 +6,7 @@ INCLUDE := -Isource/engine -Isource/workspace -Isource/config -Ivendor/glfw/incl
 LIBS := -Lvendor/glfw/lib-mingw-w64 -lglfw3 -lopengl32 -lgdi32
 
 compile:
-	g++ $(SRC) $(VENDOR) $(INCLUDE) $(LIBS) -std=c++20 -O3 -o app -static
+	g++ $(SRC) $(VENDOR) $(INCLUDE) $(LIBS) -std=c++20 -O0 -o app -static
 
 run:
 	./app

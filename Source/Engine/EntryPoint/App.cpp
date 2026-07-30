@@ -1,9 +1,10 @@
 #include <chrono>
 #include <thread>
 #include <iostream>
+#include <stdexcept>
 
 #include "Scripts/init.hpp"
-#include "Config/Config.hpp"
+#include "Config.hpp"
 #include "Scheduler/Scheduler.hpp"
 
 int main ()
@@ -12,13 +13,13 @@ int main ()
 
     constexpr auto FrameTime = std::chrono::nanoseconds(1'000'000'000 / Arcarna::Config::FPS);
 
-    Arcarna::Start();
-
     Arcarna::Config::IsRunning = true;
 
     auto NextFrame = Clock::now();
 
     auto Previous = Clock::now();
+
+    Scheduler::Start();
 
     while (Arcarna::Config::IsRunning)
     {
@@ -32,6 +33,5 @@ int main ()
         std::this_thread::sleep_until(NextFrame);
     }
     
-
     return 0;
 }
