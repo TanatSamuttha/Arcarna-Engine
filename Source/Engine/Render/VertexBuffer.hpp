@@ -52,12 +52,7 @@ public:
 
     static void Unbind (unsigned int Id)
     {
-        Buffers[Id]->Unbind();
-    }
-
-    static GLuint GetVertexBufferId (unsigned int Id)
-    {
-        return Buffers[Id]->GetVertexBufferId();
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
     static std::vector<float>& GetVertices (unsigned int Id)
@@ -70,7 +65,6 @@ public:
     
     ~VertexBuffer ()
     {
-        Unbind();
         Unload();
     }
 
@@ -108,19 +102,6 @@ private:
             return;
         
         glBindBuffer(GL_ARRAY_BUFFER, VertexBufferId);
-    }
-
-    void Unbind ()
-    {
-        if (!VertexBufferId)
-            return;
-        
-        glBindBuffer(GL_ARRAY_BUFFER, 0);
-    }
-
-    GLuint GetVertexBufferId ()
-    {
-        return VertexBufferId;
     }
 
     std::vector<float>& GetVertices ()

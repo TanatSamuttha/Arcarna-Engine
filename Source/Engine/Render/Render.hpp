@@ -19,6 +19,10 @@ public:
     {
         if (!glfwInit())
             throw std::runtime_error("Start window fail");
+        
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
         window = glfwCreateWindow(
             Arcarna::Config::WindowWidth,

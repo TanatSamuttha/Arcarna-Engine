@@ -48,7 +48,6 @@ public:
 
     ~VertexArray ()
     {
-        Unbind();
         Unload();
     }
 
@@ -70,9 +69,9 @@ public:
         VertexArrays[Id]->Bind();
     }
 
-    static void Unbind (unsigned int Id)
+    static void Unbind ()
     {
-        VertexArrays[Id]->Unbind();
+        glBindVertexArray(0);
     }
 
     static void AttachVertex (unsigned int Id, unsigned int VertexBufferId, VertexLayout Layout, GLint Size, GLenum Type, GLboolean Normalized, GLsizei Stride, size_t Offset)
@@ -106,14 +105,6 @@ private:
             return;
         
         glBindVertexArray(VertexArrayId);
-    }
-
-    void Unbind ()
-    {
-        if (!VertexArrayId)
-            return;
-        
-        glBindVertexArray(0);
     }
 
     void AttachVertex(unsigned int VertexBufferId, VertexLayout Layout, GLint Size, GLenum Type, GLboolean Normalized, GLsizei Stride, size_t Offset)
