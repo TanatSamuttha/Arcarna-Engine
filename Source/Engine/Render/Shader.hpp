@@ -8,6 +8,11 @@
 
 #include "glad/glad.h"
 
+enum class BuiltinShader : unsigned int
+{
+    DefaultId = 0
+};
+
 class Shader
 {
 private:
@@ -15,18 +20,18 @@ private:
     inline static std::vector<unsigned int> FreeIds;
 
 public:
-    static unsigned int Create (const std::string& FilePath)
+    static unsigned int Create (const std::string& VertexFilePath, const std::string& FragmentFilePath)
     {
         unsigned int Id = Shaders.size();
         if (!FreeIds.empty())
         {
             Id = FreeIds.back();
             FreeIds.pop_back();
-            Shaders[Id] = std::make_unique<Shader>(FilePath);
+            Shaders[Id] = std::make_unique<Shader>(VertexFilePath, FragmentFilePath);
         }
         else
         {
-            Shaders.push_back(std::make_unique<Shader>(FilePath));
+            Shaders.push_back(std::make_unique<Shader>(VertexFilePath, FragmentFilePath));
         }
 
         return Id;
@@ -38,9 +43,20 @@ public:
         FreeIds.push_back(Id);
     }
 
+    static void Delete (BuiltinShader Id)
+    {
+        Shaders[static_cast<unsigned int>(Id)].reset();
+        FreeIds.push_back(static_cast<unsigned int>(Id));
+    }
+
     static void Load (unsigned int Id)
     {
         Shaders[Id]->Load();
+    }
+
+    static void Load (BuiltinShader Id)
+    {
+        Shaders[static_cast<unsigned int>(Id)]->Load();
     }
 
     static void Unload (unsigned int Id)
@@ -48,14 +64,29 @@ public:
         Shaders[Id]->Unload();
     }
 
+    static void Unload (BuiltinShader Id)
+    {
+        Shaders[static_cast<unsigned int>(Id)]->Unload();
+    }
+
     static void Bind (unsigned int Id)
     {
         Shaders[Id]->Bind();
+    }
+
+    static void Bind (BuiltinShader Id)
+    {
+        Shaders[static_cast<unsigned int>(Id)]->Bind();
     }
     
     static void Unbind ()
     {
         glUseProgram(0);
+    }
+
+    static void Unbind (BuiltinShader Id)
+    {
+        Shaders[static_cast<unsigned int>(Id)]->Unbind();
     }
 
 public:
@@ -94,7 +125,7 @@ private:
         }
         catch (std::ifstream::failure& e)
         {
-            std::cout << "Error read shader file fail" << FilePath << '\n';
+            std::cout << "Error read shader file fail " << FilePath << ' ' << e.what() << '\n';
 
             return "";
         }
@@ -137,6 +168,11 @@ private:
 
         glDeleteShader(VertexId);
         glDeleteShader(FragmentId);
+
+        glUseProgram(ProgramId);
+
+        GLint TextureLocation = glGetUniformLocation(ProgramId, "u_Texture");
+        glUniform1i(TextureLocation, 0);
     }
 
     void Unload ()

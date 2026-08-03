@@ -18,7 +18,8 @@ namespace Arcarna
 
         unsigned int RectangleEId = Scene::World.NewEntity<Transform, RigidBody>();
 
-        unsigned int RectangleTId = Texture2D::Create("Assets/Images/Rectangle2.png");
+        unsigned int RectangleTId = Texture2D::Create("Source/Workspace/Assets/Images/Rectangle.png");
+        Texture2D::Load(RectangleTId);
         Sprite Rectangle(RectangleTId);
         Scene::World.AddComponent<Renderer>(RectangleEId, Rectangle);
     }

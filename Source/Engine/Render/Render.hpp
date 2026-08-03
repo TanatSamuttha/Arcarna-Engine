@@ -59,6 +59,7 @@ public:
                     unsigned int Texture2DId = Scene::World.GetComponent<Renderer>(EntityId).Texture2DId;
                     unsigned int IndexBufferId = Mesh::GetIndexBufferId(MeshId);
                     Mesh::Bind(MeshId);
+                    Texture2D::Bind(Texture2DId);
 
                     glDrawElements(GL_TRIANGLES, IndexBuffer::Size(IndexBufferId), GL_UNSIGNED_INT, nullptr);
                 }

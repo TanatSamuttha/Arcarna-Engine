@@ -25,9 +25,12 @@ void Mesh::Start ()
     unsigned int iboId = IndexBuffer::Create(indexes);
     IndexBuffer::Load(iboId);
 
+    unsigned int shaderId = Shader::Create("Source/Workspace/Assets/Shaders/Default.vs", "Source/Workspace/Assets/Shaders/Default.fs");
+    Shader::Load(BuiltinShader::DefaultId);
+
     VertexBuffer::Unbind();
     VertexArray::Unbind();
 
-    Mesh::Create(vboId, vaoId, iboId);
+    Mesh::Create(vboId, vaoId, iboId, BuiltinShader::DefaultId);
     Mesh::Load(BuiltinMesh::QuadId);
 }
