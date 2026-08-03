@@ -50,9 +50,9 @@ public:
         Buffers[Id]->Bind();
     }
 
-    static void Unbind (unsigned int Id)
+    static void Unbind ()
     {
-        Buffers[Id]->Unbind();
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
 
     static GLuint GetIndexBufferId (unsigned int Id)
@@ -75,7 +75,6 @@ public:
     
     ~IndexBuffer ()
     {
-        Unbind();
         Unload();
     }
 
@@ -112,14 +111,6 @@ private:
             return;
         
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, IndexBufferId);
-    }
-
-    void Unbind ()
-    {
-        if (!IndexBufferId)
-            return;
-        
-        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
     }
 
     GLuint GetIndexBufferId ()

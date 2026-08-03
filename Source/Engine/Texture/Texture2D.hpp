@@ -52,9 +52,9 @@ public:
         Textures[Id]->Bind();
     }
 
-    static void Unbind (unsigned int Id)
+    static void Unbind ()
     {
-        Textures[Id]->Unbind();
+        glBindTexture(GL_TEXTURE_2D, 0);
     }
 
     static GLuint GetTextureId (unsigned int Id)
@@ -77,7 +77,6 @@ public:
     
     ~Texture2D ()
     {
-        Unbind();
         Unload();
     }
 
@@ -133,12 +132,6 @@ private:
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, TextureId);
-    }
-
-    void Unbind ()
-    {
-        if (TextureId)
-            glBindTexture(GL_TEXTURE_2D, 0);
     }
 
     unsigned int GetId ()

@@ -25,7 +25,8 @@ void Mesh::Start ()
     unsigned int iboId = IndexBuffer::Create(indexes);
     IndexBuffer::Load(iboId);
 
-    VertexArray::Unbind(vaoId);
+    VertexBuffer::Unbind();
+    VertexArray::Unbind();
 
     Mesh::Create(vboId, vaoId, iboId);
     Mesh::Load(BuiltinMesh::QuadId);

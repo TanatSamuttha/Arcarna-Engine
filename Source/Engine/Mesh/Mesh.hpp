@@ -140,8 +140,8 @@ private:
 
     void Unbind ()
     {
-        VertexBuffer::Unbind(VertexBufferId);
-        VertexArray::Unbind(VertexArrayId);
-        IndexBuffer::Unbind(IndexBufferId);
+        VertexBuffer::Unbind();
+        VertexArray::Unbind();
+        IndexBuffer::Unbind();
     }
 };

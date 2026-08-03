@@ -50,7 +50,7 @@ public:
         Buffers[Id]->Bind();
     }
 
-    static void Unbind (unsigned int Id)
+    static void Unbind ()
     {
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
