@@ -10,6 +10,6 @@ out vec2 v_TexCoord;
 
 void main ()
 {
-    gl_Position = position * u_MVP;
+    gl_Position = u_MVP * position;
     v_TexCoord = texCoord;
 }

@@ -3,6 +3,7 @@
 #include "init.hpp"
 
 #include "Scene/Scene.hpp"
+#include "Physics/Physics.hpp"
 #include "Physics/Transform.hpp"
 #include "Physics/RigidBody.hpp"
 #include "Mesh/Mesh.hpp"
