@@ -7,6 +7,7 @@
 #include <iostream>
 
 #include "glad/glad.h"
+#include "Math/Math.hpp"
 
 enum class BuiltinShader : unsigned int
 {
@@ -84,9 +85,14 @@ public:
         glUseProgram(0);
     }
 
-    static void Unbind (BuiltinShader Id)
+    static void SetMVP (unsigned int Id, Arcarna::Math::Matrix4& MVP)
     {
-        Shaders[static_cast<unsigned int>(Id)]->Unbind();
+        Shaders[Id]->SetMVP(MVP);
+    }
+
+    static void SetMVP (BuiltinShader Id, Arcarna::Math::Matrix4& MVP)
+    {
+        Shaders[static_cast<unsigned int>(Id)]->SetMVP(MVP);
     }
 
 public:
@@ -105,6 +111,8 @@ private:
     GLuint ProgramId = 0;
     std::string VertexFilePath;
     std::string FragmentFilePath;
+    GLint TextureLocation = -1;
+    GLint MVPLocation = -1;
 
     inline std::string ReadShader (std::string& FilePath)
     {
@@ -171,8 +179,10 @@ private:
 
         glUseProgram(ProgramId);
 
-        GLint TextureLocation = glGetUniformLocation(ProgramId, "u_Texture");
+        TextureLocation = glGetUniformLocation(ProgramId, "u_Texture");
         glUniform1i(TextureLocation, 0);
+
+        MVPLocation = glGetUniformLocation(ProgramId, "u_MVP");
     }
 
     void Unload ()
@@ -189,5 +199,10 @@ private:
             return;
 
         glUseProgram(ProgramId);
+    }
+
+    void SetMVP (Arcarna::Math::Matrix4& MVP)
+    {
+        glUniformMatrix4fv(MVPLocation, 1, GL_TRUE, MVP.Data());
     }
 };

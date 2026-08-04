@@ -6,6 +6,8 @@
 #include "Scene/Scene.hpp"
 #include "Render/Renderer.hpp"
 #include "Physics/Transform.hpp"
+#include "Math/Math.hpp"
+#include "Render/Shader.hpp"
 #include "glad/glad.h"
 #include "glfw3.h"
 
@@ -60,6 +62,10 @@ public:
                     unsigned int IndexBufferId = Mesh::GetIndexBufferId(MeshId);
                     Mesh::Bind(MeshId);
                     Texture2D::Bind(Texture2DId);
+
+                    Arcarna::Math::Matrix4 MVP = Scene::World.GetComponent<Transform>(EntityId).MVP(Arcarna::Config::Aspect);
+
+                    Shader::SetMVP(BuiltinShader::DefaultId, MVP);
 
                     glDrawElements(GL_TRIANGLES, IndexBuffer::Size(IndexBufferId), GL_UNSIGNED_INT, nullptr);
                 }

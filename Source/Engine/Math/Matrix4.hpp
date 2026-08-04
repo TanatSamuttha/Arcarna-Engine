@@ -2,6 +2,7 @@
 
 #include <utility>
 
+#include "Config.hpp"
 #include "Math/Vector4.hpp"
 
 namespace Arcarna::Math
@@ -33,6 +34,11 @@ namespace Arcarna::Math
         }
         {}
 
+        float* Data ()
+        {
+            return Value[0];
+        }
+
         float& operator() (int Row, int Column)
         {
             return Value[Row][Column];
@@ -50,6 +56,8 @@ namespace Arcarna::Math
                     Result(j, i) = Value[i][j];
                 }
             }
+
+            return Result;
         }
 
         Matrix4 operator+ (Matrix4& RHS) const
@@ -108,6 +116,16 @@ namespace Arcarna::Math
                 this->Value[3][2] * Vector.z + 
                 this->Value[3][3] * Vector.w
             );
+        }
+
+        void operator= (Matrix4 RHS)
+        {
+            for (int i = 0; i < 4; ++i)
+            {
+                for (int j = 0; j < 4; ++j){
+                    Value[i][j] = RHS(i, j);
+                }
+            }
         }
 
         static Matrix4 Position (float x, float y, float z)

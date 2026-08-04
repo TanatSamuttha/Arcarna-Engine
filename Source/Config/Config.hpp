@@ -5,9 +5,10 @@
 namespace Arcarna::Config
 {
     static constexpr unsigned int FPS = 60;
-    static constexpr unsigned int WindowWidth = 640;
-    static constexpr unsigned int WindowHeight = 480;
+    static constexpr float WindowWidth = 640;
+    static constexpr float WindowHeight = 480;
+    static constexpr float Aspect = WindowWidth / WindowHeight;
     static constexpr std::string WindowName = "My Game";
 
-    bool IsRunning;
+    static bool IsRunning;
 }
