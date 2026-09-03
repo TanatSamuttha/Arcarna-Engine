@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <unordered_map>
+#include <algorithm>
 
 #include "Entity.hpp"
 
@@ -22,9 +23,23 @@ public:
         if (ComponentIt != EntityToComponent.end())
             throw std::runtime_error("Component already exists");
 
-        EntityToComponent.emplace(EntityId, Components.size());
-        Components.emplace_back(std::forward<Args>(args)...);
-        Entities.emplace_back(EntityId);
+        if (Entities.empty() || EntityId > Entities.back())
+        {
+            EntityToComponent.emplace(EntityId, Entities.size());
+            Components.emplace_back(std::forward<Args>(args)...);
+            Entities.emplace_back(EntityId);
+        }
+        else
+        {
+            size_t idx = std::upper_bound(Entities.begin(), Entities.end(), EntityId) - Entities.begin();
+            Entities.insert(Entities.begin() + idx, EntityId);
+            Components.insert(Components.begin() + idx, T(std::forward<Args>(args)...));
+
+            for (size_t i = idx + 1; i < Entities.size(); ++i)
+                ++EntityToComponent.at(Entities[i]);
+
+            EntityToComponent.emplace(EntityId, idx);
+        }
     }
 
     int GetIndex (const unsigned int& EntityId)
