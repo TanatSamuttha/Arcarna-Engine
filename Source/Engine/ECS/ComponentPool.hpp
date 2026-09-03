@@ -67,18 +67,14 @@ public:
         if (ComponentIt == EntityToComponent.end())
             throw std::runtime_error("Component not found");
 
-        size_t removing = ComponentIt->second;
-        size_t last = Components.size() - 1;
+        size_t idx = ComponentIt->second;
 
-        if (removing != last)
-        {
-            Components[removing] = std::move(Components[last]);
-            Entities[removing] = Entities[last];
-            EntityToComponent[Entities[removing]] = removing;
-        }
+        Entities.erase(Entities.begin() + idx);
+        Components.erase(Components.begin() + idx);
 
-        Components.pop_back();
-        Entities.pop_back();
+        for (size_t i = idx; i < Entities.size(); ++i)
+            --EntityToComponent.at(Entities[i]);
+
         EntityToComponent.erase(ComponentIt);
     }
 };
