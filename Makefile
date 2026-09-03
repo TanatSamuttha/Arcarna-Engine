@@ -52,3 +52,17 @@ test-physics:
 test-renderer:
 	make compile-test-renderer
 	./test
+
+test-all:
+	@g++ $(SRC_NOENT) $(VENDOR) Test/ECS.cpp -Itest $(INCLUDE) $(LIBS) -std=c++20 -O0 -o testECS -g
+	./testECS
+	@g++ $(SRC_NOENT) $(VENDOR) Test/Scene.cpp $(INCLUDE) $(LIBS) -Itest -std=c++20 -O0 -o testScene -g
+	./testScene
+	@g++ $(SRC_NOENT) $(VENDOR) Test/Vector2.cpp $(INCLUDE) $(LIBS) -Itest -std=c++20 -O0 -o testVector2 -g
+	./testVector2
+	@g++ $(SRC_NOENT) $(VENDOR) Test/Angle.cpp $(INCLUDE) $(LIBS) -Itest -std=c++20 -O0 -o testAngle -g
+	./testAngle
+	@g++ $(SRC_NOENT) $(VENDOR) Test/Physics.cpp $(INCLUDE) $(LIBS) -Itest -std=c++20 -O0 -o testPhysics -g
+	./testPhysics
+	@g++ $(SRC_NOENT) $(VENDOR) Test/Renderer.cpp $(INCLUDE) $(LIBS) -Itest -std=c++20 -O0 -o testRenderer -g
+	./testRenderer
