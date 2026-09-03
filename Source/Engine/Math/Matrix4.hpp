@@ -147,5 +147,31 @@ namespace Arcarna::Math
                 0, 0, 0, 1
             );
         }
+
+        static Arcarna::Math::Matrix4 MVP (Vector2 ModelPosition, Vector2 ModelScale, float Aspect, Vector2 CameraPosition, float CameraScale)
+        {
+            Arcarna::Math::Matrix4 Model(
+                ModelScale.x, 0, 0, ModelPosition.x,
+                0, ModelScale.y, 0, ModelPosition.y,
+                0, 0, 1, 0,
+                0, 0, 0, 1
+            );
+
+            Arcarna::Math::Matrix4 View(
+                1, 0, 0, -CameraPosition.x,
+                0, 1, 0, -CameraPosition.y,
+                0, 0, 1, 0,
+                0, 0, 0, 1
+            );
+
+            Arcarna::Math::Matrix4 Projection(
+                1.0f / CameraScale / Aspect, 0, 0, 0,
+                0, 1.0f / CameraScale, 0, 0,
+                0, 0, 1.0f / CameraScale, 0,
+                0, 0, 0, 1
+            );
+
+            return Projection * View * Model;
+        }
     };
 }

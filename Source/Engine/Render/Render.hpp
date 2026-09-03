@@ -3,6 +3,7 @@
 #include <stdexcept>
 
 #include "Config.hpp"
+#include "Camera/Camera.hpp"
 #include "Scene/Scene.hpp"
 #include "Render/Renderer.hpp"
 #include "Physics/Transform.hpp"
@@ -63,7 +64,14 @@ public:
                     Mesh::Bind(MeshId);
                     Texture2D::Bind(Texture2DId);
 
-                    Arcarna::Math::Matrix4 MVP = Scene::World.GetComponent<Transform>(EntityId).MVP(Arcarna::Config::Aspect);
+                    Transform& transform = Scene::World.GetComponent<Transform>(EntityId);
+                    Arcarna::Math::Matrix4 MVP = Arcarna::Math::Matrix4::MVP(
+                        transform.GetPosition(), 
+                        transform.GetScale(), 
+                        Arcarna::Config::Aspect, 
+                        Arcarna::Math::Vector2(0, 0),
+                        Camera::Scale
+                    );
 
                     Shader::SetMVP(BuiltinShader::DefaultId, MVP);
 

@@ -51,14 +51,4 @@ public:
     {
         return Scale;
     }
-
-    Arcarna::Math::Matrix4 MVP (float Aspect)
-    {
-        return Arcarna::Math::Matrix4(
-            Scale.x / Aspect, 0, 0, Position.x,
-            0, Scale.y, 0, Position.y,
-            0, 0, 1, 0,
-            0, 0, 0, 1
-        );
-    }
 };

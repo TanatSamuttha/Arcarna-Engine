@@ -23,5 +23,6 @@ namespace Arcarna
         Texture2D::Load(RectangleTId);
         Sprite Rectangle(RectangleTId);
         Scene::World.AddComponent<Renderer>(RectangleEId, Rectangle);
+        Scene::World.GetComponent<Transform>(RectangleEId).SetPosition(Arcarna::Math::Vector2(0, 5));
     }
 }
