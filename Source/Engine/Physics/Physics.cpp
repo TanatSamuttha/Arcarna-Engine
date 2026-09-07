@@ -17,7 +17,7 @@ namespace Arcarna
 
             RigidBody& rigidBody = Scene::World.GetComponent<RigidBody>(EntityId);
             
-            rigidBody.AddForce(Arcarna::Math::Vector2(0, Gravity), ForceMode::Force);
+            rigidBody.AddForce(Arcarna::Math::Vector3(0, Gravity, 0), ForceMode::Force);
 
             if (Scene::World.HasComponent<Transform>(EntityId))
             {
@@ -25,7 +25,7 @@ namespace Arcarna
 
                 transform.SetPosition(
                     transform.GetPosition() +
-                    rigidBody.GetVelocity() * dt +  rigidBody.GetForce() / rigidBody.GetMass() * 0.5f * dt * dt
+                    rigidBody.GetVelocity() * dt + rigidBody.GetForce() / rigidBody.GetMass() * 0.5f * dt * dt
                 );
             }
 

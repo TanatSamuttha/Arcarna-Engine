@@ -12,20 +12,20 @@ enum class ForceMode : unsigned int
 
 class RigidBody
 {
-    using Vector2 = Arcarna::Math::Vector2;
+    using Vector3 = Arcarna::Math::Vector3;
 
 private:
-    Vector2 Velocity;
-    Vector2 Force;
+    Vector3 Velocity;
+    Vector3 Force;
 
     float Mass;
 
 public:
     bool Active = true;
 
-    RigidBody () : Velocity(Vector2(0, 0)), Force(Vector2(0, 0)), Mass(1) {}
+    RigidBody () : Velocity(Vector3(0, 0, 0)), Force(Vector3(0, 0, 0)), Mass(1) {}
 
-    RigidBody (const float Mass) : Velocity(Vector2(0, 0)), Force(Vector2(0, 0)), Mass(Mass) {}
+    RigidBody (const float Mass) : Velocity(Vector3(0, 0, 0)), Force(Vector3(0, 0, 0)), Mass(Mass) {}
 
     void SetMass (const float Mass)
     {
@@ -39,17 +39,17 @@ public:
         return Mass;
     }
 
-    void SetVelocity (const Vector2& Velocity)
+    void SetVelocity (const Vector3& Velocity)
     {
         this->Velocity = Velocity;
     }
 
-    Vector2 GetVelocity ()
+    Vector3 GetVelocity ()
     {
         return Velocity;
     }
 
-    void AddForce (const Vector2& Force, ForceMode ForceMode)
+    void AddForce (const Vector3& Force, ForceMode ForceMode)
     {
         if (ForceMode == ForceMode::Impulse)
         {
@@ -61,13 +61,13 @@ public:
         }
     }
 
-    Vector2 GetForce ()
+    Vector3 GetForce ()
     {
         return Force;
     }
 
     void ResetForce ()
     {
-        Force = Vector2(0, 0);
+        Force = Vector3(0, 0, 0);
     }
 };

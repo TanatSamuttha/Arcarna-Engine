@@ -6,21 +6,21 @@
 
 class Transform
 {
-    using Vector2 = Arcarna::Math::Vector2;
+    using Vector3 = Arcarna::Math::Vector3;
 
 private:
     int current, previous = 1;
 
-    Vector2 Position;
-    Vector2 Scale;
+    Vector3 Position;
+    Vector3 Scale;
     float Rotation;
 
 public:
     bool Active = true;
 
-    Transform () : Position(Vector2(0, 0)), Rotation(0), Scale(Vector2(1, 1)) {}
+    Transform () : Position(Vector3(0, 0, 0)), Rotation(0), Scale(Vector3(1, 1, 0)) {}
 
-    Transform (Vector2& Position, float Rotation, Vector2& Scale) : Position(Position), Rotation(Arcarna::Math::AngleNormalize(Rotation)), Scale(Scale) {}
+    Transform (Vector3& Position, float Rotation, Vector3& Scale) : Position(Position), Rotation(Arcarna::Math::AngleNormalize(Rotation)), Scale(Scale) {}
 
     void SetRotation (float Rotation)
     {
@@ -32,22 +32,22 @@ public:
         return this->Rotation;
     }
 
-    void SetPosition (const Vector2& Position)
+    void SetPosition (const Vector3& Position)
     {
         this->Position = Position;
     }
 
-    Vector2 GetPosition ()
+    Vector3 GetPosition ()
     {
         return Position;
     }
 
-    void SetScale (const Vector2& Scale)
+    void SetScale (const Vector3& Scale)
     {
         this->Scale = Scale;
     }
 
-    Vector2 GetScale ()
+    Vector3 GetScale ()
     {
         return Scale;
     }
