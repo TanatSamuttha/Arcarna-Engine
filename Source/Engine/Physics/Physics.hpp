@@ -5,19 +5,22 @@
 #include "Physics/Transform.hpp"
 #include "Math/Math.hpp"
 
+class Scheduler;
+
 namespace Arcarna
 {
     class Physics
     {
     private:
         inline static float dt;
+        friend class ::Scheduler;
     
     public:
         inline static float Gravity = -9.8;
 
         static void Start ();
 
-        static void Update (const float dt);
+        static void Update ();
 
         static float Getdt ();
     };

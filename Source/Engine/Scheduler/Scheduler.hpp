@@ -19,7 +19,8 @@ public:
 
     inline static void Update (double dt)
     {
-        Arcarna::Physics::Update(dt);
+        Arcarna::Physics::dt = dt;
+        Arcarna::Physics::Update();
         Render::Update();
     }
 };

@@ -7,10 +7,8 @@ namespace Arcarna
         Gravity = -9.8;
     }
 
-    void Physics::Update (const float dt)
+    void Physics::Update ()
     {
-        Physics::dt = dt;
-
         for (Entity& entity : Scene::World.View<RigidBody>())
         {
             unsigned int EntityId = entity.GetId();
