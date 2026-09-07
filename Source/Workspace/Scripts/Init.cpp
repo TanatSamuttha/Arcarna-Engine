@@ -10,12 +10,16 @@
 #include "Texture/Texture2D.hpp"
 #include "Sprite/Sprite.hpp"
 #include "Render/Renderer.hpp"
+#include "Camera/Camera.hpp"
 
 namespace Arcarna
 {
     void Init ()
     {
         unsigned int SceneId = Scene::SetNewScene();
+
+        unsigned int CameraEId = Scene::World.NewEntity<Transform, Camera>();
+        Scene::MainCameraEntityId = CameraEId;
 
         unsigned int RectangleEId = Scene::World.NewEntity<Transform, RigidBody>();
 

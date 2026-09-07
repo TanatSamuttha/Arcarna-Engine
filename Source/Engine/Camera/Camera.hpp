@@ -3,5 +3,6 @@
 class Camera 
 {
 public:
-    static constexpr float Scale = 5.0;
+
+    float WidthScale = 5.0;
 };

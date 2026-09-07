@@ -13,9 +13,11 @@ private:
 
     unsigned int Id;
     World ThisWorld;
+    unsigned int ThisCamera;
 
 public:
     inline static World World;
+    inline static unsigned int MainCameraEntityId;
 
     Scene () : Id(0) {}
 
@@ -45,7 +47,9 @@ public:
             return;
 
         Scenes[CurrentId].ThisWorld = std::move(World);
+        Scenes[CurrentId].ThisCamera = MainCameraEntityId;
         World = std::move(Scenes[Id].ThisWorld);
+        MainCameraEntityId = Scenes[Id].ThisCamera;
         CurrentId = Id;
     }
 

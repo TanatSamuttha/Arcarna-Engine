@@ -69,8 +69,8 @@ public:
                         transform.GetPosition(), 
                         transform.GetScale(), 
                         Arcarna::Config::Aspect, 
-                        Arcarna::Math::Vector2(0, 0),
-                        Camera::Scale
+                        Scene::World.GetComponent<Transform>(Scene::MainCameraEntityId).GetPosition(),
+                        Scene::World.GetComponent<Camera>(Scene::MainCameraEntityId).WidthScale
                     );
 
                     Shader::SetMVP(BuiltinShader::DefaultId, MVP);
