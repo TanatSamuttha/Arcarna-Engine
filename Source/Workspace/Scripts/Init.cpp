@@ -27,7 +27,8 @@ namespace Arcarna
         Texture2D::Load(RectangleTId);
         Sprite Rectangle(RectangleTId);
         Scene::World.AddComponent<Renderer>(RectangleEId, Rectangle);
-        Scene::World.GetComponent<Transform>(RectangleEId).SetPosition(Arcarna::Math::Vector3(0, 5, 0));
+        Scene::World.GetComponent<Transform>(RectangleEId).SetPosition(Arcarna::Math::Vector3(-5, 0, 0));
+        Scene::World.GetComponent<RigidBody>(RectangleEId).SetVelocity(Arcarna::Math::Vector3(6, 6, 0));
 
         unsigned int Rectangle2EId = Scene::World.NewEntity<Transform, RigidBody>();
         Scene::World.AddComponent<Renderer>(Rectangle2EId, Rectangle);
