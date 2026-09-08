@@ -13,23 +13,23 @@ private:
 
     Vector3 Position;
     Vector3 Scale;
-    float Rotation;
+    Vector3 Rotation;
 
 public:
     bool Active = true;
 
-    Transform () : Position(Vector3(0, 0, 0)), Rotation(0), Scale(Vector3(1, 1, 0)) {}
+    Transform () : Position(Vector3(0, 0, 0)), Rotation(Vector3(0, 0, 0)), Scale(Vector3(1, 1, 1)) {}
 
-    Transform (Vector3& Position, float Rotation, Vector3& Scale) : Position(Position), Rotation(Arcarna::Math::AngleNormalize(Rotation)), Scale(Scale) {}
+    Transform (Vector3& Position, Vector3 Rotation, Vector3& Scale) : Position(Position), Rotation(Arcarna::Math::AngleNormalize(Rotation)), Scale(Scale) {}
 
-    void SetRotation (float Rotation)
+    void SetRotation (Vector3 Rotation)
     {
         this->Rotation = Arcarna::Math::AngleNormalize(Rotation);
     }
 
-    float GetRotation ()
+    Vector3 GetRotation ()
     {
-        return this->Rotation;
+        return Rotation;
     }
 
     void SetPosition (const Vector3& Position)

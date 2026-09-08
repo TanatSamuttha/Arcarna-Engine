@@ -64,16 +64,12 @@ public:
                     Mesh::Bind(MeshId);
                     Texture2D::Bind(Texture2DId);
 
-                    Transform& transform = Scene::World.GetComponent<Transform>(EntityId);
-                    Arcarna::Math::Matrix4 MVP = Arcarna::Math::Matrix4::MVP(
-                        transform.GetPosition(), 
-                        transform.GetScale(), 
-                        Arcarna::Config::Aspect, 
-                        Scene::World.GetComponent<Transform>(Scene::MainCameraEntityId).GetPosition(),
-                        Scene::World.GetComponent<Camera>(Scene::MainCameraEntityId).WidthScale
-                    );
+                    Transform& ModelTransform = Scene::World.GetComponent<Transform>(EntityId);
+                    Transform& CameraTransform = Scene::World.GetComponent<Transform>(Scene::MainCameraEntityId);
+                    Camera& CameraData = Scene::World.GetComponent<Camera>(Scene::MainCameraEntityId);
 
-                    Shader::SetMVP(BuiltinShader::DefaultId, MVP);
+                    Shader::Bind(BuiltinShader::DefaultId);
+                    Shader::SetRenderData(BuiltinShader::DefaultId, ModelTransform, CameraTransform, CameraData, Arcarna::Config::Aspect);
 
                     glDrawElements(GL_TRIANGLES, IndexBuffer::Size(IndexBufferId), GL_UNSIGNED_INT, nullptr);
                 }

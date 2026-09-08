@@ -28,5 +28,9 @@ namespace Arcarna
         Sprite Rectangle(RectangleTId);
         Scene::World.AddComponent<Renderer>(RectangleEId, Rectangle);
         Scene::World.GetComponent<Transform>(RectangleEId).SetPosition(Arcarna::Math::Vector3(0, 5, 0));
+
+        unsigned int Rectangle2EId = Scene::World.NewEntity<Transform, RigidBody>();
+        Scene::World.AddComponent<Renderer>(Rectangle2EId, Rectangle);
+        Scene::World.GetComponent<Transform>(Rectangle2EId).SetPosition(Arcarna::Math::Vector3(3, 5, 0));
     }
 }

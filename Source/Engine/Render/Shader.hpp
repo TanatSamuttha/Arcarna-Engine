@@ -8,6 +8,8 @@
 
 #include "glad/glad.h"
 #include "Math/Math.hpp"
+#include "Physics/Transform.hpp"
+#include "Camera/Camera.hpp"
 
 enum class BuiltinShader : unsigned int
 {
@@ -85,14 +87,14 @@ public:
         glUseProgram(0);
     }
 
-    static void SetMVP (unsigned int Id, Arcarna::Math::Matrix4& MVP)
+    static void SetRenderData (unsigned int Id, Transform& ModelTransform, Transform& CameraTransform, Camera& CameraData, const float& Aspect)
     {
-        Shaders[Id]->SetMVP(MVP);
+        Shaders[Id]->SetRenderData(ModelTransform, CameraTransform, CameraData, Aspect);
     }
 
-    static void SetMVP (BuiltinShader Id, Arcarna::Math::Matrix4& MVP)
+    static void SetRenderData (BuiltinShader Id, Transform& ModelTransform, Transform& CameraTransform, Camera& CameraData, const float& Aspect)
     {
-        Shaders[static_cast<unsigned int>(Id)]->SetMVP(MVP);
+        Shaders[static_cast<unsigned int>(Id)]->SetRenderData(ModelTransform, CameraTransform, CameraData, Aspect);
     }
 
 public:
@@ -112,7 +114,7 @@ private:
     std::string VertexFilePath;
     std::string FragmentFilePath;
     GLint TextureLocation = -1;
-    GLint MVPLocation = -1;
+    GLint RenderDataLocation = -1;
 
     inline std::string ReadShader (std::string& FilePath)
     {
@@ -182,7 +184,7 @@ private:
         TextureLocation = glGetUniformLocation(ProgramId, "u_Texture");
         glUniform1i(TextureLocation, 0);
 
-        MVPLocation = glGetUniformLocation(ProgramId, "u_MVP");
+        RenderDataLocation = glGetUniformLocation(ProgramId, "u_RenderData");
     }
 
     void Unload ()
@@ -201,8 +203,32 @@ private:
         glUseProgram(ProgramId);
     }
 
-    void SetMVP (Arcarna::Math::Matrix4& MVP)
+    void SetRenderData (Transform& ModelTransform, Transform& CameraTransform, Camera& CameraData, const float& Aspect)
     {
-        glUniformMatrix4fv(MVPLocation, 1, GL_TRUE, MVP.Data());
+        float Buffer[17] = {
+            ModelTransform.GetPosition().x,
+            ModelTransform.GetPosition().y,
+            ModelTransform.GetPosition().z,
+
+            ModelTransform.GetScale().x,
+            ModelTransform.GetScale().y,
+            ModelTransform.GetScale().z,
+
+            ModelTransform.GetRotation().x,
+            ModelTransform.GetRotation().y,
+            ModelTransform.GetRotation().z,
+
+            CameraTransform.GetPosition().x,
+            CameraTransform.GetPosition().y,
+            CameraTransform.GetPosition().z,
+
+            CameraTransform.GetRotation().x,
+            CameraTransform.GetRotation().y,
+            CameraTransform.GetRotation().z,
+
+            CameraData.WidthScale,
+            Aspect
+        };
+        glUniform1fv(RenderDataLocation, 17, Buffer);
     }
 };
