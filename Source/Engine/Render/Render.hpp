@@ -118,7 +118,6 @@ public:
                     ++RenderDatas[Index].Amount;
 
                     int DataSize = 17;
-                    RenderDatas[Index].TransformDatas.reserve(RenderDatas[Index].TransformDatas.size() + DataSize);
                     RenderDatas[Index].TransformDatas.push_back(ModelTransform.GetPosition().x);
                     RenderDatas[Index].TransformDatas.push_back(ModelTransform.GetPosition().y);
                     RenderDatas[Index].TransformDatas.push_back(ModelTransform.GetPosition().z);
