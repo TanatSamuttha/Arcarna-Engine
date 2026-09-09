@@ -1,10 +1,13 @@
-#version 330 core
+#version 430 core
 
 layout(location = 0) in vec4 position;
 layout(location = 1) in vec2 texCoord;
 layout(location = 2) in vec3 color;
 
-uniform float u_RenderData[17];
+layout(std430, binding = 0) buffer RenderData
+{
+    float data[];
+};
 // Index to data
 // 0=modelPosX 1=modelPosY 2=modelPosZ
 // 3=modelScaleX 4=modelScaleY 5=modelScaleZ
@@ -17,24 +20,26 @@ out vec2 v_TexCoord;
 
 void main ()
 {
+    int padding = gl_InstanceID * 17;
+
     mat4 model = mat4(
-        u_RenderData[3], 0, 0, 0,
-        0, u_RenderData[4], 0, 0,
-        0, 0, u_RenderData[5], 0,
-        u_RenderData[0], u_RenderData[1], u_RenderData[2], 1
+        data[padding + 3], 0, 0, 0,
+        0, data[padding + 4], 0, 0,
+        0, 0, data[padding + 5], 0,
+        data[padding + 0], data[padding + 1], data[padding + 2], 1
     );
 
     mat4 view = mat4(
         1, 0, 0, 0,
         0, 1, 0, 0,
         0, 0, 1, 0,
-        -u_RenderData[9], -u_RenderData[10], -u_RenderData[11], 1
+        -data[padding + 9], -data[padding + 10], -data[padding + 11], 1
     );
 
     mat4 projection = mat4(
-        1.0 / u_RenderData[15] / u_RenderData[16], 0, 0, 0,
-        0, 1.0 / u_RenderData[15], 0, 0,
-        0, 0, 1.0 / u_RenderData[15], 0,
+        1.0 / data[padding + 15] / data[padding + 16], 0, 0, 0,
+        0, 1.0 / data[padding + 15], 0, 0,
+        0, 0, 1.0 / data[padding + 15], 0,
         0, 0, 0, 1
     );
 

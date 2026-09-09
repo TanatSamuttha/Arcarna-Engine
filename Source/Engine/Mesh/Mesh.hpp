@@ -8,9 +8,10 @@
 #include "Render/IndexBuffer.hpp"
 #include "Render/Shader.hpp"
 
-enum class BuiltinMesh : unsigned int
+class BuiltinMesh
 {
-    QuadId = 0
+public:
+    static unsigned int QuadId;
 };
 
 class Mesh
@@ -22,11 +23,6 @@ private:
 public:
 
     static void Start ();
-
-    static unsigned int Create (unsigned int VertexBufferId, unsigned int VertexArrayId, unsigned int IndexBufferId, BuiltinShader ProgramId)
-    {
-        return Create(VertexBufferId, VertexArrayId, IndexBufferId, static_cast<unsigned int>(ProgramId));
-    }
 
     static unsigned int Create (unsigned int VertexBufferId, unsigned int VertexArrayId, unsigned int IndexBufferId, unsigned int ProgramId)
     {
@@ -51,20 +47,9 @@ public:
         FreeIds.push_back(Id);
     }
 
-    static void Delete (BuiltinMesh Id)
-    {
-        Buffers[static_cast<unsigned int>(Id)].reset();
-        FreeIds.push_back(static_cast<unsigned int>(Id));
-    }
-
     static void Load (unsigned int Id)
     {
         Buffers[Id]->Load();
-    }
-
-    static void Load (BuiltinMesh Id)
-    {
-        Buffers[static_cast<unsigned int>(Id)]->Load();
     }
 
     static void Unload (unsigned int Id)
@@ -72,29 +57,14 @@ public:
         Buffers[Id]->Unload();
     }
 
-    static void Unload (BuiltinMesh Id)
-    {
-        Buffers[static_cast<unsigned int>(Id)]->Unload();
-    }
-
     static void Bind (unsigned int Id)
     {
         Buffers[Id]->Bind();
     }
 
-    static void Bind (BuiltinMesh Id)
-    {
-        Buffers[static_cast<unsigned int>(Id)]->Bind();
-    }
-
     static void Unbind (unsigned int Id)
     {
         Buffers[Id]->Unbind();
-    }
-
-    static void Unbind (BuiltinMesh Id)
-    {
-        Buffers[static_cast<unsigned int>(Id)]->Unbind();
     }
 
     static unsigned int GetVertexBufferId (unsigned int Id)

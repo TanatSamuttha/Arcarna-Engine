@@ -6,11 +6,12 @@
 #include "glad/glad.h"
 #include "Render/VertexBuffer.hpp"
 
-enum class VertexLayout : GLuint
+class BuiltinVertexLayout
 {
-    Position = 0,
-    TexCoord = 1,
-    Color = 2
+public:
+    static constexpr GLuint Position = 0;
+    static constexpr GLuint TexCoord = 1;
+    static constexpr GLuint Color = 2;
 };
 
 class VertexArray
@@ -74,7 +75,7 @@ public:
         glBindVertexArray(0);
     }
 
-    static void AttachVertex (unsigned int Id, unsigned int VertexBufferId, VertexLayout Layout, GLint Size, GLenum Type, GLboolean Normalized, GLsizei Stride, size_t Offset)
+    static void AttachVertex (unsigned int Id, unsigned int VertexBufferId, unsigned int Layout, GLint Size, GLenum Type, GLboolean Normalized, GLsizei Stride, size_t Offset)
     {
         VertexArrays[Id]->AttachVertex(VertexBufferId, Layout, Size, Type, Normalized, Stride, Offset);
     }
@@ -107,7 +108,7 @@ private:
         glBindVertexArray(VertexArrayId);
     }
 
-    void AttachVertex(unsigned int VertexBufferId, VertexLayout Layout, GLint Size, GLenum Type, GLboolean Normalized, GLsizei Stride, size_t Offset)
+    void AttachVertex(unsigned int VertexBufferId, unsigned int Layout, GLint Size, GLenum Type, GLboolean Normalized, GLsizei Stride, size_t Offset)
     {
         if (!VertexArrayId)
             return;

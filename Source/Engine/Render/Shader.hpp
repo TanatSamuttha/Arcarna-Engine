@@ -11,9 +11,10 @@
 #include "Physics/Transform.hpp"
 #include "Camera/Camera.hpp"
 
-enum class BuiltinShader : unsigned int
+class BuiltinShader
 {
-    DefaultId = 0
+public:
+    static unsigned int DefaultId;
 };
 
 class Shader
@@ -46,20 +47,9 @@ public:
         FreeIds.push_back(Id);
     }
 
-    static void Delete (BuiltinShader Id)
-    {
-        Shaders[static_cast<unsigned int>(Id)].reset();
-        FreeIds.push_back(static_cast<unsigned int>(Id));
-    }
-
     static void Load (unsigned int Id)
     {
         Shaders[Id]->Load();
-    }
-
-    static void Load (BuiltinShader Id)
-    {
-        Shaders[static_cast<unsigned int>(Id)]->Load();
     }
 
     static void Unload (unsigned int Id)
@@ -67,19 +57,9 @@ public:
         Shaders[Id]->Unload();
     }
 
-    static void Unload (BuiltinShader Id)
-    {
-        Shaders[static_cast<unsigned int>(Id)]->Unload();
-    }
-
     static void Bind (unsigned int Id)
     {
         Shaders[Id]->Bind();
-    }
-
-    static void Bind (BuiltinShader Id)
-    {
-        Shaders[static_cast<unsigned int>(Id)]->Bind();
     }
     
     static void Unbind ()
@@ -90,11 +70,6 @@ public:
     static void SetRenderData (unsigned int Id, Transform& ModelTransform, Transform& CameraTransform, Camera& CameraData, const float& Aspect)
     {
         Shaders[Id]->SetRenderData(ModelTransform, CameraTransform, CameraData, Aspect);
-    }
-
-    static void SetRenderData (BuiltinShader Id, Transform& ModelTransform, Transform& CameraTransform, Camera& CameraData, const float& Aspect)
-    {
-        Shaders[static_cast<unsigned int>(Id)]->SetRenderData(ModelTransform, CameraTransform, CameraData, Aspect);
     }
 
 public:

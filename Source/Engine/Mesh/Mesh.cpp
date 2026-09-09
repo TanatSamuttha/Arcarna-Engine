@@ -1,5 +1,7 @@
 #include "Mesh/Mesh.hpp"
 
+unsigned int BuiltinMesh::QuadId;
+
 void Mesh::Start ()
 {
     std::vector<float> vertices = {
@@ -20,17 +22,17 @@ void Mesh::Start ()
 
     unsigned int vboId = VertexBuffer::Create(vertices);
     VertexBuffer::Load(vboId);
-    VertexArray::AttachVertex(vaoId, vboId, VertexLayout::Position, 2, GL_FLOAT, false, 2 * sizeof(float), 0);
+    VertexArray::AttachVertex(vaoId, vboId, BuiltinVertexLayout::Position, 2, GL_FLOAT, false, 2 * sizeof(float), 0);
 
     unsigned int iboId = IndexBuffer::Create(indexes);
     IndexBuffer::Load(iboId);
 
-    unsigned int shaderId = Shader::Create("Source/Workspace/Assets/Shaders/Default.vs", "Source/Workspace/Assets/Shaders/Default.fs");
+    BuiltinShader::DefaultId = Shader::Create("Source/Workspace/Assets/Shaders/Default.vs", "Source/Workspace/Assets/Shaders/Default.fs");
     Shader::Load(BuiltinShader::DefaultId);
 
     VertexBuffer::Unbind();
     VertexArray::Unbind();
 
-    Mesh::Create(vboId, vaoId, iboId, BuiltinShader::DefaultId);
+    BuiltinMesh::QuadId = Mesh::Create(vboId, vaoId, iboId, BuiltinShader::DefaultId);
     Mesh::Load(BuiltinMesh::QuadId);
 }
