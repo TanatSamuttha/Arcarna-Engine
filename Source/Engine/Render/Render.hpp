@@ -1,6 +1,5 @@
 #pragma once
 
-#include <map>
 #include <stdexcept>
 
 #include "Config.hpp"
@@ -28,18 +27,30 @@ private:
         unsigned int Amount = 0;
         std::vector<float> TransformDatas = std::vector<float>();
 
-        bool operator<(const RenderData& other) const
+        bool operator==(const RenderData& other) const
         {
-            if (MeshId != other.MeshId)
-                return MeshId < other.MeshId;
+            return MeshId == other.MeshId &&
+                MeshNumber == other.MeshNumber &&
+                Texture2DId == other.Texture2DId &&
+                ShaderId == other.ShaderId;
+        }
+    };
     
-            if (MeshNumber != other.MeshNumber)
-                return MeshNumber < other.MeshNumber;
+    struct RenderDataHash
+    {
+        uint64_t operator() (const RenderData &data) const
+        {
+            uint64_t h =
+                uint64_t(data.MeshId) * 0x9E3779B185EBCA87ULL ^
+                uint64_t(data.MeshNumber) * 0xC2B2AE3D27D4EB4FULL ^
+                uint64_t(data.Texture2DId) * 0x165667B19E3779F9ULL ^
+                uint64_t(data.ShaderId) * 0x85EBCA77C2B2AE63ULL;
 
-            if (Texture2DId != other.Texture2DId)
-                return Texture2DId < other.Texture2DId;
+            h ^= h >> 32;
+            h *= 0x9E3779B185EBCA87ULL;
+            h ^= h >> 29;
 
-            return ShaderId < other.ShaderId;
+            return h;
         }
     };
 
@@ -80,7 +91,7 @@ public:
         {
             glClear(GL_COLOR_BUFFER_BIT);
 
-            std::map<RenderData, int> IndexMap;
+            std::unordered_map<RenderData, int, RenderDataHash> IndexMap;
             std::vector<RenderData> RenderDatas;
 
             for (Entity& entity : Scene::World.View<Renderer>())
@@ -104,12 +115,11 @@ public:
                     };
 
                     auto it = IndexMap.find(renderData);
-                    int Index = -1;
+                    size_t Index = RenderDatas.size();;
                     if (it == IndexMap.end())
                     {
+                        IndexMap.emplace(renderData, Index);
                         RenderDatas.push_back(std::move(renderData));
-                        Index = RenderDatas.size() - 1;
-                        IndexMap[renderData] = Index;
 
                         RenderDatas[Index].TransformDatas.push_back(CameraTransform.GetPosition().x);
                         RenderDatas[Index].TransformDatas.push_back(CameraTransform.GetPosition().y);
@@ -138,7 +148,7 @@ public:
                 }
             }
 
-            for (int i = 0; i < RenderDatas.size(); ++i)
+            for (size_t i = 0; i < RenderDatas.size(); ++i)
             {
                 unsigned int MeshId = RenderDatas[i].MeshId;
                 unsigned int MeshNumber = RenderDatas[i].MeshNumber;
