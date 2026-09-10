@@ -110,6 +110,15 @@ public:
                         RenderDatas.push_back(std::move(renderData));
                         Index = RenderDatas.size() - 1;
                         IndexMap[renderData] = Index;
+
+                        RenderDatas[Index].TransformDatas.push_back(CameraTransform.GetPosition().x);
+                        RenderDatas[Index].TransformDatas.push_back(CameraTransform.GetPosition().y);
+                        RenderDatas[Index].TransformDatas.push_back(CameraTransform.GetPosition().z);
+                        RenderDatas[Index].TransformDatas.push_back(CameraTransform.GetRotation().x);
+                        RenderDatas[Index].TransformDatas.push_back(CameraTransform.GetRotation().y);
+                        RenderDatas[Index].TransformDatas.push_back(CameraTransform.GetRotation().z);
+                        RenderDatas[Index].TransformDatas.push_back(CameraData.WidthScale);
+                        RenderDatas[Index].TransformDatas.push_back(Arcarna::Config::Aspect);
                     }
                     else
                     {
@@ -117,7 +126,6 @@ public:
                     }
                     ++RenderDatas[Index].Amount;
 
-                    int DataSize = 17;
                     RenderDatas[Index].TransformDatas.push_back(ModelTransform.GetPosition().x);
                     RenderDatas[Index].TransformDatas.push_back(ModelTransform.GetPosition().y);
                     RenderDatas[Index].TransformDatas.push_back(ModelTransform.GetPosition().z);
@@ -127,17 +135,6 @@ public:
                     RenderDatas[Index].TransformDatas.push_back(ModelTransform.GetRotation().x);
                     RenderDatas[Index].TransformDatas.push_back(ModelTransform.GetRotation().y);
                     RenderDatas[Index].TransformDatas.push_back(ModelTransform.GetRotation().z);
-
-                    RenderDatas[Index].TransformDatas.push_back(CameraTransform.GetPosition().x);
-                    RenderDatas[Index].TransformDatas.push_back(CameraTransform.GetPosition().y);
-                    RenderDatas[Index].TransformDatas.push_back(CameraTransform.GetPosition().z);
-                    RenderDatas[Index].TransformDatas.push_back(CameraTransform.GetRotation().x);
-                    RenderDatas[Index].TransformDatas.push_back(CameraTransform.GetRotation().y);
-                    RenderDatas[Index].TransformDatas.push_back(CameraTransform.GetRotation().z);
-
-                    RenderDatas[Index].TransformDatas.push_back(CameraData.WidthScale);
-                    RenderDatas[Index].TransformDatas.push_back(Arcarna::Config::Aspect);
-
                 }
             }
 

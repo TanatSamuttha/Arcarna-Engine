@@ -8,38 +8,43 @@ layout(std430, binding = 0) buffer RenderData
 {
     float data[];
 };
-// Index to data
-// 0=modelPosX 1=modelPosY 2=modelPosZ
-// 3=modelScaleX 4=modelScaleY 5=modelScaleZ
-// 6=modelRotX 7=modelRotY 8=modelRotZ
-// 9=camPosX 10=camPosY 11=camPosZ
-// 12=camRotX 13=camRotY 14=camRotZ
-// 15=camScale 16=camAspect
+
+// Index of camera data
+const uint camDataSize = 8;
+const uint camPosX = 0, camPosY = 1, camPosZ = 2;
+const uint camRotX = 3, camRotY = 4, camRotZ = 5;
+const uint camScale = 6, camAspect = 7;
+
+// Index of model data
+const uint modelDataSize = 9;
+const uint modelPosX = 0, modelPosY = 1, modelPosZ = 2;
+const uint modelScaleX = 3, modelScaleY = 4, modelScaleZ = 5;
+const uint modelRotX = 6, modelRotY = 7, modelRotZ = 8;
 
 out vec2 v_TexCoord;
 
 void main ()
 {
-    int padding = gl_InstanceID * 17;
+    uint padding = uint(gl_InstanceID) * modelDataSize + camDataSize;
 
     mat4 model = mat4(
-        data[padding + 3], 0, 0, 0,
-        0, data[padding + 4], 0, 0,
-        0, 0, data[padding + 5], 0,
-        data[padding + 0], data[padding + 1], data[padding + 2], 1
+        data[padding + modelScaleX], 0, 0, 0,
+        0, data[padding + modelScaleY], 0, 0,
+        0, 0, data[padding + modelScaleZ], 0,
+        data[padding + modelPosX], data[padding + modelPosY], data[padding + modelPosZ], 1
     );
 
     mat4 view = mat4(
         1, 0, 0, 0,
         0, 1, 0, 0,
         0, 0, 1, 0,
-        -data[padding + 9], -data[padding + 10], -data[padding + 11], 1
+        -data[camPosX], -data[camPosY], -data[camPosZ], 1
     );
 
     mat4 projection = mat4(
-        1.0 / data[padding + 15] / data[padding + 16], 0, 0, 0,
-        0, 1.0 / data[padding + 15], 0, 0,
-        0, 0, 1.0 / data[padding + 15], 0,
+        1.0 / data[camScale] / data[camAspect], 0, 0, 0,
+        0, 1.0 / data[camScale], 0, 0,
+        0, 0, 1.0 / data[camScale], 0,
         0, 0, 0, 1
     );
 
