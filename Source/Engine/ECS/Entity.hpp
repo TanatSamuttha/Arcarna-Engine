@@ -10,6 +10,7 @@ private:
 
 public:
     bool Alive;
+    bool Active = true;
 
     Entity () : Alive(true) {};
 

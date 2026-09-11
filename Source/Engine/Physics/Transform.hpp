@@ -9,8 +9,6 @@ class Transform
     using Vector3 = Arcarna::Math::Vector3;
 
 private:
-    int current, previous = 1;
-
     Vector3 Position;
     Vector3 Scale;
     Vector3 Rotation;

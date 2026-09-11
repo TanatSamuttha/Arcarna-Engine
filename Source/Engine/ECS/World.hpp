@@ -59,6 +59,7 @@ public:
         }
         Entities[EntityId].SetId(EntityId);
         Entities[EntityId].Alive = true;
+        Entities[EntityId].Active = true;
         ComponentInEntity[EntityId] = 0;
 
         return EntityId;
@@ -83,6 +84,7 @@ public:
 
         mask.reset();
         Entities[EntityId].Alive = false;
+        Entities[EntityId].Active = false;
         FreeIds.push_back(EntityId);
     }
     

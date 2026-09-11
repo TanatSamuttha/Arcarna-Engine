@@ -5,6 +5,8 @@
 class Renderer
 {
 public:
+    bool Active = true;
+
     unsigned int MeshId;
     unsigned int MeshNumber;
     unsigned int Texture2DId;

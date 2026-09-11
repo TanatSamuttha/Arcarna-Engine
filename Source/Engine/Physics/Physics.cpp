@@ -13,13 +13,22 @@ namespace Arcarna
         {
             unsigned int EntityId = entity.GetId();
 
+            if (!Scene::World.GetEntity(EntityId).Active)
+                continue;
+
             RigidBody& rigidBody = Scene::World.GetComponent<RigidBody>(EntityId);
-            
+
+            if (!rigidBody.Active)
+                continue;
+        
             rigidBody.AddForce(Arcarna::Math::Vector3(0, Gravity, 0), ForceMode::Force);
 
             if (Scene::World.HasComponent<Transform>(EntityId))
             {
                 Transform& transform = Scene::World.GetComponent<Transform>(EntityId);
+
+                if (!transform.Active)
+                    continue;
 
                 transform.SetPosition(
                     transform.GetPosition() +

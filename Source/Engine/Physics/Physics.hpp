@@ -16,6 +16,7 @@ namespace Arcarna
         friend class ::Scheduler;
     
     public:
+        bool Active = true;
         inline static float Gravity = -9.8;
 
         static void Start ();

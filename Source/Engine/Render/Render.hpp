@@ -106,6 +106,9 @@ public:
                     Transform& ModelTransform = Scene::World.GetComponent<Transform>(EntityId);
                     Transform& CameraTransform = Scene::World.GetComponent<Transform>(Scene::MainCameraEntityId);
                     Camera& CameraData = Scene::World.GetComponent<Camera>(Scene::MainCameraEntityId);
+
+                    if (!ModelTransform.Active || !CameraTransform.Active)
+                        continue;
                     
                     RenderData renderData = {
                         MeshId,
