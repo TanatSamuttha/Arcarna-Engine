@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <stdexcept>
 
 #include "glad/glad.h"
 #include "stb_image.h"

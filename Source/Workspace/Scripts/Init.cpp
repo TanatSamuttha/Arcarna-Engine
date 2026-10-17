@@ -1,10 +1,8 @@
 #include "Init.hpp"
 
 #include "Scene/Scene.hpp"
-#include "Physics/Physics.hpp"
 #include "Physics/Transform.hpp"
 #include "Physics/RigidBody.hpp"
-#include "Mesh/Mesh.hpp"
 #include "Texture/Texture2D.hpp"
 #include "Sprite/Sprite.hpp"
 #include "Render/Renderer.hpp"

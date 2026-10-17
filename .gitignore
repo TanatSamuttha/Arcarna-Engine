@@ -3,3 +3,4 @@ temp.cpp
 .vscode
 *.hind
 Build
+.clangd
