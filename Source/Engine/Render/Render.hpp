@@ -67,7 +67,7 @@ public:
         window = glfwCreateWindow(
             Arcarna::Config::WindowWidth,
             Arcarna::Config::WindowHeight,
-            Arcarna::Config::WindowName.c_str(),
+            Arcarna::Config::WindowName.data(),
             NULL,
             NULL
         );
