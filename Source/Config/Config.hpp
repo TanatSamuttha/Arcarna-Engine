@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include <string_view>
 
 namespace Arcarna::Config
 {
@@ -8,7 +8,7 @@ namespace Arcarna::Config
     static constexpr float WindowWidth = 640;
     static constexpr float WindowHeight = 480;
     static constexpr float Aspect = WindowWidth / WindowHeight;
-    static constexpr std::string WindowName = "My Game";
+    static constexpr std::string_view WindowName = "My Game";
 
     static bool IsRunning;
 }

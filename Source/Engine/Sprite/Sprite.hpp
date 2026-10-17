@@ -1,7 +1,5 @@
 #pragma once
 
-#include <stdexcept>
-
 #include "Mesh/Mesh.hpp"
 #include "Texture/Texture2D.hpp"
 

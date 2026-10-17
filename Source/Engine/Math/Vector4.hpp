@@ -1,7 +1,5 @@
 #pragma once
 
-#include <stdexcept>
-
 namespace Arcarna::Math
 {
     class Vector4

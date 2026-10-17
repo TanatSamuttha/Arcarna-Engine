@@ -1,7 +1,5 @@
 #pragma once
 
-#include <utility>
-
 #include "Config.hpp"
 #include "Math/Vector4.hpp"
 

@@ -3,8 +3,9 @@
 #include <vector>
 #include <unordered_map>
 #include <algorithm>
+#include <stdexcept>
 
-#include "Entity.hpp"
+#include "IPool.hpp"
 
 template<class T>
 class ComponentPool : public IPool

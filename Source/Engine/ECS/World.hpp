@@ -1,11 +1,9 @@
 #pragma once
 
-#include <unordered_map>
 #include <vector>
-#include <queue>
 #include <bitset>
-#include <typeindex>
 #include <memory>
+#include <cstdint>
 
 #include "IPool.hpp"
 #include "ComponentPool.hpp"

@@ -1,6 +1,4 @@
-#include <iostream>
-
-#include "init.hpp"
+#include "Init.hpp"
 
 #include "Scene/Scene.hpp"
 #include "Physics/Physics.hpp"
