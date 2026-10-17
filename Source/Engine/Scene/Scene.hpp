@@ -12,11 +12,11 @@ private:
     inline static unsigned int CurrentId;
 
     unsigned int Id;
-    World ThisWorld;
+    ::World ThisWorld;
     unsigned int ThisCamera;
 
 public:
-    inline static World World;
+    inline static ::World World;
     inline static unsigned int MainCameraEntityId;
 
     Scene () : Id(0) {}

@@ -3,7 +3,7 @@
 #include <iostream>
 #include <stdexcept>
 
-#include "Scripts/init.hpp"
+#include "Scripts/Init.hpp"
 #include "Config.hpp"
 #include "Scheduler/Scheduler.hpp"
 

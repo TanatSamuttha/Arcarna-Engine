@@ -6,6 +6,7 @@
 #include <bitset>
 #include <typeindex>
 #include <memory>
+#include <cstdint>
 
 #include "IPool.hpp"
 #include "ComponentPool.hpp"
