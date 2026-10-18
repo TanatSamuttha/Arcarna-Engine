@@ -32,7 +32,5 @@ int main ()
 
     }
     
-    Scheduler::End();
-    
     return 0;
 }
