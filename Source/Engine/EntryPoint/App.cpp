@@ -29,7 +29,10 @@ int main ()
         Scheduler::Update(dt);
 
         std::this_thread::sleep_until(NextFrame);
+
     }
+    
+    Scheduler::End();
     
     return 0;
 }

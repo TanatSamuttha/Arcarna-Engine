@@ -7,7 +7,6 @@
 #include <iostream>
 
 #include "glad/glad.h"
-#include "Math/Math.hpp"
 #include "Physics/Transform.hpp"
 #include "Camera/Camera.hpp"
 

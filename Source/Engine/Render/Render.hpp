@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <stdexcept>
 
 #include "Config.hpp"
@@ -7,7 +8,6 @@
 #include "Scene/Scene.hpp"
 #include "Render/Renderer.hpp"
 #include "Physics/Transform.hpp"
-#include "Math/Math.hpp"
 #include "Render/Shader.hpp"
 #include "Render/ShaderStorageBuffer.hpp"
 #include "glad/glad.h"

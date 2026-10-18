@@ -5,7 +5,6 @@
 #include <stdexcept>
 #include <algorithm>
 #include <iostream>
-#include <utility>
 #include <thread>
 #include <memory>
 #include <string>
@@ -220,8 +219,8 @@ namespace Ariadne
     public:
         std::shared_ptr<T> state;
 
-        static constexpr std::string START = "Start";
-        static constexpr std::string END = "End";
+        static constexpr const char* START = "Start";
+        static constexpr const char* END = "End";
 
         Graph () : state(nullptr)
         {

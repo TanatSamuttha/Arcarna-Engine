@@ -91,6 +91,7 @@ INCLUDE_COMMON := \
 	-ISource/Config \
 	-IVendor/glad/include \
 	-IVendor/stb_image \
+	-IVendor/ariadne \
 	-ITest
 
 INCLUDE_LINUX := $(INCLUDE_COMMON) \
