@@ -5,7 +5,7 @@
 #include "Physics/Transform.hpp"
 #include "Math/Math.hpp"
 
-class Scheduler;
+class System;
 
 namespace Arcarna
 {
@@ -13,7 +13,7 @@ namespace Arcarna
     {
     private:
         inline static float dt;
-        friend class ::Scheduler;
+        friend class ::System;
     
     public:
         bool Active = true;

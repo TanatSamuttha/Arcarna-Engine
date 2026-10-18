@@ -1,9 +1,8 @@
 #include <chrono>
 #include <thread>
 
-#include "Scripts/Init.hpp"
 #include "Config.hpp"
-#include "Scheduler/Scheduler.hpp"
+#include "ECS/System.hpp"
 
 int main ()
 {
@@ -17,7 +16,7 @@ int main ()
 
     auto Previous = Clock::now();
 
-    Scheduler::Start();
+    System::Start();
 
     while (Arcarna::Config::IsRunning)
     {
@@ -26,7 +25,7 @@ int main ()
         double dt = std::chrono::duration<double>(Clock::now() - Previous).count();
         Previous = Clock::now();
 
-        Scheduler::Update(dt);
+        System::Update(dt);
 
         std::this_thread::sleep_until(NextFrame);
 
