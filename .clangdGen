@@ -1,0 +1,1 @@
+python -c 'from pathlib import Path; root=Path.cwd().resolve(); src=root/"./"; dirs=[src, *sorted(p for p in src.rglob("*") if p.is_dir())]; Path(".clangd").write_text("CompileFlags:\n  Add:\n" + "".join(f"    - \"-I{p}\"\n" for p in dirs))'

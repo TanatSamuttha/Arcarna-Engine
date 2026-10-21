@@ -21,6 +21,7 @@ private:
     std::vector<Entity> Entities;
     std::vector<std::bitset<MAX_COMPONENT>> ComponentInEntity;
     std::vector<std::unique_ptr<IPool>> ComponentPools;
+    unsigned int entityCount = 0;
 
     template<class T>
     unsigned int GetComponentID ()
@@ -59,6 +60,7 @@ public:
         Entities[EntityId].Alive = true;
         Entities[EntityId].Active = true;
         ComponentInEntity[EntityId] = 0;
+        ++entityCount;
 
         return EntityId;
     }
@@ -66,6 +68,11 @@ public:
     Entity& GetEntity (const unsigned int& EntityId)
     {
         return Entities[EntityId];
+    }
+
+    unsigned int EntityCount ()
+    {
+        return entityCount;
     }
 
     void DestroyEntity (const unsigned int& EntityId)
@@ -84,6 +91,7 @@ public:
         Entities[EntityId].Alive = false;
         Entities[EntityId].Active = false;
         FreeIds.push_back(EntityId);
+        --entityCount;
     }
     
     template<class T>
