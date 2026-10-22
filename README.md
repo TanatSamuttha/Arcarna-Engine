@@ -66,7 +66,7 @@ Arcarna's ECS separates an entity's identity from the components that hold its d
 - **`Scene` — scene context:** The current implementation exposes the active ECS world through `Scene::World` and tracks the main camera entity through `Scene::MainCameraEntityId`. A scene stores its own `World` and camera ID; switching scenes moves the active world and camera state between the active storage and the selected scene. This section only describes how Scene relates to ECS; its full API and lifecycle are documented separately.
 - **`World` — ECS coordinator:** Owns the entity collection, per-entity component masks, type-specific component pools, the free-entity-ID list, and the API for creating, destroying, inspecting, and querying entities. Components are accessed through `World`, rather than being stored directly in `Entity`.
 - **`Entity` — identity and state:** An entity has an unsigned integer ID and public `Alive` and `Active` flags. Its component data is stored separately. Destroying an entity removes components recorded in its mask, marks it not alive and inactive, and returns its ID to the free-ID list for reuse.
-- **`ComponentPool<T>` — per-type storage:** Each component type has a separate pool containing a `std::vector<T>`, a parallel sorted vector of entity IDs, and a hash map from entity ID to component index. The component objects are stored contiguously, while the map supports lookup by entity ID.
+- **`ComponentPool<T>` — per-type storage:** Each component type has a separate pool containing a `std::vector<T>`, a parallel entity-ID vector, and a hash map from entity ID to component index. When IDs arrive in increasing order, components can be appended while keeping the vectors sorted. An out-of-order insertion appends the new entity and component, marks the affected suffix as unsorted, and defers reordering until a sorting-triggering operation is called. `SortEntities()` sorts only the affected suffix and moves components to keep them aligned with their entity IDs.
 - **`IPool` — type-erased pool interface:** Allows `World` to own pools of different component types through `std::unique_ptr<IPool>` and remove components without knowing the concrete pool template type.
 - **Component masks:** `World` stores a bitset per entity to record component membership. The current representation reserves 128 bits for component type IDs.
 - **Views — component queries:** `World::View<Components...>()` starts with the smallest pool among the requested component types, then filters candidates to entities containing all requested types. A range-based loop yields references to the matching `Entity` objects.
@@ -111,11 +111,12 @@ Scene management is included here only to explain the access path to `World`; sc
 
 | API | Description |
 |---|---|
-| `AddComponent(EntityId, args...)` | Adds a component and records its index. Entity IDs remain sorted; inserting in the middle shifts later entries and updates their map indices. Throws `std::runtime_error` if the entity already has this component type in the pool. |
-| `GetIndex(EntityId)` | Returns the component index, or throws `std::runtime_error` if the entity is not in the pool. |
-| `GetComponent(EntityId)` | Returns a mutable reference to the specified component. |
-| `GetEntities()` | Returns a mutable reference to the pool's internal sorted entity-ID vector. |
-| `RemoveComponent(EntityId)` | Removes the component and updates indices for entries shifted by the removal. Throws `std::runtime_error` if the entity is not in the pool. |
+| `AddComponent(EntityId, args...)` | Adds a component and records its index. If the ID can be appended without breaking order, it uses the append path. Otherwise, it appends the entity and component and marks the affected suffix for deferred sorting. Throws `std::runtime_error` if the entity already has this component type in the pool. |
+| `SortEntities()` | Sorts the affected suffix of the entity-ID vector and moves the matching components into the same order, updating the entity-to-index map. Does nothing if the pool is already sorted. |
+| `GetIndex(EntityId)` | Sorts pending entries if needed, then returns the component index. Throws `std::runtime_error` if the entity is not in the pool. |
+| `GetComponent(EntityId)` | Returns a mutable reference to the specified component; component lookup goes through `GetIndex()`, so pending sorting is completed first. |
+| `GetEntities()` | Sorts pending entries if needed, then returns a mutable reference to the pool's internal entity-ID vector. |
+| `RemoveComponent(EntityId)` | Sorts pending entries if needed, removes the component, and updates indices for entries shifted by removal. Throws `std::runtime_error` if the entity is not in the pool. |
 | `IPool::RemoveComponent(EntityId)` | Virtual type-erased removal operation implemented by each concrete component pool. |
 
 ### API reference: `System`
@@ -130,8 +131,9 @@ Scene management is included here only to explain the access path to `World`; sc
 
 ### Current implementation notes
 
-- Component pools keep entity IDs sorted. Appending a larger ID is amortized constant time for the vectors, but inserting or removing in the middle shifts elements and updates map indices, so these operations are linear in the affected pool size.
-- `GetEntities()` exposes the internal vector by mutable reference. Modifying it directly can desynchronize the entity list, component storage, and index map.
+- A pool may temporarily contain an unsorted suffix after an out-of-order insertion. `GetIndex()`, `GetEntities()`, `GetComponent()`, and `RemoveComponent()` trigger `SortEntities()` when needed; sorting uses `std::stable_sort` on the affected suffix and moves the corresponding components to preserve entity/component alignment. The first such operation after out-of-order insertions can therefore cost \(O(k \log k)\) for a dirty suffix of length `k`, plus linear component moves and map updates.
+- When the pool is sorted, appending a new highest ID is amortized constant time for the vectors (with expected constant-time hash-map insertion). An out-of-order `AddComponent()` uses binary search over the previously sorted range and appends without immediately shifting existing elements. `RemoveComponent()` still shifts subsequent vector elements and updates their map indices, so removal is linear in the affected pool size.
+- `GetEntities()` exposes the internal vector by mutable reference after sorting. Modifying it directly can desynchronize the entity list, component storage, sorting metadata, and index map.
 - A view iterates over a pool's internal entity-ID vector. Adding or removing components from that same pool during iteration may invalidate its iterators.
 - Views filter by component presence, not by `Entity::Active`; systems must check `Active` explicitly when required.
 - The component bitset currently supports 128 component type IDs. The current representation does not support registering component types beyond that limit.
