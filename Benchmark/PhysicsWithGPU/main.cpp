@@ -7,7 +7,7 @@
 
 int main ()
 {
-    size_t N = (size_t)1e6;
+    size_t N = (size_t)1e7;
 
     // Initialize scene
     Scene::SetNewScene();
