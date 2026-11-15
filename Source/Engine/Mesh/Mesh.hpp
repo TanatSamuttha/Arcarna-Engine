@@ -21,7 +21,6 @@ private:
     inline static std::vector<unsigned int> FreeIds;
     
 public:
-
     static void Start ();
 
     static unsigned int Create (unsigned int VertexBufferId, unsigned int VertexArrayId, unsigned int IndexBufferId, unsigned int ProgramId)
