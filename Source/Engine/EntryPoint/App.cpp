@@ -32,7 +32,6 @@ public:
             System::Update(dt);
 
             std::this_thread::sleep_until(NextFrame);
-
         }
         System::UpdateGraph.destroyWorker();
     }

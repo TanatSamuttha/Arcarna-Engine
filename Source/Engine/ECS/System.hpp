@@ -91,26 +91,25 @@ public:
         {
             StartGraph.addEdge(TaskName, StartGraph.END);
         }
+        StartNoEndPoint.clear();
         
         StartGraph.spawnWorker(5);
         // StartGraph.exec(); // Is bugging with Ariadne
 
         StartNoEndPoint.clear();
         std::vector<std::string> Dependencies;
-        for (std::string TaskName : UpdateNoEndPoint)
-        {
-            Dependencies.push_back(TaskName);
-        }
-        UpdateNoEndPoint.clear();
-        AddUpdate(Render::Update, "Render", Dependencies);
         for (auto Edge : UpdateEdges)
         {
             UpdateGraph.addEdge(Edge.first, Edge.second);
         }
         UpdateEdges.clear();
-        UpdateGraph.addEdge("Render", UpdateGraph.END);
+        for (std::string TaskName : UpdateNoEndPoint)
+        {
+            UpdateGraph.addEdge(TaskName, UpdateGraph.END);
+        }
+        UpdateNoEndPoint.clear();
 
-        StartGraph.wait();
+        // StartGraph.wait();
         StartGraph.destroyWorker();
     }
 
@@ -119,5 +118,6 @@ public:
         Arcarna::Physics::dt = dt;
         UpdateGraph.exec();
         UpdateGraph.wait();
+        Render::Update();
     }
 };
