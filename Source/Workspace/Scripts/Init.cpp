@@ -8,7 +8,7 @@
 #include "Camera/Camera.hpp"
 
 #include "BoundChecker/HorizontalBound.hpp"
-#include "BoundChecker/Verticalbound.hpp"
+#include "BoundChecker/VerticalBound.hpp"
 #include "AddBoxes/AddBoxes.hpp"
 
 namespace Arcarna
@@ -23,8 +23,8 @@ namespace Arcarna
         AddBoxes::RectangleTId = Texture2D::Create("Source/Workspace/Assets/Images/Rectangle.png");
         Texture2D::Load(AddBoxes::RectangleTId);
 
-        System::AddStart(AddBoxes::Start, "AddBoxes", {System::START_NODE});
-        System::AddUpdate(Horizontalbound::Update, "Hori", {System::PHYSICS_NODE});
-        System::AddUpdate(Verticalbound::Update, "Verti", {"Hori"});
+        AddBoxes::Start();
+        System::AddUpdate(Horizontalbound::Update, "Hori");
+        System::AddUpdate(Verticalbound::Update, "Verti");
     }
 }

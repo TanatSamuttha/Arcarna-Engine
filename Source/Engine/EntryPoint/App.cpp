@@ -21,7 +21,6 @@ public:
 
         System::Start();
 
-        System::UpdateGraph.spawnWorker();
         int count = 0;
         while (Arcarna::Config::IsRunning)
         {
@@ -38,7 +37,6 @@ public:
             if (count == 20)
                 break;
         }
-        System::UpdateGraph.destroyWorker();
     }
 };
 
