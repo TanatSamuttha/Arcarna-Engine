@@ -93,7 +93,7 @@ public:
         }
         StartNoEndPoint.clear();
         
-        StartGraph.spawnWorker(5);
+        StartGraph.spawnWorker();
         StartGraph.exec();
 
         StartNoEndPoint.clear();
