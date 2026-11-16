@@ -274,6 +274,9 @@ compile-test-physics: build
 compile-test-renderer: build
 	$(TEST_BASE) Test/Renderer.cpp $(TEST_TAIL)
 
+compile-test-event: build
+	$(TEST_BASE) Test/Event.cpp $(TEST_TAIL)
+
 
 # ==========================================
 # Run Tests
@@ -297,6 +300,8 @@ test-physics: compile-test-physics
 test-renderer: compile-test-renderer
 	$(RUN_PREFIX)$(TEST_APP)
 
+test-event: compile-test-event
+	$(RUN_PREFIX)$(TEST_APP)
 
 # ==========================================
 # Run All Tests

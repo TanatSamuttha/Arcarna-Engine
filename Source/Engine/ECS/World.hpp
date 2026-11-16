@@ -37,7 +37,7 @@ public:
         unsigned int EntityId = NewEntity();
         Entity& ThisEntity = GetEntity(EntityId);
 
-        (AddComponent<Components>(ThisEntity), ...);
+        (AddComponent<Components>(ThisEntity.GetId()), ...);
 
         return EntityId;
     }
@@ -106,12 +106,6 @@ public:
             ComponentPools[ComponentId] = std::make_unique<ComponentPool<T>>();
 
         return *static_cast<ComponentPool<T>*>(ComponentPools[ComponentId].get());
-    }
-
-    template<class T, class... Args>
-    void AddComponent (const Entity& entity, Args&&... args)
-    {
-        AddComponent<T>(entity.GetId(), std::forward<Args>(args)...);
     }
 
     template<class T, class... Args>
