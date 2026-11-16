@@ -7,9 +7,9 @@
 #include "Render/Renderer.hpp"
 #include "Camera/Camera.hpp"
 
-#include "BoundChecker/HorizontalBound.hpp"
-#include "BoundChecker/VerticalBound.hpp"
-#include "AddBoxes/AddBoxes.hpp"
+#include "Scripts/BoundChecker/HorizontalBound.hpp"
+#include "Scripts/BoundChecker/VerticalBound.hpp"
+#include "Scripts/AddBoxes/AddBoxes.hpp"
 
 namespace Arcarna
 {

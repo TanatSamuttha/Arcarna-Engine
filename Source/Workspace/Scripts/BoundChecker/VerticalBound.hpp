@@ -1,29 +1,29 @@
 #include "Physics/Physics.hpp"
 #include "Scene/Scene.hpp"
+#include "Scripts/BoundChecker/Added.hpp"
 
 class Verticalbound
 {
-private:
-    inline static bool Added = false;
 public:
     inline static void Update ()
     {
-        for (Entity& entity : Scene::World.View<Transform, RigidBody>())
+        for (Entity& entity : Scene::World.View<Transform, RigidBody, Added>())
         {
             Transform& transform = Scene::World.GetComponent<Transform>(entity.GetId());
             RigidBody& rigidBody = Scene::World.GetComponent<RigidBody>(entity.GetId());
-            if (transform.GetPosition().y <= -5 && !Added)
+            Added& added = Scene::World.GetComponent<Added>(entity.GetId());
+            if (transform.GetPosition().y <= -5 && !added.Verti)
             {
-                rigidBody.AddForce(Arcarna::Math::Vector3(
-                    0,
-                    6,
-                    0
-                ), ForceMode::Impulse);
-                Added = true;
+                rigidBody.SetVelocity(Arcarna::Math::Vector3(
+                    rigidBody.GetVelocity().x,
+                    10,
+                    rigidBody.GetVelocity().z
+                ));
+                added.Verti = true;
             }
             else if (transform.GetPosition().y > -5)
             {
-                Added = false;
+                added.Verti = false;
             }
         }
     }

@@ -2,6 +2,7 @@
 #include "Sprite/Sprite.hpp"
 #include "Physics/Physics.hpp"
 #include "Render/Renderer.hpp"
+#include "Scripts/BoundChecker/Added.hpp"
 
 class AddBoxes
 {
@@ -13,7 +14,7 @@ public:
         size_t n = 2;
         for (int i = 0; i < n/2; ++i)
         {
-            unsigned int RectangleEId = Scene::World.NewEntity<Transform, RigidBody>();
+            unsigned int RectangleEId = Scene::World.NewEntity<Transform, RigidBody, Added>();
             Sprite Rectangle(RectangleTId);
             Scene::World.AddComponent<Renderer>(RectangleEId, Rectangle);
             Scene::World.GetComponent<Transform>(RectangleEId).SetPosition(Arcarna::Math::Vector3(-5, 0, 0));
@@ -21,7 +22,7 @@ public:
         }
         for (int i = 0; i < n/2; ++i)
         {
-            unsigned int RectangleEId = Scene::World.NewEntity<Transform, RigidBody>();
+            unsigned int RectangleEId = Scene::World.NewEntity<Transform, RigidBody, Added>();
             Sprite Rectangle(RectangleTId);
             Scene::World.AddComponent<Renderer>(RectangleEId, Rectangle);
             Scene::World.GetComponent<Transform>(RectangleEId).SetPosition(Arcarna::Math::Vector3(3, 5, 0));
