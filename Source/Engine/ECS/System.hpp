@@ -94,7 +94,7 @@ public:
         StartNoEndPoint.clear();
         
         StartGraph.spawnWorker(5);
-        // StartGraph.exec(); // Is bugging with Ariadne
+        StartGraph.exec();
 
         StartNoEndPoint.clear();
         std::vector<std::string> Dependencies;
@@ -109,7 +109,7 @@ public:
         }
         UpdateNoEndPoint.clear();
 
-        // StartGraph.wait();
+        StartGraph.wait();
         StartGraph.destroyWorker();
     }
 

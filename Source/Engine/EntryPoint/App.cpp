@@ -21,7 +21,7 @@ public:
 
         System::Start();
 
-        System::UpdateGraph.spawnWorker(5);
+        System::UpdateGraph.spawnWorker();
         while (Arcarna::Config::IsRunning)
         {
             NextFrame += FrameTime;
