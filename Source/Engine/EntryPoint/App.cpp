@@ -18,6 +18,7 @@ int main ()
 
     System::Start();
 
+    int count = 0;
     while (Arcarna::Config::IsRunning)
     {
         NextFrame += FrameTime;
@@ -27,8 +28,11 @@ int main ()
 
         System::Update(dt);
 
+        std::cout << std::chrono::duration<double>(Clock::now() - Previous).count() << '\n';
         std::this_thread::sleep_until(NextFrame);
-
+        ++count;
+        if (count == 20)
+            return 0;
     }
     
     return 0;
