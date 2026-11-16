@@ -10,7 +10,7 @@ public:
 
     inline static void Start ()
     {
-        size_t n = 100000;
+        size_t n = 2;
         for (int i = 0; i < n/2; ++i)
         {
             unsigned int RectangleEId = Scene::World.NewEntity<Transform, RigidBody>();
