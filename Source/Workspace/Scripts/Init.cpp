@@ -25,6 +25,6 @@ namespace Arcarna
 
         System::AddStart(AddBoxes::Start, "AddBoxes", {System::START_NODE});
         System::AddUpdate(Horizontalbound::Update, "Hori", {System::PHYSICS_NODE});
-        System::AddUpdate(Verticalbound::Update, "Verti", {System::PHYSICS_NODE});
+        System::AddUpdate(Verticalbound::Update, "Verti", {"Hori"});
     }
 }

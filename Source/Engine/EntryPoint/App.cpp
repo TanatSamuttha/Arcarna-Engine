@@ -22,6 +22,7 @@ public:
         System::Start();
 
         System::UpdateGraph.spawnWorker();
+        int count = 0;
         while (Arcarna::Config::IsRunning)
         {
             NextFrame += FrameTime;
@@ -31,7 +32,11 @@ public:
 
             System::Update(dt);
 
+            std::cout << std::chrono::duration<double>(Clock::now() - Previous).count() << '\n';
             std::this_thread::sleep_until(NextFrame);
+            ++count;
+            if (count == 20)
+                break;
         }
         System::UpdateGraph.destroyWorker();
     }
