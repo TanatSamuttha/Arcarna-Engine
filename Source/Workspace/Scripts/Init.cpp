@@ -1,12 +1,15 @@
 #include "Init.hpp"
 
+#include "ECS/System.hpp"
 #include "Scene/Scene.hpp"
 #include "Physics/Transform.hpp"
 #include "Physics/RigidBody.hpp"
-#include "Texture/Texture2D.hpp"
-#include "Sprite/Sprite.hpp"
 #include "Render/Renderer.hpp"
 #include "Camera/Camera.hpp"
+
+#include "BoundChecker/HorizontalBound.hpp"
+#include "BoundChecker/Verticalbound.hpp"
+#include "AddBoxes/AddBoxes.hpp"
 
 namespace Arcarna
 {
@@ -17,18 +20,11 @@ namespace Arcarna
         unsigned int CameraEId = Scene::World.NewEntity<Transform, Camera>();
         Scene::MainCameraEntityId = CameraEId;
 
-        unsigned int RectangleEId = Scene::World.NewEntity<Transform, RigidBody>();
+        AddBoxes::RectangleTId = Texture2D::Create("Source/Workspace/Assets/Images/Rectangle.png");
+        Texture2D::Load(AddBoxes::RectangleTId);
 
-        unsigned int RectangleTId = Texture2D::Create("Source/Workspace/Assets/Images/Rectangle.png");
-
-        Texture2D::Load(RectangleTId);
-        Sprite Rectangle(RectangleTId);
-        Scene::World.AddComponent<Renderer>(RectangleEId, Rectangle);
-        Scene::World.GetComponent<Transform>(RectangleEId).SetPosition(Arcarna::Math::Vector3(-5, 0, 0));
-        Scene::World.GetComponent<RigidBody>(RectangleEId).SetVelocity(Arcarna::Math::Vector3(6, 6, 0));
-
-        unsigned int Rectangle2EId = Scene::World.NewEntity<Transform, RigidBody>();
-        Scene::World.AddComponent<Renderer>(Rectangle2EId, Rectangle);
-        Scene::World.GetComponent<Transform>(Rectangle2EId).SetPosition(Arcarna::Math::Vector3(3, 5, 0));
+        System::AddStart(AddBoxes::Start, "AddBoxes", {System::START_NODE});
+        System::AddUpdate(Horizontalbound::Update, "Hori", {System::PHYSICS_NODE});
+        System::AddUpdate(Verticalbound::Update, "Verti", {System::PHYSICS_NODE});
     }
 }
