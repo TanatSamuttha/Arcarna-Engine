@@ -136,7 +136,8 @@ namespace Ariadne
                 tasks.pop();
                 
                 uLock.unlock();
-
+                
+                start_task:
                 std::string next = "";
 
                 if (readActive(task.nodeId)) next = nodes[task.nodeId](state);
@@ -145,8 +146,24 @@ namespace Ariadne
                     return;
 
                 std::lock_guard gTaskLock(tasksLock);
+
+                if (adjacent[task.nodeId].size() == 1 && !adjacent[task.nodeId].front().isCycle)
+                {
+                    Incedent nextTask = adjacent[task.nodeId].front();
+                    --remainInDegrees[nextTask.nodeId];
+                    if (!readActive(nextTask.nodeId))
+                        setActive(nextTask.nodeId, readActive(task.nodeId));
                     
-                if (next != "")
+                    remainInDegrees[task.nodeId] = inDegrees[task.nodeId];
+                    setActive(task.nodeId, false);
+
+                    if (remainInDegrees[nextTask.nodeId])
+                        continue;
+
+                    task = Task(nextTask.nodeId);
+                    goto start_task;
+                }
+                else if (next != "")
                 {
                     size_t nextId = nodeIds[next];
                     typename std::vector<Incedent>::iterator it;
@@ -179,9 +196,9 @@ namespace Ariadne
             }
         }
 
-        void pushTask (size_t nextId, bool active, bool isCycle)
+        void pushTask (size_t nextId, bool active, bool noWait)
         {
-            if (isCycle)
+            if (noWait)
             { 
                 tasks.emplace(nextId);
                 setActive(nextId, active);
@@ -213,6 +230,21 @@ namespace Ariadne
             {
                 ++inDegrees[destinationId];
                 ++remainInDegrees[destinationId];
+            }
+        }
+
+        void maxParallel (size_t nodeId, size_t depth, std::vector<size_t>& counts, size_t& maxCount)
+        {
+            if (depth >= counts.size())
+                counts.resize(depth + 1);
+
+            ++counts[depth];
+            maxCount = std::max(maxCount, counts[depth]);
+
+            for (Incedent nextNode : adjacent[nodeId])
+            {
+                if (!nextNode.isCycle)
+                    maxParallel(nextNode.nodeId, depth + 1, counts, maxCount);
             }
         }
 
@@ -276,6 +308,15 @@ namespace Ariadne
             generalAddEdge(origin, destination, true);
         }
 
+        void spawnWorker()
+        {
+            size_t maxCount = 0;
+            std::vector<size_t> counts;
+            if (initializedAdjacent)
+                maxParallel(nodeIds[START], 0, counts, maxCount);
+            spawnWorker(maxCount);
+        }
+
         void spawnWorker (size_t workers)
         {
             working = true;
@@ -303,11 +344,15 @@ namespace Ariadne
             if (!working)
                 throw std::runtime_error("No worker");
             executing = true;
-            pushTask(nodeIds[START], true, true);
+            std::lock_guard<std::mutex> glock(tasksLock);
+            if (initializedAdjacent)
+                pushTask(nodeIds[START], true, true);
         }
 
         void wait ()
         {
+            if (!initializedAdjacent)
+                return;
             std::unique_lock<std::mutex> uLock(executingLock);
             executingCV.wait(uLock, [&]()
             {

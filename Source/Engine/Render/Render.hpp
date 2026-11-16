@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <stdexcept>
+#include <functional>
 
 #include "Config.hpp"
 #include "Camera/Camera.hpp"
@@ -54,6 +55,8 @@ private:
         }
     };
 
+    inline static std::vector<std::function<void()>> LaterCall;
+
 public:
     inline static void Start ()
     {
@@ -83,10 +86,22 @@ public:
             throw std::runtime_error("Start window fail");
 
         ShaderStorageBuffer::CreateTransform();
+
+        for (auto callable : LaterCall)
+        {
+            callable();
+        }
+        LaterCall.clear();
     }
 
     inline static void Update ()
     {
+        for (auto callable : LaterCall)
+        {
+            callable();
+        }
+        LaterCall.clear();
+
         if (!glfwWindowShouldClose(window) && Arcarna::Config::IsRunning)
         {
             glClear(GL_COLOR_BUFFER_BIT);
@@ -175,6 +190,11 @@ public:
         }
         else
             End();
+    }
+
+    inline static void RenderLater (std::function<void()> callable)
+    {
+        LaterCall.push_back(callable);
     }
 
     inline static void End ()
