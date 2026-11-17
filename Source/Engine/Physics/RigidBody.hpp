@@ -19,11 +19,12 @@ private:
     Vector3 Force;
 
     float Mass;
-
+    
 public:
     bool Active = true;
-
-    RigidBody () : Velocity(Vector3(0, 0, 0)), Force(Vector3(0, 0, 0)), Mass(1) {}
+    float GravityScale;
+    
+    RigidBody () : Velocity(Vector3(0, 0, 0)), Force(Vector3(0, 0, 0)), Mass(1), GravityScale(1) {}
 
     RigidBody (const float Mass) : Velocity(Vector3(0, 0, 0)), Force(Vector3(0, 0, 0)), Mass(Mass) {}
 

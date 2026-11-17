@@ -4,6 +4,7 @@
 #include "Physics/Physics.hpp"
 #include "Render/Render.hpp"
 #include "Mesh/Mesh.hpp"
+#include "Input/Input.hpp"
 
 #include <functional>
 #include <string>
@@ -45,6 +46,8 @@ public:
 
         Render::Start();
         Mesh::Start();
+
+        Input::window = Render::window;
 
         Arcarna::Init();
 

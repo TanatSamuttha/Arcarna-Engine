@@ -14,11 +14,15 @@
 #include "glad/glad.h"
 #include "glfw3.h"
 
+class System;
+
 class Render
 {
-private:
+protected:
+    friend class System;
     inline static GLFWwindow* window;
 
+private:
     struct RenderData
     {
         unsigned int MeshId;

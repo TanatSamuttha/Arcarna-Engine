@@ -3,6 +3,7 @@
 #include "Physics/Physics.hpp"
 #include "Render/Renderer.hpp"
 #include "Scripts/BoundChecker/Added.hpp"
+#include "Scripts/Walkable/Walkable.hpp"
 
 class AddBoxes
 {
@@ -27,5 +28,11 @@ public:
             Scene::World.AddComponent<Renderer>(RectangleEId, Rectangle);
             Scene::World.GetComponent<Transform>(RectangleEId).SetPosition(Arcarna::Math::Vector3(3, 5, 0));
         }
+
+        unsigned int PlayerEId = Scene::World.NewEntity<Transform, RigidBody, Walkable>();
+        Sprite Rectangle(RectangleTId);
+        Scene::World.AddComponent<Renderer>(PlayerEId, Rectangle);
+        Scene::World.GetComponent<Transform>(PlayerEId).SetPosition(Arcarna::Math::Vector3(0, 0, 0));
+        Scene::World.GetComponent<RigidBody>(PlayerEId).GravityScale = 0;
     }
 };

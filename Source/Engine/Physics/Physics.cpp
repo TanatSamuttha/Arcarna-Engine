@@ -21,7 +21,7 @@ namespace Arcarna
             if (!rigidBody.Active)
                 continue;
         
-            rigidBody.AddForce(Arcarna::Math::Vector3(0, Gravity, 0), ForceMode::Force);
+            rigidBody.AddForce(Arcarna::Math::Vector3(0, Gravity * rigidBody.GravityScale, 0), ForceMode::Force);
 
             if (Scene::World.HasComponent<Transform>(EntityId))
             {

@@ -10,6 +10,7 @@
 #include "Scripts/BoundChecker/HorizontalBound.hpp"
 #include "Scripts/BoundChecker/VerticalBound.hpp"
 #include "Scripts/AddBoxes/AddBoxes.hpp"
+#include "Scripts/Walkable/Walkable.hpp"
 
 namespace Arcarna
 {
@@ -26,5 +27,6 @@ namespace Arcarna
         AddBoxes::Start();
         System::AddUpdate(Horizontalbound::Update, "Hori");
         System::AddUpdate(Verticalbound::Update, "Verti");
+        System::AddUpdate(Walkable::Update, "Walk");
     }
 }

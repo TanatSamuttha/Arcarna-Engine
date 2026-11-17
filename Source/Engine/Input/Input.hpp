@@ -2,8 +2,14 @@
 
 #include "glfw3.h"
 
+class System;
+
 class Input
 {
+protected:
+    friend class System;
+    inline static GLFWwindow* window;
+
 public:
     // Printable keys
     inline static constexpr int Key_Space         = GLFW_KEY_SPACE;
@@ -162,13 +168,13 @@ public:
     inline static constexpr int Mouse_7      = GLFW_MOUSE_BUTTON_7;
     inline static constexpr int Mouse_8      = GLFW_MOUSE_BUTTON_8;
 
-    // Keyboard / Mouse Actions
-    inline static constexpr int On_Key_Press    = GLFW_PRESS;
-    inline static constexpr int On_Key_Release  = GLFW_RELEASE;
-    inline static constexpr int On_Key_Repeat   = GLFW_REPEAT;
+    // Input states
+    inline static constexpr int On_Press    = GLFW_PRESS;
+    inline static constexpr int On_Release  = GLFW_RELEASE;
+    inline static constexpr int On_Repeat   = GLFW_REPEAT;
 
-    // Input States
-    inline static constexpr int Press   = GLFW_PRESS;
-    inline static constexpr int Release = GLFW_RELEASE;
-    inline static constexpr int Repeat  = GLFW_REPEAT;
+    inline static int GetKey (int Key)
+    {
+        return glfwGetKey(window, Key);
+    }
 };
